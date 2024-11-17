@@ -1,0 +1,574 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		405191172CEA7ED200CD59FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 405190F82CEA7ED000CD59FB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 405190FF2CEA7ED000CD59FB;
+			remoteInfo = "RPG Manager";
+		};
+		405191212CEA7ED200CD59FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 405190F82CEA7ED000CD59FB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 405190FF2CEA7ED000CD59FB;
+			remoteInfo = "RPG Manager";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		405191002CEA7ED000CD59FB /* RPG Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RPG Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		405191162CEA7ED200CD59FB /* RPG ManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RPG ManagerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		405191202CEA7ED200CD59FB /* RPG ManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RPG ManagerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		405191282CEA7ED200CD59FB /* Exceptions for "RPG Manager" folder in "RPG Manager" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 405190FF2CEA7ED000CD59FB /* RPG Manager */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		405191022CEA7ED000CD59FB /* RPG Manager */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				405191282CEA7ED200CD59FB /* Exceptions for "RPG Manager" folder in "RPG Manager" target */,
+			);
+			path = "RPG Manager";
+			sourceTree = "<group>";
+		};
+		405191192CEA7ED200CD59FB /* RPG ManagerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "RPG ManagerTests";
+			sourceTree = "<group>";
+		};
+		405191232CEA7ED200CD59FB /* RPG ManagerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "RPG ManagerUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		405190FD2CEA7ED000CD59FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		405191132CEA7ED200CD59FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4051911D2CEA7ED200CD59FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		405190F72CEA7ED000CD59FB = {
+			isa = PBXGroup;
+			children = (
+				405191022CEA7ED000CD59FB /* RPG Manager */,
+				405191192CEA7ED200CD59FB /* RPG ManagerTests */,
+				405191232CEA7ED200CD59FB /* RPG ManagerUITests */,
+				405191012CEA7ED000CD59FB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		405191012CEA7ED000CD59FB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				405191002CEA7ED000CD59FB /* RPG Manager.app */,
+				405191162CEA7ED200CD59FB /* RPG ManagerTests.xctest */,
+				405191202CEA7ED200CD59FB /* RPG ManagerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		405190FF2CEA7ED000CD59FB /* RPG Manager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 405191292CEA7ED200CD59FB /* Build configuration list for PBXNativeTarget "RPG Manager" */;
+			buildPhases = (
+				405190FC2CEA7ED000CD59FB /* Sources */,
+				405190FD2CEA7ED000CD59FB /* Frameworks */,
+				405190FE2CEA7ED000CD59FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				405191022CEA7ED000CD59FB /* RPG Manager */,
+			);
+			name = "RPG Manager";
+			packageProductDependencies = (
+			);
+			productName = "RPG Manager";
+			productReference = 405191002CEA7ED000CD59FB /* RPG Manager.app */;
+			productType = "com.apple.product-type.application";
+		};
+		405191152CEA7ED200CD59FB /* RPG ManagerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4051912E2CEA7ED200CD59FB /* Build configuration list for PBXNativeTarget "RPG ManagerTests" */;
+			buildPhases = (
+				405191122CEA7ED200CD59FB /* Sources */,
+				405191132CEA7ED200CD59FB /* Frameworks */,
+				405191142CEA7ED200CD59FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				405191182CEA7ED200CD59FB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				405191192CEA7ED200CD59FB /* RPG ManagerTests */,
+			);
+			name = "RPG ManagerTests";
+			packageProductDependencies = (
+			);
+			productName = "RPG ManagerTests";
+			productReference = 405191162CEA7ED200CD59FB /* RPG ManagerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4051911F2CEA7ED200CD59FB /* RPG ManagerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 405191312CEA7ED200CD59FB /* Build configuration list for PBXNativeTarget "RPG ManagerUITests" */;
+			buildPhases = (
+				4051911C2CEA7ED200CD59FB /* Sources */,
+				4051911D2CEA7ED200CD59FB /* Frameworks */,
+				4051911E2CEA7ED200CD59FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				405191222CEA7ED200CD59FB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				405191232CEA7ED200CD59FB /* RPG ManagerUITests */,
+			);
+			name = "RPG ManagerUITests";
+			packageProductDependencies = (
+			);
+			productName = "RPG ManagerUITests";
+			productReference = 405191202CEA7ED200CD59FB /* RPG ManagerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		405190F82CEA7ED000CD59FB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					405190FF2CEA7ED000CD59FB = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					405191152CEA7ED200CD59FB = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 405190FF2CEA7ED000CD59FB;
+					};
+					4051911F2CEA7ED200CD59FB = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 405190FF2CEA7ED000CD59FB;
+					};
+				};
+			};
+			buildConfigurationList = 405190FB2CEA7ED000CD59FB /* Build configuration list for PBXProject "RPG Manager" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 405190F72CEA7ED000CD59FB;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 405191012CEA7ED000CD59FB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				405190FF2CEA7ED000CD59FB /* RPG Manager */,
+				405191152CEA7ED200CD59FB /* RPG ManagerTests */,
+				4051911F2CEA7ED200CD59FB /* RPG ManagerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		405190FE2CEA7ED000CD59FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		405191142CEA7ED200CD59FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4051911E2CEA7ED200CD59FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		405190FC2CEA7ED000CD59FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		405191122CEA7ED200CD59FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4051911C2CEA7ED200CD59FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		405191182CEA7ED200CD59FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 405190FF2CEA7ED000CD59FB /* RPG Manager */;
+			targetProxy = 405191172CEA7ED200CD59FB /* PBXContainerItemProxy */;
+		};
+		405191222CEA7ED200CD59FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 405190FF2CEA7ED000CD59FB /* RPG Manager */;
+			targetProxy = 405191212CEA7ED200CD59FB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4051912A2CEA7ED200CD59FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF9YDYNP68;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RPG Manager/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.monmouth.s1328134.RPG-Manager";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4051912B2CEA7ED200CD59FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF9YDYNP68;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RPG Manager/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.monmouth.s1328134.RPG-Manager";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4051912C2CEA7ED200CD59FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4051912D2CEA7ED200CD59FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4051912F2CEA7ED200CD59FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF9YDYNP68;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.monmouth.s1328134.RPG-ManagerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RPG Manager.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RPG Manager";
+			};
+			name = Debug;
+		};
+		405191302CEA7ED200CD59FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF9YDYNP68;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.monmouth.s1328134.RPG-ManagerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RPG Manager.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RPG Manager";
+			};
+			name = Release;
+		};
+		405191322CEA7ED200CD59FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF9YDYNP68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.monmouth.s1328134.RPG-ManagerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "RPG Manager";
+			};
+			name = Debug;
+		};
+		405191332CEA7ED200CD59FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF9YDYNP68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.monmouth.s1328134.RPG-ManagerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "RPG Manager";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		405190FB2CEA7ED000CD59FB /* Build configuration list for PBXProject "RPG Manager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4051912C2CEA7ED200CD59FB /* Debug */,
+				4051912D2CEA7ED200CD59FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		405191292CEA7ED200CD59FB /* Build configuration list for PBXNativeTarget "RPG Manager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4051912A2CEA7ED200CD59FB /* Debug */,
+				4051912B2CEA7ED200CD59FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4051912E2CEA7ED200CD59FB /* Build configuration list for PBXNativeTarget "RPG ManagerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4051912F2CEA7ED200CD59FB /* Debug */,
+				405191302CEA7ED200CD59FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		405191312CEA7ED200CD59FB /* Build configuration list for PBXNativeTarget "RPG ManagerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				405191322CEA7ED200CD59FB /* Debug */,
+				405191332CEA7ED200CD59FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 405190F82CEA7ED000CD59FB /* Project object */;
+}
