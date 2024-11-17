@@ -10,6 +10,7 @@ import SwiftUI
 struct MainView: View {
     
     @StateObject private var viewModel = TestViewModel()
+    @Binding var isLoggedIn: Bool
 
     var body: some View {
         
@@ -36,7 +37,12 @@ struct MainView: View {
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(8)
+                            .navigationBarTitle("Main View", displayMode: .inline)
+                            .navigationBarItems(leading: Button("Logout") {
+                                isLoggedIn = false
+                            })
                     }
+                    
                 )
                 
             }

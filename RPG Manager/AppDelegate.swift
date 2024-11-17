@@ -39,7 +39,7 @@ struct RPGManagerApp: App {
     var body: some Scene {
         WindowGroup {
             if isLoggedIn {
-                MainView()
+                MainView (isLoggedIn: $isLoggedIn)
             } else {
                 LoginView (isLoggedIn: $isLoggedIn)
             }
