@@ -5,31 +5,16 @@
 //  Created by Anjali Narang  on 11/17/24.
 //
 
-import UIKit
-//import SwiftUI
+//import UIKit
+import SwiftUI
 import FirebaseCore
 
-@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         return true
     }
-    
-    // IF YOU DECIDE TO USE SWIFT UI
-//    @main
-//    struct YourApp: App {
-//      // register app delegate for Firebase setup
-//      @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-//      var body: some Scene {
-//        WindowGroup {
-//          NavigationView {
-//            ContentView()
-//          }
-//        }
-//      }
-//    }
 
     // MARK: UISceneSession Lifecycle
 
@@ -46,5 +31,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+}
+
+// IF I DECIDE TO USE SWIFT UI
+@main
+struct YourApp: App {
+  // register app delegate for Firebase setup
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+  var body: some Scene {
+    WindowGroup {
+      NavigationView {
+        ContentView()
+      }
+    }
+  }
 }
 
