@@ -32,14 +32,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct RPGManagerApp: App {
-  // register app delegate for Firebase setup
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-  var body: some Scene {
-    WindowGroup {
-      NavigationView {
-        ContentView()
-      }
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // for firebase
+    @State private var isLoggedIn = false
+    
+    var body: some Scene {
+        WindowGroup {
+            if isLoggedIn {
+                MainView()
+            } else {
+                LoginView (isLoggedIn: $isLoggedIn)
+            }
+//            NavigationView {
+//                ContentView()
+//            }
+        }
     }
-  }
+    
 }
 
