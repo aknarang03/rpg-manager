@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAJkBXVzIamWN_CJ4YbUmH9bcwD9G3bCAE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>213968883026</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>edu.monmouth.s1328134.RPG-Manager</string>
+	<key>PROJECT_ID</key>
+	<string>rpg-manager-d9593</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rpg-manager-d9593.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:213968883026:ios:7ded610a5ca0ca47db3e8b</string>
+</dict>
+</plist>
