@@ -13,25 +13,36 @@ struct ContentView: View {
 
     var body: some View {
         
-        VStack {
+        NavigationView {
             
-            TextField("Enter text here", text: $viewModel.inputText, onCommit: {
-                viewModel.handleSubmit() // submit if they press enter key in text field
-            })
-            .padding()
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-
-            Button("Print to Console") {
-                viewModel.handleSubmit() // submit if they press button
+            VStack {
+                
+                TextField("Enter text here", text: $viewModel.inputText, onCommit: {
+                    viewModel.handleSubmit() // submit if they press enter key in text field
+                })
+                .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                Button("Print to Console") {
+                    viewModel.handleSubmit() // submit if they press button
+                }
+                .padding()
+                
+                NavigationLink(
+                    destination: NavTestView(),
+                    label: {
+                        Text("Navigate")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                )
+                
             }
-            .padding()
+                        
         }
         
-//        .padding()
-//        
-//        Button("Change Screen") {
-//            // NAVIGATION
-//        }
-        
     }
+    
 }
