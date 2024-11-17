@@ -8,6 +8,7 @@
 import SwiftUI
 
 class TestViewModel: ObservableObject {
+    
     @Published var inputText: String = ""
     
     func handleSubmit() {

@@ -27,11 +27,11 @@ struct ContentView: View {
             .padding()
         }
         
-        .padding()
-        
-        Button("Change Screen") {
-            // NAVIGATION
-        }
+//        .padding()
+//        
+//        Button("Change Screen") {
+//            // NAVIGATION
+//        }
         
     }
 }
