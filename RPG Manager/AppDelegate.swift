@@ -30,9 +30,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //    }
 }
 
-// IF I DECIDE TO USE SWIFT UI
 @main
-struct YourApp: App {
+struct RPGManagerApp: App {
   // register app delegate for Firebase setup
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
   var body: some Scene {
