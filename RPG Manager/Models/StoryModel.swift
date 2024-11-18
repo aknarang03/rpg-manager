@@ -23,6 +23,7 @@ class StoryModel {
     
     // watch for updates from Story realtime database table
     func observeItems() {
+        print("observe items")
         msgObserverHandle = storyDBRef.observe(.value, with: {snapshot in
             var tempStories:[Story] = []
             for child in snapshot.children {
@@ -44,6 +45,7 @@ class StoryModel {
     
     // stop listening for updates
     func cancelObserver() {
+        print("cancel observer")
         if let observerHandle = msgObserverHandle {
             storyDBRef.removeObserver(withHandle: observerHandle)
         }

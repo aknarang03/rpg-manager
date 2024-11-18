@@ -27,12 +27,17 @@ class StoryListViewModel: ObservableObject {
         userModel.observeUsers()
         storyModel.observeItems()
     }
-
-    deinit {
-        
+    
+    func startObserving() {
+        print("start observing stories")
+        userModel.observeUsers()
+        storyModel.observeItems()
+    }
+    
+    func stopObserving() {
+        print("stop observing stories")
         storyModel.cancelObserver()
         userModel.cancelObserver()
-        
     }
 
 }

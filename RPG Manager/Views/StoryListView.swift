@@ -43,6 +43,12 @@ struct StoryListView: View {
                 }
                                 )
                 )
+            .onAppear {
+                viewModel.startObserving()
+            }
+            .onDisappear {
+                viewModel.stopObserving()
+            }
             
         }
         
