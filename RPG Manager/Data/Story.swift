@@ -13,6 +13,7 @@ struct Story {
     
     /*
      ATTRIBUTES TO ADD LATER:
+     - storyName: String
      - storyDescription: String
      - characters: [String]
     */

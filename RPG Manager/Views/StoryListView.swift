@@ -33,6 +33,9 @@ struct StoryListView: View {
                 
             }
             .navigationBarTitle("Stories")
+            .navigationBarItems(leading: Button("Logout") {
+                appState.isLoggedIn = false
+            })
             
         }
         
