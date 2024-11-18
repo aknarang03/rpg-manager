@@ -33,9 +33,12 @@ struct StoryListView: View {
                 
             }
             .navigationBarTitle("Stories")
-            .navigationBarItems(leading: Button("Logout") {
-                appState.isLoggedIn = false
-            })
+            .navigationBarItems(
+                leading: Button("Logout") { appState.isLoggedIn = false },
+                trailing: Button("Add") {
+                    NavigationLink("String", destination: AddStoryView())
+                }
+            )
             
         }
         
