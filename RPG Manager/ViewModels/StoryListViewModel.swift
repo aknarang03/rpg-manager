@@ -14,6 +14,8 @@ class StoryListViewModel: ObservableObject {
     @Published var stories: [Story] = []
 
     init() {
+        // I may have to return snapshot here instead of accessing stories in model. Not sure
+        storyModel.observeItems()
         self.stories = storyModel.stories
         storyModel.$stories
             .assign(to: &$stories)

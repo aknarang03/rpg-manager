@@ -16,14 +16,21 @@ struct StoryListView: View {
         
         NavigationView {
                         
-            List($viewModel.stories) { story in
-                VStack(alignment: .leading) {
-                    Text(story.creator)
-                    Text(story.description)
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+            List {
+                
+                ForEach(viewModel.stories.indices, id: \.self) { index in
+                    
+                    VStack(alignment: .leading) {
+                        
+                        Text(viewModel.stories[index].creator)
+                        Text(viewModel.stories[index].storyID)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    
+                    .padding()
                 }
-                .padding()
+                
             }
             .navigationBarTitle("Stories")
             
