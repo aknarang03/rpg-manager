@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     
     @StateObject private var viewModel = TestViewModel()
-    @Binding var isLoggedIn: Bool
+    @EnvironmentObject var appState: AppState
 
     var body: some View {
         
@@ -39,7 +39,7 @@ struct MainView: View {
                             .cornerRadius(8)
                             .navigationBarTitle("Main View", displayMode: .inline)
                             .navigationBarItems(leading: Button("Logout") {
-                                isLoggedIn = false
+                                appState.isLoggedIn = false
                             })
                     }
                     

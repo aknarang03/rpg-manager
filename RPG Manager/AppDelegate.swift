@@ -34,14 +34,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct RPGManagerApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // for firebase
-    @State private var isLoggedIn = false
+    @StateObject var appState = AppState()
     
     var body: some Scene {
         WindowGroup {
-            if isLoggedIn {
-                MainView (isLoggedIn: $isLoggedIn)
+            if appState.isLoggedIn {
+                MainView ()
+                    .environmentObject(appState)
             } else {
-                LoginView (isLoggedIn: $isLoggedIn)
+                LoginView ()
+                    .environmentObject(appState)
             }
 //            NavigationView {
 //                ContentView()
