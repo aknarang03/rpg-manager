@@ -26,7 +26,6 @@ class StoryModel {
         msgObserverHandle = storyDBRef.observe(.value, with: {snapshot in
             var tempStories:[Story] = []
             for child in snapshot.children {
-                print("in for loop")
                 if let data = child as? DataSnapshot {
                     if let story = Story(snapshot: data) {
                         tempStories.append(story)

@@ -27,6 +27,7 @@ class UserModel {
     // sign in using Firebase authentication
     func signInAsync (withEmail email: String, andPassword password: String) async throws -> (Bool, String) {
         do {
+            print("sign in async")
             let authData = try await Auth.auth().signIn(withEmail: email, password: password)
             authorizedUser = AuthenticatedUser(uid: authData.user.uid, email: authData.user.email!)
             try await getLoggedInUser()
@@ -34,6 +35,7 @@ class UserModel {
         }
         catch {
             let e = error
+            print("sign in error \(e)")
             return (false, e.localizedDescription)
         }
     }
@@ -41,6 +43,7 @@ class UserModel {
     // sign out using Firebase authentication
     func signOut() {
         do {
+            print("sign out")
             try Auth.auth().signOut()
             authorizedUser = nil
             currentUser = nil
@@ -97,7 +100,9 @@ class UserModel {
     // get logged in user's user info and save in this model
     func getLoggedInUser() async throws {
         do {
+            print("getting logged in user")
             if let uid = authorizedUser?.uid {
+                print ("authorized user uid: \(uid)")
                 let userDBref = Database.database().reference()
                 let userData = try await userDBref.child("Users/\(uid)").getData()
                 currentUser = User(snapshot: userData)

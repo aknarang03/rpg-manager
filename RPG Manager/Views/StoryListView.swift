@@ -11,7 +11,9 @@ struct StoryListView: View {
     
     @ObservedObject var viewModel: StoryListViewModel = StoryListViewModel()
     @EnvironmentObject var appState: AppState
+    
     let storyModel = StoryModel.shared
+    let userModel = UserModel.shared
 
     var body: some View {
         
@@ -35,7 +37,7 @@ struct StoryListView: View {
             }
             .navigationBarTitle("Stories")
             .navigationBarItems(
-                leading: Button("Logout") { appState.isLoggedIn = false },
+                leading: Button("Logout") { userModel.signOut(); appState.isLoggedIn = false },
                 trailing: Button(action: {}, label: {
                     NavigationLink(destination: AddStoryView()) {
                          Text("Add Story")
