@@ -18,8 +18,8 @@ class StoryModel {
     
     let storyDBRef = Database.database().reference(withPath: "Stories")
     
-    var currentStory: Story?
-    var stories:[Story] = []
+    @Published var currentStory: Story?
+    @Published var stories:[Story] = []
     
     // watch for updates from Story realtime database table
     func observeItems() {
