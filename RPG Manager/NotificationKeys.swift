@@ -8,3 +8,4 @@
 import Foundation
 
 let usersNotificationKey = "edu.monmouth.csse337.s1328134.users"
+let storiesNotificationKey = "edu.monmouth.csse337.s1328134.stories"

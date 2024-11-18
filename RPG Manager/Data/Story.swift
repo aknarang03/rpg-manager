@@ -12,8 +12,9 @@ import FirebaseDatabase
 struct Story {
     
     /*
-     POTENTIAL ATTRIBUTES TO ADD LATER:
-     - storyDescription
+     ATTRIBUTES TO ADD LATER:
+     - storyDescription: String
+     - characters: [String]
     */
     
     var ref: DatabaseReference?
