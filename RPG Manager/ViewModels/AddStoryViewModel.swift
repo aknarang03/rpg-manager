@@ -19,7 +19,7 @@ class AddStoryViewModel: ObservableObject {
         return timeStr
     }
     
-    func addStory(onSuccess: @escaping (String) -> Void, onFailure: @escaping (String) -> Void) {
+    func addStory() {
         let newStory = Story(storyID: timeInterval(), creator: userModel.currentUser!.uid, collaborators: [])
         storyModel.postNewItem(story: newStory)
     }

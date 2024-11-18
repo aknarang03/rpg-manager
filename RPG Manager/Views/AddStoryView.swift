@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddStoryView: View {
     
-    //@ObservedObject var viewModel: StoryListViewModel = StoryListViewModel()
+    @ObservedObject var viewModel: AddStoryViewModel = AddStoryViewModel()
     @EnvironmentObject var appState: AppState
     
 
@@ -17,7 +17,9 @@ struct AddStoryView: View {
         
         NavigationView {
             
-            Text("helo")
+            Button ("Test add") {
+                viewModel.addStory()
+            }
             
         }
         .navigationBarTitle("Add Story")
