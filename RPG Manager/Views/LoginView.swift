@@ -17,48 +17,64 @@ struct LoginView: View {
     
     var body: some View {
         
-        VStack {
-            
-            Text("Login")
-                .font(.largeTitle)
-                .padding()
-            
-            Spacer()
+        NavigationView {
             
             VStack {
-                TextField(
-                    "email",
-                    text: $viewModel.email
-                )
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .padding(.top)
-                SecureField(
-                    "password",
-                    text: $viewModel.password
-                )
-                .padding(.top)
-            }
-            
-            Spacer()
-            
-            Button("login") {
-                viewModel.login(
-                    onSuccess: {
-                        appState.isLoggedIn = true
-                    },
-                    onFailure: { errorMessage in
-                        alertMessage = errorMessage
-                        showAlert = true
+                
+                Text("Login")
+                    .font(.largeTitle)
+                    .padding()
+                
+                Spacer()
+                
+                VStack {
+                    TextField(
+                        "email",
+                        text: $viewModel.email
+                    )
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                    .padding(.top)
+                    SecureField(
+                        "password",
+                        text: $viewModel.password
+                    )
+                    .padding(.top)
+                }
+                
+                Spacer()
+                
+                Button("login") {
+                    viewModel.login(
+                        onSuccess: {
+                            appState.isLoggedIn = true
+                        },
+                        onFailure: { errorMessage in
+                            alertMessage = errorMessage
+                            showAlert = true
+                        }
+                    )
+                }
+                .padding()
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Login"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                }
+                
+                NavigationLink(
+                    destination: RegisterView(),
+                    label: {
+                        Text("Register")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
                 )
+                
             }
-            .padding()
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Login"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-            }
+            
         }
-        
+    
     }
     
 }
