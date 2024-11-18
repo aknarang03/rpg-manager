@@ -1,25 +1,24 @@
 //
-//  LoginView.swift
+//  RegisterView.swift
 //  RPG Manager
 //
-//  Created by Anjali Narang  on 11/17/24.
+//  Created by Anjali Narang  on 11/18/24.
 //
 
 import SwiftUI
 
-struct LoginView: View {
-    
-    @ObservedObject var viewModel: LoginViewModel = LoginViewModel()
-    @EnvironmentObject var appState: AppState
-    
+struct RegisterView: View {
+
+    @ObservedObject var viewModel: RegisterViewModel = RegisterViewModel()
+
     @State private var showAlert = false
     @State private var alertMessage = ""
-    
+
     var body: some View {
         
         VStack {
             
-            Text("Login")
+            Text("Register")
                 .font(.largeTitle)
                 .padding()
             
@@ -33,6 +32,13 @@ struct LoginView: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .padding(.top)
+                TextField(
+                    "username",
+                    text: $viewModel.username
+                )
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .padding(.top)
                 SecureField(
                     "password",
                     text: $viewModel.password
@@ -42,10 +48,11 @@ struct LoginView: View {
             
             Spacer()
             
-            Button("login") {
-                viewModel.login(
-                    onSuccess: {
-                        appState.isLoggedIn = true
+            Button("register") {
+                viewModel.register(
+                    onSuccess: { successMessage in
+                        alertMessage = successMessage
+                        showAlert = true
                     },
                     onFailure: { errorMessage in
                         alertMessage = errorMessage
@@ -55,18 +62,10 @@ struct LoginView: View {
             }
             .padding()
             .alert(isPresented: $showAlert) {
-                Alert(title: Text("Login"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                Alert(title: Text("Register"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
         }
         
     }
-    
-}
 
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        let appState = AppState()
-        return LoginView()
-            .environmentObject(appState)
-    }
 }
