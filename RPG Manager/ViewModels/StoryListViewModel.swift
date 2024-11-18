@@ -25,6 +25,14 @@ class StoryListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func uidToUsername(uid: String) -> String {
+        guard let username = userModel.getUsername(for: uid) else {
+            print("Username not found for \(uid)")
+            return "Unknown" // default username
+        }
+        return username
+    }
+    
     func startObserving() {
         print("start observing stories")
         userModel.observeUsers()

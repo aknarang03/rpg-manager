@@ -25,7 +25,7 @@ struct StoryListView: View {
                                         
                     VStack(alignment: .leading) {
                         
-                        Text(viewModel.stories[index].creator)
+                        Text(viewModel.uidToUsername(uid: viewModel.stories[index].creator))
                         Text(viewModel.stories[index].storyID)
                             .font(.subheadline)
                             .foregroundColor(.gray)
