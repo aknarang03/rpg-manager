@@ -11,6 +11,7 @@ struct AddStoryView: View {
     
     //@ObservedObject var viewModel: StoryListViewModel = StoryListViewModel()
     @EnvironmentObject var appState: AppState
+    
 
     var body: some View {
         
