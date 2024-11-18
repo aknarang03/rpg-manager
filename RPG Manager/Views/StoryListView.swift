@@ -35,10 +35,13 @@ struct StoryListView: View {
             .navigationBarTitle("Stories")
             .navigationBarItems(
                 leading: Button("Logout") { appState.isLoggedIn = false },
-                trailing: Button("Add") {
-                    NavigationLink("String", destination: AddStoryView())
+                trailing: Button(action: {}, label: {
+                    NavigationLink(destination: AddStoryView()) {
+                         Text("Add Story")
+                    }
                 }
-            )
+                                )
+                )
             
         }
         
