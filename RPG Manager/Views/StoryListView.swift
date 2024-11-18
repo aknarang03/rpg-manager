@@ -11,6 +11,7 @@ struct StoryListView: View {
     
     @ObservedObject var viewModel: StoryListViewModel = StoryListViewModel()
     @EnvironmentObject var appState: AppState
+    let storyModel = StoryModel.shared
 
     var body: some View {
         
@@ -19,7 +20,7 @@ struct StoryListView: View {
             List {
                 
                 ForEach(viewModel.stories.indices, id: \.self) { index in
-                    
+                                        
                     VStack(alignment: .leading) {
                         
                         Text(viewModel.stories[index].creator)

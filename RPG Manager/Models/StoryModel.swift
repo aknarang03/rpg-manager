@@ -26,15 +26,19 @@ class StoryModel {
         msgObserverHandle = storyDBRef.observe(.value, with: {snapshot in
             var tempStories:[Story] = []
             for child in snapshot.children {
+                print("in for loop")
                 if let data = child as? DataSnapshot {
                     if let story = Story(snapshot: data) {
                         tempStories.append(story)
+                    } else {
+                        print("cannot append")
                     }
                 }
             }
             self.stories.removeAll()
             self.stories = tempStories // update the list stored in this model
             NotificationCenter.default.post(name: self.storiesUpdatedNotification, object: nil)
+            print("stories in observeItems: \(self.stories.count)")
         })
     }
     

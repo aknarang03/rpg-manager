@@ -6,19 +6,33 @@
 //
 
 import Foundation
+import Combine
 
 class StoryListViewModel: ObservableObject {
     
     let storyModel = StoryModel.shared
+    let userModel = UserModel.shared
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     @Published var stories: [Story] = []
 
     init() {
-        // I may have to return snapshot here instead of accessing stories in model. Not sure
-        storyModel.observeItems()
-        self.stories = storyModel.stories
         storyModel.$stories
-            .assign(to: &$stories)
+            .sink { [weak self] newStories in
+                self?.stories = newStories
+            }
+            .store(in: &cancellables)
+
+        userModel.observeUsers()
+        storyModel.observeItems()
+    }
+
+    deinit {
+        
+        storyModel.cancelObserver()
+        userModel.cancelObserver()
+        
     }
 
 }
