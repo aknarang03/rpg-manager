@@ -33,7 +33,6 @@ struct LoginView: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .padding(.top)
-                Divider()
                 SecureField(
                     "password",
                     text: $viewModel.password
@@ -62,4 +61,12 @@ struct LoginView: View {
         
     }
     
+}
+
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        let appState = AppState()
+        return LoginView()
+            .environmentObject(appState)
+    }
 }
