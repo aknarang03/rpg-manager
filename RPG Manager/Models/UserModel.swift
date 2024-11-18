@@ -13,7 +13,6 @@ class UserModel {
     
     static let shared = UserModel()
     
-    let usersUpdatedNotification = Notification.Name(rawValue: usersNotificationKey)
     var msgObserverHandle: UInt?
     
     let userDBref = Database.database().reference(withPath: "Users")
@@ -85,7 +84,6 @@ class UserModel {
             }
             self.users.removeAll()
             self.users = tempUsers // store users in this model
-            NotificationCenter.default.post(name: self.usersUpdatedNotification, object: nil)
         })
     }
     

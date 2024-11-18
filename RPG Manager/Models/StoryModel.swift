@@ -13,7 +13,6 @@ class StoryModel {
     
     static let shared = StoryModel()
     
-    let storiesUpdatedNotification = Notification.Name(rawValue: storiesNotificationKey)
     var msgObserverHandle: UInt?
     
     let storyDBRef = Database.database().reference(withPath: "Stories")
@@ -38,7 +37,6 @@ class StoryModel {
             }
             self.stories.removeAll()
             self.stories = tempStories // update the list stored in this model
-            NotificationCenter.default.post(name: self.storiesUpdatedNotification, object: nil)
             print("stories in observeItems: \(self.stories.count)")
         })
     }
