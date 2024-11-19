@@ -73,11 +73,11 @@ class StoryModel {
         let storyRef = storyDBRef.child(story.storyID)
         storyRef.removeValue()
     }
-    
+        
     func addCharacterToStory(storyID: String, character: Character) {
         
         let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let characterRef = storyRef.child("characters").child(character.characterID)
+        let characterRef = storyRef.child("Characters").child(character.characterID)
         
         let characterData: [String: Any] = [
             "creatorID": character.creatorID,
@@ -91,11 +91,15 @@ class StoryModel {
         ]
         
         characterRef.setValue(characterData)
+         
+    }
+    
+    func addCollaboratorToStory(storyID: String, collaboratorID: String) {
         
-//        let storyRef = Database.database().reference().child("Stories").child(storyID)
-//        let characterRef = storyRef.child("characters").child(character.characterID)
-//        characterRef.setValue(character.toAnyObject())
-        
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
+        collaboratorRef.setValue(true) // placeholder
+
     }
     
 }

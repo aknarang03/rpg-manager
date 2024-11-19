@@ -28,6 +28,16 @@ class AddStoryViewModel: ObservableObject {
         let newCharacter = Character(characterID: timeInterval(), creatorID: userModel.currentUser!.uid, characterName: "Bob", stats: Stats(attack: 5, defense: 4, speed: 3, agility: 2))
         storyModel.addCharacterToStory(storyID: newStory.storyID, character: newCharacter)
         
+        // try adding a collaborator
+        guard let newCollaborator = userModel.getId(for: "usuh")
+        else {
+            print("Cannot find user by this username")
+            return
+        }
+        
+        storyModel.addCollaboratorToStory(storyID: newStory.storyID, collaboratorID: newCollaborator)
+
+        
     }
 
 }

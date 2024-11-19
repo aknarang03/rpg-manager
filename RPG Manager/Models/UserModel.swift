@@ -119,4 +119,9 @@ class UserModel {
         return users.first(where: { $0.uid == uid })?.username
     }
     
+    // get ID based on username
+    func getId(for username: String) -> String? {
+        return users.first(where: { $0.username == username })?.uid
+    }
+    
 }
