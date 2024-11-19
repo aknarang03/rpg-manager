@@ -14,7 +14,6 @@ struct Story {
     /*
      ATTRIBUTES TO ADD LATER:
      - storyDescription: String
-     - characters: [String]
     */
     
     var ref: DatabaseReference?
@@ -60,7 +59,7 @@ struct Story {
             "storyID": self.storyID,
             "storyName": self.storyName,
             "creator": self.creator,
-            "collaborators": self.collaborators
+            "collaborators": self.collaborators,
             "characters": self.characters
         ]
     }
