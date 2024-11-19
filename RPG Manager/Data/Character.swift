@@ -16,11 +16,21 @@ struct Character {
     var stats: Stats
 }
 
+
 struct Stats {
     var attack: Int
     var defense: Int
     var speed: Int
     var agility: Int
+    
+//    func toAnyObject() -> [String: Any] {
+//        return [
+//            "attack": attack,
+//            "defense": defense,
+//            "speed": speed,
+//            "agility": agility
+//        ]
+//    }
 }
 
 //struct Character {
@@ -31,16 +41,16 @@ struct Stats {
 //    
 //    var ref: DatabaseReference?
 //    var characterID: String
-//    var story: String
-//    var creator: String
+//    var creatorID: String
 //    var characterName: String
+//    var stats: Stats
 //        
-//    init (characterID: String, story: String, creator: String, characterName: String) {
+//    init (characterID: String, creatorID: String, characterName: String, stats: Stats) {
 //        self.ref = nil
 //        self.characterID = characterID
-//        self.story = story
-//        self.creator = creator
+//        self.creatorID = creatorID
 //        self.characterName = characterName
+//        self.stats = stats
 //    }
 //    
 //    init? (snapshot: DataSnapshot) {
@@ -48,27 +58,27 @@ struct Stats {
 //        guard
 //            let value = snapshot.value as? [String: Any],
 //            let characterID = value["characterID"] as? String,
-//            let story = value["story"] as? String,
-//            let creator = value["creator"] as? String,
-//            let characterName = value["characterName"] as? String
+//            let creatorID = value["creatorID"] as? String,
+//            let characterName = value["characterName"] as? String,
+//            let stats = value["stats"] as? Stats
 //        else {
 //            return nil
 //        }
 //        
 //        self.ref = snapshot.ref
 //        self.characterID = characterID
-//        self.story = story
-//        self.creator = creator
+//        self.creatorID = creatorID
 //        self.characterName = characterName
+//        self.stats = stats
 //        
 //    }
 //    
 //    func toAnyObject () -> Dictionary<String, Any> {
 //        return [
 //            "characterID": self.characterID,
-//            "story": self.story,
-//            "creator": self.creator,
-//            "characterName": self.characterName
+//            "creatorID": self.creatorID,
+//            "characterName": self.characterName,
+//            "stats": self.stats
 //        ]
 //    }
 //    

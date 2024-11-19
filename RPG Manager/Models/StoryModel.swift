@@ -74,4 +74,28 @@ class StoryModel {
         storyRef.removeValue()
     }
     
+    func addCharacterToStory(storyID: String, character: Character) {
+        
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let characterRef = storyRef.child("characters").child(character.characterID)
+        
+        let characterData: [String: Any] = [
+            "creatorID": character.creatorID,
+            "name": character.characterName,
+            "stats": [
+                "attack": character.stats.attack,
+                "defense": character.stats.defense,
+                "speed": character.stats.speed,
+                "agility": character.stats.agility
+            ]
+        ]
+        
+        characterRef.setValue(characterData)
+        
+//        let storyRef = Database.database().reference().child("Stories").child(storyID)
+//        let characterRef = storyRef.child("characters").child(character.characterID)
+//        characterRef.setValue(character.toAnyObject())
+        
+    }
+    
 }
