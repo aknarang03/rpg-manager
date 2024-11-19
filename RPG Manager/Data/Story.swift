@@ -16,6 +16,8 @@ struct Story {
      - storyDescription: String
     */
     
+    // NOTE: I think I need to somehow switch to having collaborators and characters as child nodes
+    
     var ref: DatabaseReference?
     var storyID: String
     var storyName: String

@@ -20,7 +20,7 @@ class AddStoryViewModel: ObservableObject {
     }
     
     func addStory() {
-        let newStory = Story(storyID: timeInterval(), creator: userModel.currentUser!.uid, collaborators: [])
+        let newStory = Story(storyID: timeInterval(), storyName: "story name", creator: userModel.currentUser!.uid, collaborators: [], characters: [])
         storyModel.postNewItem(story: newStory)
     }
 
