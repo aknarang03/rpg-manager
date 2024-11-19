@@ -22,13 +22,15 @@ struct Story {
     var storyName: String
     var creator: String
     var collaborators: [String]
+    var characters: [Character]
         
-    init (storyID: String, storyName: String, creator: String, collaborators: [String]) {
+    init (storyID: String, storyName: String, creator: String, collaborators: [String], characters: [Character]) {
         self.ref = nil
         self.storyID = storyID
         self.storyName = storyName
         self.creator = creator
         self.collaborators = collaborators
+        self.characters = characters
     }
     
     init? (snapshot: DataSnapshot) {
@@ -38,7 +40,8 @@ struct Story {
             let storyID = value["storyID"] as? String,
             let storyName = value["storyName"] as? String,
             let creator = value["creator"] as? String,
-            let collaborators = value["collaborators"] as? [String]
+            let collaborators = value["collaborators"] as? [String],
+            let characters = value["characters"] as? [Character]
         else {
             return nil
         }
@@ -48,6 +51,7 @@ struct Story {
         self.storyName = storyName
         self.creator = creator
         self.collaborators = collaborators
+        self.characters = characters
         
     }
     
@@ -57,6 +61,7 @@ struct Story {
             "storyName": self.storyName,
             "creator": self.creator,
             "collaborators": self.collaborators
+            "characters": self.characters
         ]
     }
     
