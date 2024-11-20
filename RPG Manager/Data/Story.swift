@@ -15,23 +15,21 @@ struct Story {
      ATTRIBUTES TO ADD LATER:
      - storyDescription: String
     */
-    
-    // NOTE: I think I need to somehow switch to having collaborators and characters as child nodes
-    
+    // Could I have characters and collaborators here, for easy access later, somehow? Even though they are child
+    // nodes?
+        
     var ref: DatabaseReference?
     var storyID: String
     var storyName: String
     var creator: String
-//    var collaborators: [String]
-//    var characters: [Character]
+    var storyDescription: String
         
-    init (storyID: String, storyName: String, creator: String) {
+    init (storyID: String, storyName: String, storyDescription: String, creator: String) {
         self.ref = nil
         self.storyID = storyID
         self.storyName = storyName
+        self.storyDescription = storyDescription
         self.creator = creator
-//        self.collaborators = collaborators
-//        self.characters = characters
     }
     
     init? (snapshot: DataSnapshot) {
@@ -40,9 +38,8 @@ struct Story {
             let value = snapshot.value as? [String: Any],
             let storyID = value["storyID"] as? String,
             let storyName = value["storyName"] as? String,
+            let storyDescription = value["storyDescription"] as? String,
             let creator = value["creator"] as? String
-//            let collaborators = value["collaborators"] as? [String],
-//            let characters = value["characters"] as? [Character]
         else {
             return nil
         }
@@ -50,9 +47,8 @@ struct Story {
         self.ref = snapshot.ref
         self.storyID = storyID
         self.storyName = storyName
+        self.storyDescription = storyDescription
         self.creator = creator
-//        self.collaborators = collaborators
-//        self.characters = characters
         
     }
     
@@ -60,9 +56,8 @@ struct Story {
         return [
             "storyID": self.storyID,
             "storyName": self.storyName,
+            "storyDescription": self.storyDescription,
             "creator": self.creator
-//            "collaborators": self.collaborators,
-//            "characters": self.characters
         ]
     }
     

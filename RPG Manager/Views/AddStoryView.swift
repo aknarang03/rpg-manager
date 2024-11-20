@@ -11,14 +11,27 @@ struct AddStoryView: View {
     
     @ObservedObject var viewModel: AddStoryViewModel = AddStoryViewModel()
     @EnvironmentObject var appState: AppState
-    
 
     var body: some View {
         
         NavigationView {
             
-            Button ("Test add") {
-                viewModel.addStory()
+            VStack {
+                TextField(
+                    "story name",
+                    text: $viewModel.storyName
+                )
+                .padding(.top)
+                TextField(
+                    "story description",
+                    text: $viewModel.storyDescription
+                )
+                .padding(.top)
+                
+                Button ("Add") {
+                    viewModel.addStory()
+                }
+                
             }
             
         }

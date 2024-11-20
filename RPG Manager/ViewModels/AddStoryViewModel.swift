@@ -12,6 +12,9 @@ class AddStoryViewModel: ObservableObject {
     let userModel = UserModel.shared
     let storyModel = StoryModel.shared
     
+    @Published var storyName: String = ""
+    @Published var storyDescription: String = ""
+    
     func timeInterval() -> String {
         let timeNow = Date()
         var timeStr = String(timeNow.timeIntervalSince1970)
@@ -21,7 +24,7 @@ class AddStoryViewModel: ObservableObject {
     
     func addStory() {
         
-        let newStory = Story(storyID: timeInterval(), storyName: "story name", creator: userModel.currentUser!.uid)
+        let newStory = Story(storyID: timeInterval(), storyName: storyName, storyDescription: storyDescription, creator: userModel.currentUser!.uid)
         storyModel.postNewItem(story: newStory)
         
         // try adding a character
@@ -34,10 +37,8 @@ class AddStoryViewModel: ObservableObject {
             print("Cannot find user by this username")
             return
         }
-        
         storyModel.addCollaboratorToStory(storyID: newStory.storyID, collaboratorID: newCollaborator)
 
-        
     }
 
 }
