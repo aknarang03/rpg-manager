@@ -1,27 +1,26 @@
 //
-//  CharacterListViewModel.swift
+//  ItemListViewModel.swift
 //  RPG Manager
 //
 //  Created by Anjali Narang  on 11/20/24.
 //
 
+
 import Foundation
 import Combine
 
-class CharacterListViewModel: ObservableObject {
+class ItemListViewModel: ObservableObject {
     
     let storyModel = StoryModel.shared
     let userModel = UserModel.shared
     
     private var cancellables: Set<AnyCancellable> = []
     
-    @Published var characters: [Character] = []
+    @Published var items: [Item] = []
 
     init() {
-        // I don't fully understand it, but it lets this.stories synch with storyModel.stories...
-        // This way I can keep this stuff out of the view and in the view model.
-        storyModel.$currentCharacters
-            .sink { [weak self] newChars in self?.characters = newChars }
+        storyModel.$currentItems
+            .sink { [weak self] newItems in self?.items = newItems }
             .store(in: &cancellables)
     }
     

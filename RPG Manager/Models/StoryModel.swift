@@ -260,4 +260,27 @@ class StoryModel {
         collaboratorRef.setValue(true) // placeholder
     }
     
+    func addItemToBag(storyID: String, characterID: String, itemID: String, addingAmt: Int) {
+        
+        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
+        
+        characterBagRef.observeSingleEvent(of: .value) { snapshot in
+            
+            var bag = snapshot.value as? [String: Int] ?? [:]
+            
+            if let currentQuantity = bag[itemID] {
+                bag[itemID] = currentQuantity + addingAmt // adding to prev quantity
+            } else {
+                bag[itemID] = addingAmt // new item
+            }
+            
+            characterBagRef.setValue(bag)
+            
+            print("updated bag: \(bag)")
+            
+        }
+        
+    }
+
+    
 }

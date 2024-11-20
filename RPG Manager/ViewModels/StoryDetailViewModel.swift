@@ -18,6 +18,7 @@ class StoryDetailViewModel: ObservableObject {
     @Published var currentStory: Story = Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown")
     @Published var currentCharacters: [Character] = []
     @Published var currentCollaborators: [String] = []
+    @Published var currentItems: [Item] = []
 
     init() {
         
@@ -31,6 +32,10 @@ class StoryDetailViewModel: ObservableObject {
         
         storyModel.$currentCollaborators
             .sink { [weak self] newCurrCollab in self?.currentCollaborators = newCurrCollab }
+            .store(in: &cancellables)
+        
+        storyModel.$currentItems
+            .sink { [weak self] newCurrItems in self?.currentItems = newCurrItems }
             .store(in: &cancellables)
         
     }

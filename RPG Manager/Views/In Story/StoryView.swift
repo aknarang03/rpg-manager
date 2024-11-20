@@ -22,6 +22,10 @@ struct StoryView: View {
                 .tabItem {
                     Label("Characters", systemImage: "person.bust.fill")
                 }
+            ItemListView()
+                .tabItem {
+                    Label("Items", systemImage: "duffle.bag.fill")
+                }
             CollaboratorListView()
                 .tabItem {
                     Label("Collaborators", systemImage: "person.3.fill")

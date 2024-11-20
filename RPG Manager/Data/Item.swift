@@ -25,10 +25,10 @@ struct Item {
     var creatorID: String
     var itemName: String
     var itemDescription: String
-    var impactsWhat: ImpactsWhat
+    var impactsWhat: String
     var impact: Int
     
-    init (itemID: String, creatorID: String, itemName: String, itemDescription: String, impactsWhat: ImpactsWhat, impact: Int) {
+    init (itemID: String, creatorID: String, itemName: String, itemDescription: String, impactsWhat: String, impact: Int) {
         self.ref = nil
         self.itemID = itemID
         self.creatorID = creatorID
@@ -46,7 +46,7 @@ struct Item {
             let creatorID = value["creatorID"] as? String,
             let itemName = value["itemName"] as? String,
             let itemDescription = value["itemDescription"] as? String,
-            let impactsWhat = value["impactsWhat"] as? ImpactsWhat,
+            let impactsWhat = value["impactsWhat"] as? String,
             let impact = value["impact"] as? Int
         else {
             return nil
