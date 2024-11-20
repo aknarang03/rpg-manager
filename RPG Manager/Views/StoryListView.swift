@@ -14,6 +14,8 @@ struct StoryListView: View {
     
     let storyModel = StoryModel.shared
     let userModel = UserModel.shared
+    
+    @State private var selectedStory: Story?
 
     var body: some View {
         
@@ -21,17 +23,28 @@ struct StoryListView: View {
                         
             List {
                 
-                ForEach(viewModel.stories.indices, id: \.self) { index in
-                                        
+                ForEach(viewModel.stories, id: \.storyID) { story in
+                                                            
                     VStack(alignment: .leading) {
-                        Text(viewModel.stories[index].storyName)
-                        Text(viewModel.stories[index].storyDescription)
+                        Text(story.storyName)
+                        Text(story.storyDescription)
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                        Text("created by \(                     viewModel.uidToUsername(uid:viewModel.stories[index].creator))")
+                        Text("created by \(story.creator)")
                             .font(.subheadline)
                             .foregroundColor(.gray)
+                        Button("go") {
+                            viewModel.tappedStory(story: story,
+                                onSuccess: {
+                                    appState.isInStory = true
+                                },
+                                onFailure: { errorMessage in
+                                    print(errorMessage)
+                                }
+                            )
+                        }
                     }
+                    
                     
                     .padding()
                 }

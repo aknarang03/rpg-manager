@@ -22,9 +22,9 @@ class StoryModel {
     
     @Published var stories:[Story] = []
     
-    var currentStory: Story?
-    var currentCharacters: [Character] = []
-    var currentCollaborators: [String] = []
+    @Published var currentStory: Story?
+    @Published var currentCharacters: [Character] = []
+    @Published var currentCollaborators: [String] = []
     
     func setCurrentStory(tappedOn: Story) { // async?
         currentStory = tappedOn

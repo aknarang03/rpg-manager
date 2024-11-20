@@ -25,6 +25,15 @@ class StoryListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func tappedStory(
+            story: Story,
+            onSuccess: @escaping () -> Void,
+            onFailure: @escaping (String) -> Void
+        ) {
+            storyModel.setCurrentStory(tappedOn: story)
+            onSuccess()
+    }
+    
     func uidToUsername(uid: String) -> String {
         guard let username = userModel.getUsername(for: uid) else {
             print("Username not found for \(uid)")
