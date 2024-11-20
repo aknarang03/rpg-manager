@@ -16,15 +16,15 @@ struct Character {
     var creatorID: String
     var characterName: String
     var stats: Stats
-    var bag: [String: Int] // id : quantity
+    var bag: [String: Int]? // id : quantity
     
-    init (characterID: String, creatorID: String, characterName: String, stats: Stats, bag: [String:Int]) {
+    init (characterID: String, creatorID: String, characterName: String, stats: Stats) {
         self.ref = nil
         self.characterID = characterID
         self.creatorID = creatorID
         self.characterName = characterName
         self.stats = stats
-        self.bag = bag
+        self.bag = nil
     }
     
     init? (snapshot: DataSnapshot) {
@@ -38,8 +38,8 @@ struct Character {
             let attack = statsDict["attack"],
             let defense = statsDict["defense"],
             let speed = statsDict["speed"],
-            let agility = statsDict["agility"],
-            let bag = value["bag"] as? [String: Int]
+            let agility = statsDict["agility"]
+            //let bag = value["bag"] as? [String: Int]
         else {
             return nil
         }
@@ -49,7 +49,7 @@ struct Character {
         self.creatorID = creatorID
         self.characterName = characterName
         self.stats = Stats(attack: attack, defense: defense, speed: speed, agility: agility)
-        self.bag = bag
+        //self.bag = bag
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
@@ -63,7 +63,7 @@ struct Character {
                 "speed": self.stats.speed,
                 "agility": self.stats.agility
             ],
-            "bag": self.bag
+            //"bag": self.bag
         ]
     }
     

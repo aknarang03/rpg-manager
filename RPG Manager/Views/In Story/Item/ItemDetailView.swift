@@ -10,10 +10,16 @@ import SwiftUI
 
 struct ItemDetailView: View {
     
-    @ObservedObject var viewModel: ItemDetailViewModel = ItemDetailViewModel()
+    @ObservedObject var viewModel: ItemDetailViewModel
     @EnvironmentObject var appState: AppState
     
     var item: Item
+    
+    // pass item to view model
+    init(item: Item) {
+        _viewModel = ObservedObject(wrappedValue: ItemDetailViewModel(item: item))
+        self.item = item
+    }
     
     var body: some View {
         
@@ -31,6 +37,12 @@ struct ItemDetailView: View {
                 Spacer()
                 
                 Text("created by: \(viewModel.uidToUsername(uid: item.creatorID))")
+                
+                Spacer()
+                
+                Button("test add item to bag") {
+                    viewModel.testAddItemToBag()
+                }
 
                 
             }
