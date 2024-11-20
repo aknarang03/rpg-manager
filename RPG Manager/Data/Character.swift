@@ -32,7 +32,11 @@ struct Character {
             let characterID = value["characterID"] as? String,
             let creatorID = value["creatorID"] as? String,
             let characterName = value["characterName"] as? String,
-            let stats = value["stats"] as? Stats
+            let statsDict = value["stats"] as? [String: Int],
+            let attack = statsDict["attack"],
+            let defense = statsDict["defense"],
+            let speed = statsDict["speed"],
+            let agility = statsDict["agility"]
         else {
             return nil
         }
@@ -41,8 +45,7 @@ struct Character {
         self.characterID = characterID
         self.creatorID = creatorID
         self.characterName = characterName
-        self.stats = stats
-        
+        self.stats = Stats(attack: attack, defense: defense, speed: speed, agility: agility)
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
@@ -50,7 +53,12 @@ struct Character {
             "characterID": self.characterID,
             "creatorID": self.creatorID,
             "characterName": self.characterName,
-            "stats": self.stats
+            "stats": [
+                "attack": self.stats.attack,
+                "defense": self.stats.defense,
+                "speed": self.stats.speed,
+                "agility": self.stats.agility
+            ]
         ]
     }
     

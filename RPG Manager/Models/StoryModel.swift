@@ -68,11 +68,16 @@ class StoryModel {
             let charactersRef = storyDBRef.child(story.storyID).child("Characters")
             
             characterObserverHandle = charactersRef.observe(.value, with: { snapshot in
+                
+                print("character snapshot: \(snapshot.value ?? "No data")")
+                
                 var tempCharacters: [Character] = []
                 for child in snapshot.children {
                     if let data = child as? DataSnapshot,
                        let character = Character(snapshot: data) {
                         tempCharacters.append(character)
+                    } else {
+                        print("could not append")
                     }
                 }
                 self.currentCharacters.removeAll()
@@ -161,8 +166,9 @@ class StoryModel {
         let characterRef = storyRef.child("Characters").child(character.characterID)
         
         let characterData: [String: Any] = [
+            "characterID": character.characterID,
             "creatorID": character.creatorID,
-            "name": character.characterName,
+            "characterName": character.characterName,
             "stats": [
                 "attack": character.stats.attack,
                 "defense": character.stats.defense,
