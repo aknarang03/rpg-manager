@@ -11,7 +11,7 @@ import SwiftUI
 struct StoryDetailView: View {
     
     @ObservedObject var viewModel: StoryDetailViewModel = StoryDetailViewModel()
-    //    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         
@@ -22,12 +22,25 @@ struct StoryDetailView: View {
                 Text(viewModel.currentStory.storyName)
                     .font(.largeTitle)
                     .padding()
+                Text("amount of characters is \(viewModel.currentCharacters.count)")
+                Text("amount of collaborators is \(viewModel.currentCollaborators.count)")
                 
                 Spacer()
                 
             }
             
+            .navigationBarItems(
+                leading: Button("Back") { appState.isInStory = false }
+            )
+            .onAppear {
+                viewModel.startObserving()
+            }
+            .onDisappear {
+                viewModel.stopObserving()
+            }
+            
         }
+            
     }
     
 }

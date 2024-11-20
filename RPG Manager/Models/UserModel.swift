@@ -76,6 +76,7 @@ class UserModel {
 
     // watch for updates from User realtime database table
     func observeUsers () {
+        print("observe users")
         msgObserverHandle = userDBref.observe(.value, with: {snapshot in
             var tempUsers:[User] = []
             for child in snapshot.children {
