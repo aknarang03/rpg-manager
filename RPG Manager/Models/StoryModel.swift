@@ -16,6 +16,7 @@ class StoryModel {
     
     var storyObserverHandle: UInt?
     var characterObserverHandle: UInt?
+    var itemObserverHandle: UInt?
     var collaboratorObserverHandle: UInt?
     var collaboratorObserverHandles: [String: UInt] = [:]
     
@@ -25,6 +26,7 @@ class StoryModel {
     
     @Published var currentStory: Story?
     @Published var currentCharacters: [Character] = []
+    @Published var currentItems: [Item] = []
     @Published var currentCollaborators: [String] = []
     
     func setCurrentStory(tappedOn: Story) { // async?
@@ -175,8 +177,45 @@ class StoryModel {
         }
     }
     
-    // func observeAllCollaborators() {}
-
+    func observeCurrentItems() {
+        
+        if let story: Story = currentStory {
+            
+            print("observing items for story: \(story.storyID)")
+            
+            let itemsRef = storyDBRef.child(story.storyID).child("Items")
+            
+            itemObserverHandle = itemsRef.observe(.value, with: { snapshot in
+                
+                print("items snapshot: \(snapshot.value ?? "No data")")
+                
+                var tempItems: [Item] = []
+                for child in snapshot.children {
+                    if let data = child as? DataSnapshot,
+                       let item = Item(snapshot: data) {
+                        tempItems.append(item)
+                    } else {
+                        print("could not append")
+                    }
+                }
+                self.currentItems.removeAll()
+                self.currentItems = tempItems
+                print("items in observeCurrentItems: \(self.currentItems.count)")
+            })
+        }
+        
+    }
+    
+    func cancelCurrentItemsObserver() {
+        print("cancel current story item observer")
+        if let story: Story = currentStory {
+            if let observerHandle = itemObserverHandle {
+                let itemsRef = storyDBRef.child(story.storyID).child("Items")
+                itemsRef.removeObserver(withHandle: observerHandle)
+            }
+        }
+    }
+    
     // get Story item based on item id using this model's saved data
     func getStory(id: String) -> Story? {
         return stories.first { $0.storyID == id }
@@ -207,6 +246,12 @@ class StoryModel {
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let characterRef = storyRef.child("Characters").child(character.characterID)
         characterRef.setValue(character.toAnyObject())
+    }
+    
+    func addItemToStory(storyID: String, item: Item) {
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let itemRef = storyRef.child("Items").child(item.itemID)
+        itemRef.setValue(item.toAnyObject())
     }
     
     func addCollaboratorToStory(storyID: String, collaboratorID: String) {
