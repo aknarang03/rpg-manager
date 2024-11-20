@@ -12,6 +12,7 @@ import FirebaseDatabase
 class StoryModel {
     
     static let shared = StoryModel()
+    let userModel = UserModel.shared
     
     var storyObserverHandle: UInt?
     var characterObserverHandle: UInt?
@@ -35,18 +36,60 @@ class StoryModel {
         print("observe stories")
         storyObserverHandle = storyDBRef.observe(.value, with: {snapshot in
             var tempStories:[Story] = []
+            let dispatchGroup = DispatchGroup()
             for child in snapshot.children {
                 if let data = child as? DataSnapshot {
+                    dispatchGroup.enter()
+                    
                     if let story = Story(snapshot: data) {
-                        tempStories.append(story)
+                        
+                        print("story = story")
+                        
+                        self.observeStoryCollaborators(story: story) { collaborators in
+                            
+                            print("observe story collaborators")
+                            
+                            // add story if current user is creator or is a collaborator
+                            if let uid = self.userModel.currentUser?.uid {
+                                
+                                print("got current uid: \(uid)")
+                                
+                                if story.creator == uid || collaborators.contains(uid) {
+                                    print("creator or collaborator detected")
+                                    tempStories.append(story)
+                                    print ("temp stories: \(tempStories.count)")
+                                }
+                            }
+                            
+                            dispatchGroup.leave()
+                            
+                        }
+                        
                     } else {
                         print("cannot append")
+                        dispatchGroup.leave()
                     }
                 }
             }
-            self.stories.removeAll()
-            self.stories = tempStories // update the list stored in this model
-            print("stories in observeStories: \(self.stories.count)")
+            dispatchGroup.notify(queue: .main) {
+                self.stories.removeAll()
+                self.stories = tempStories // update the list stored in this model
+                print("stories in observeStories: \(self.stories.count)")
+
+            }
+        })
+    }
+    
+    func observeStoryCollaborators(story: Story, completion: @escaping ([String]) -> Void) {
+        let collaboratorsRef = storyDBRef.child(story.storyID).child("Collaborators")
+        collaboratorsRef.observeSingleEvent(of: .value, with: { snapshot in
+            var collaborators: [String] = []
+            for child in snapshot.children {
+                if let data = child as? DataSnapshot {
+                    collaborators.append(data.key)
+                }
+            }
+            completion(collaborators)
         })
     }
     
