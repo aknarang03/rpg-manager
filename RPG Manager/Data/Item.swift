@@ -10,12 +10,13 @@ import Firebase
 import FirebaseDatabase
 
 enum ImpactsWhat: String {
+    case health = "health"
     case attack = "attack"
     case defense = "defense"
     case speed = "speed"
     case agility = "agility"
+    case hp = "hp"
     case none = "none"
-    // add health and HP when those are there
 }
 
 struct Item {
