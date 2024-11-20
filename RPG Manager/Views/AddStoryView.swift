@@ -32,6 +32,15 @@ struct AddStoryView: View {
                     viewModel.addStory()
                 }
                 
+                Spacer()
+                
+                Button ("Add Collaborator Test") {
+                    viewModel.addCollaboratorTest()
+                }
+                Button ("Add Character Test") {
+                    viewModel.addCharacterTest()
+                }
+                
             }
             
         }

@@ -24,9 +24,11 @@ struct StoryListView: View {
                 ForEach(viewModel.stories.indices, id: \.self) { index in
                                         
                     VStack(alignment: .leading) {
-                        
-                        Text(viewModel.uidToUsername(uid: viewModel.stories[index].creator))
-                        Text(viewModel.stories[index].storyID)
+                        Text(viewModel.stories[index].storyName)
+                        Text(viewModel.stories[index].storyDescription)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        Text("created by \(                     viewModel.uidToUsername(uid:viewModel.stories[index].creator))")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }

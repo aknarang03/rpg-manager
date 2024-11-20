@@ -11,10 +11,6 @@ import FirebaseDatabase
 
 struct Story {
     
-    /*
-     ATTRIBUTES TO ADD LATER:
-     - storyDescription: String
-    */
     // Could I have characters and collaborators here, for easy access later, somehow? Even though they are child
     // nodes?
         
@@ -23,6 +19,9 @@ struct Story {
     var storyName: String
     var creator: String
     var storyDescription: String
+    
+    var characters: [Character]?
+    var collaborators: [String]?
         
     init (storyID: String, storyName: String, storyDescription: String, creator: String) {
         self.ref = nil
@@ -30,6 +29,8 @@ struct Story {
         self.storyName = storyName
         self.storyDescription = storyDescription
         self.creator = creator
+        self.characters = nil
+        self.collaborators = nil
     }
     
     init? (snapshot: DataSnapshot) {
