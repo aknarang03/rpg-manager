@@ -40,7 +40,7 @@ struct CharacterDetailView: View {
                         .padding(.top)
                 
                 if let bag = character.bag {
-                    
+                                        
                     if bag.isEmpty {
                         Text("Bag is empty")
                             .foregroundColor(.gray)
@@ -58,8 +58,7 @@ struct CharacterDetailView: View {
                     }
                     
                 } else {
-                    
-                    Text("Bag is empty")
+                    Text("Bag is empty (err)")
                         .foregroundColor(.gray)
                         .italic()
                 }

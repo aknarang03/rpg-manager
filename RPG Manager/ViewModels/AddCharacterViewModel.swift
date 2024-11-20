@@ -33,7 +33,7 @@ class AddCharacterViewModel: ObservableObject {
         let speedVal = Int(speed) ?? 0
         let agilityVal = Int(agility) ?? 0
         
-        let newCharacter = Character(characterID: timeInterval(), creatorID: userModel.currentUser!.uid, characterName: characterName, stats: Stats(attack: attackVal, defense: defenseVal, speed: speedVal, agility: agilityVal))
+        let newCharacter = Character(characterID: timeInterval(), creatorID: userModel.currentUser!.uid, characterName: characterName, stats: Stats(attack: attackVal, defense: defenseVal, speed: speedVal, agility: agilityVal), bag: [:])
         storyModel.addCharacterToStory(storyID: storyModel.currentStory!.storyID, character: newCharacter)
 
     }

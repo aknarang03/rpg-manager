@@ -18,13 +18,13 @@ struct Character {
     var stats: Stats
     var bag: [String: Int]? // id : quantity
     
-    init (characterID: String, creatorID: String, characterName: String, stats: Stats) {
+    init (characterID: String, creatorID: String, characterName: String, stats: Stats, bag: [String: Int]? = nil) {
         self.ref = nil
         self.characterID = characterID
         self.creatorID = creatorID
         self.characterName = characterName
         self.stats = stats
-        self.bag = nil
+        self.bag = bag
     }
     
     init? (snapshot: DataSnapshot) {
@@ -39,21 +39,24 @@ struct Character {
             let defense = statsDict["defense"],
             let speed = statsDict["speed"],
             let agility = statsDict["agility"]
-            //let bag = value["bag"] as? [String: Int]
         else {
             return nil
         }
+        
+        let bag = value["bag"] as? [String: Int] ?? [:]
         
         self.ref = snapshot.ref
         self.characterID = characterID
         self.creatorID = creatorID
         self.characterName = characterName
         self.stats = Stats(attack: attack, defense: defense, speed: speed, agility: agility)
-        //self.bag = bag
+        self.bag = bag
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
-        return [
+        
+        var dict: [String: Any] = [
+    
             "characterID": self.characterID,
             "creatorID": self.creatorID,
             "characterName": self.characterName,
@@ -62,9 +65,16 @@ struct Character {
                 "defense": self.stats.defense,
                 "speed": self.stats.speed,
                 "agility": self.stats.agility
-            ],
-            //"bag": self.bag
+            ]
         ]
+                
+        // only add bag if it's not nil
+        if let bag = self.bag {
+            dict["bag"] = bag
+        }
+        
+        return dict
+        
     }
     
 }
