@@ -15,6 +15,7 @@ class StoryModel {
     
     var storyObserverHandle: UInt?
     var characterObserverHandle: UInt?
+    var collaboratorObserverHandle: UInt?
     var collaboratorObserverHandles: [String: UInt] = [:]
     
     let storyDBRef = Database.database().reference(withPath: "Stories")
@@ -82,20 +83,20 @@ class StoryModel {
         
         if let story: Story = currentStory {
             
-            print("Observing characters for story: \(story.storyID)")
+            print("Observing collaborators for story: \(story.storyID)")
             
-            let charactersRef = storyDBRef.child(story.storyID).child("Characters")
+            let collaboratorsRef = storyDBRef.child(story.storyID).child("Collaborators")
             
-            characterObserverHandle = charactersRef.observe(.value, with: { snapshot in
-                var tempCharacters: [Character] = []
+            collaboratorObserverHandle = collaboratorsRef.observe(.value, with: { snapshot in
+                var tempCollaborators: [String] = []
                 for child in snapshot.children {
                     if let data = child as? DataSnapshot,
-                       let character = Character(snapshot: data) {
-                        tempCharacters.append(character)
+                       let collaborator = data.key as? String {
+                        tempCollaborators.append(collaborator)
                     }
                 }
-                self.currentCharacters.removeAll()
-                self.currentCharacters = tempCharacters
+                self.currentCollaborators.removeAll()
+                self.currentCollaborators = tempCollaborators
             })
         }
         
