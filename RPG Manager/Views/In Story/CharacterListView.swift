@@ -48,7 +48,7 @@ struct CharacterListView: View {
             .navigationBarItems(
                 trailing: Button(action: {}, label: {
                     NavigationLink(destination: AddCharacterView()) {
-                         Text("Add Character")
+                         Text("Add")
                     }
                 }
                                 )

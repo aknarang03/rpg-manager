@@ -48,6 +48,14 @@ struct CollaboratorListView: View {
                 }
             }
             .navigationBarTitle("Collaborators")
+            .navigationBarItems(
+                trailing: Button(action: {}, label: {
+                    NavigationLink(destination: AddCollaboratorView()) {
+                         Text("Add")
+                    }
+                }
+                                )
+                )
             
         }
         
