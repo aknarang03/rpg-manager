@@ -33,7 +33,7 @@ struct StoryListView: View {
                         Text("created by \(userModel.getUsername(for: story.creator) ?? "Unknown")")
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                        Button("go") {
+                        Button("") {
                             viewModel.tappedStory(story: story,
                                 onSuccess: {
                                     appState.isInStory = true
@@ -42,11 +42,10 @@ struct StoryListView: View {
                                     print(errorMessage)
                                 }
                             )
-                        }
+                        }.frame(width: 0, height: 0)
                     }
                     
-                    
-                    .padding()
+                    .padding(5)
                 }
                 
             }
