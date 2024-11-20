@@ -22,9 +22,13 @@ class StoryModel {
     
     @Published var stories:[Story] = []
     
-    @Published var currentStory: Story?
-    @Published var currentCharacters: [Character] = []
-    @Published var currentCollaborators: [String] = []
+    var currentStory: Story?
+    var currentCharacters: [Character] = []
+    var currentCollaborators: [String] = []
+    
+    func setCurrentStory(tappedOn: Story) { // async?
+        currentStory = tappedOn
+    }
     
     // watch for updates from Story realtime database table
     func observeStories() {
