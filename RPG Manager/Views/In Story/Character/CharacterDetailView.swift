@@ -24,10 +24,12 @@ struct CharacterDetailView: View {
                 Text(character.characterName)
                     .font(.largeTitle)
                     .padding()
+                Text("health: \(character.stats.health)")
                 Text("attack: \(character.stats.attack)")
                 Text("defense: \(character.stats.defense)")
                 Text("speed: \(character.stats.speed)")
                 Text("agility: \(character.stats.agility)")
+                Text("current HP: \(character.stats.hp)/100")
 
                 Spacer()
                 

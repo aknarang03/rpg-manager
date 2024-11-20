@@ -35,10 +35,12 @@ struct Character {
             let creatorID = value["creatorID"] as? String,
             let characterName = value["characterName"] as? String,
             let statsDict = value["stats"] as? [String: Int],
+            let health = statsDict["health"],
             let attack = statsDict["attack"],
             let defense = statsDict["defense"],
             let speed = statsDict["speed"],
-            let agility = statsDict["agility"]
+            let agility = statsDict["agility"],
+            let hp = statsDict["hp"]
         else {
             return nil
         }
@@ -49,7 +51,7 @@ struct Character {
         self.characterID = characterID
         self.creatorID = creatorID
         self.characterName = characterName
-        self.stats = Stats(attack: attack, defense: defense, speed: speed, agility: agility)
+        self.stats = Stats(health: health, attack: attack, defense: defense, speed: speed, agility: agility, hp: hp)
         self.bag = bag
     }
     
@@ -61,10 +63,12 @@ struct Character {
             "creatorID": self.creatorID,
             "characterName": self.characterName,
             "stats": [
+                "health": self.stats.health,
                 "attack": self.stats.attack,
                 "defense": self.stats.defense,
                 "speed": self.stats.speed,
-                "agility": self.stats.agility
+                "agility": self.stats.agility,
+                "hp": self.stats.hp
             ]
         ]
                 
@@ -80,8 +84,10 @@ struct Character {
 }
 
 struct Stats {
+    var health: Int
     var attack: Int
     var defense: Int
     var speed: Int
     var agility: Int
+    var hp: Int
 }

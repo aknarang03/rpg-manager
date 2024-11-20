@@ -23,6 +23,11 @@ struct AddCharacterView: View {
                 )
                 .padding(.top)
                 TextField(
+                    "health",
+                    text: $viewModel.health
+                )
+                .padding(.top)
+                TextField(
                     "attack",
                     text: $viewModel.attack
                 )
