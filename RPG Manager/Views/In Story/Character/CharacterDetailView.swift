@@ -49,7 +49,7 @@ struct CharacterDetailView: View {
                         List {
                             ForEach(bag.keys.sorted(), id: \.self) { itemID in
                                 HStack {
-                                    Text(itemID)
+                                    Text(viewModel.itemIdToItemName(itemID: itemID))
                                     Spacer()
                                     Text("Quantity: \(bag[itemID] ?? 0)")
                                 }

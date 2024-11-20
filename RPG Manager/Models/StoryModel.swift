@@ -281,6 +281,10 @@ class StoryModel {
         }
         
     }
+    
+    func getItemName(for itemID: String) -> String? {
+        return currentItems.first(where: { $0.itemID == itemID })?.itemName
+    }
 
     
 }
