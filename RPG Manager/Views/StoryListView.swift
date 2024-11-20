@@ -24,13 +24,13 @@ struct StoryListView: View {
             List {
                 
                 ForEach(viewModel.stories, id: \.storyID) { story in
-                                                            
+                                                        
                     VStack(alignment: .leading) {
                         Text(story.storyName)
                         Text(story.storyDescription)
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                        Text("created by \(story.creator)")
+                        Text("created by \(userModel.getUsername(for: story.creator) ?? "Unknown")")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                         Button("go") {

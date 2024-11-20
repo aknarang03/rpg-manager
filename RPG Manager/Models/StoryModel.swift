@@ -77,9 +77,9 @@ class StoryModel {
                 }
                 self.currentCharacters.removeAll()
                 self.currentCharacters = tempCharacters
+                print("characters in observeCurrentCharacters: \(self.currentCharacters.count)")
             })
         }
-        
     }
     
     func cancelCurrentCharactersObserver() {
@@ -111,6 +111,7 @@ class StoryModel {
                 }
                 self.currentCollaborators.removeAll()
                 self.currentCollaborators = tempCollaborators
+                print("collaborators in observeCurrentCollaborators: \(self.currentCollaborators.count)")
             })
         }
         

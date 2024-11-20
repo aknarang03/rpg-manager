@@ -88,6 +88,7 @@ class UserModel {
             }
             self.users.removeAll()
             self.users = tempUsers // store users in this model
+            print("users in observeUsers: \(self.users.count)")
         })
     }
     
