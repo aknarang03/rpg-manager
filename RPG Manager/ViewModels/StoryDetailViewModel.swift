@@ -15,9 +15,9 @@ class StoryDetailViewModel: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     
-    @Published var currentStory: Story
-    @Published var currentCharacters: [Character]
-    @Published var currentCollaborators: [String]
+    @Published var currentStory: Story = Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown")
+    @Published var currentCharacters: [Character] = []
+    @Published var currentCollaborators: [String] = []
 
     init() {
         
