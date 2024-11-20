@@ -78,6 +78,16 @@ class StoryModel {
         
     }
     
+    func cancelCurrentCharactersObserver() {
+        print("cancel current story character observer")
+        if let story: Story = currentStory {
+            if let observerHandle = characterObserverHandle {
+                let charactersRef = storyDBRef.child(story.storyID).child("Characters")
+                charactersRef.removeObserver(withHandle: observerHandle)
+            }
+        }
+    }
+    
     // observe collaborators for a specific story
     func observeCurrentCollaborators() {
         
@@ -100,6 +110,16 @@ class StoryModel {
             })
         }
         
+    }
+    
+    func cancelCurrentCollaboratorsObserver() {
+        print("cancel current story collaborators observer")
+        if let story: Story = currentStory {
+            if let observerHandle = collaboratorObserverHandle {
+                let collaboratorsRef = storyDBRef.child(story.storyID).child("Collaborators")
+                collaboratorsRef.removeObserver(withHandle: observerHandle)
+            }
+        }
     }
     
     // func observeAllCollaborators() {}
