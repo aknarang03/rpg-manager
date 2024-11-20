@@ -71,6 +71,56 @@ struct LoginView: View {
                     }
                 )
                 
+                Spacer()
+                
+                HStack {
+                    Button("A") {
+                        viewModel.testLogin(user:"userA@email.com",
+                         onSuccess: {
+                             appState.isLoggedIn = true
+                         },
+                         onFailure: { errorMessage in
+                             alertMessage = errorMessage
+                             showAlert = true
+                         })
+                    }
+                    .padding()
+                    .background(Color.gray)
+                    .cornerRadius(8)
+                    
+                    Button("B") {
+                        viewModel.testLogin(user:"userB@email.com",
+                         onSuccess: {
+                             appState.isLoggedIn = true
+                         },
+                         onFailure: { errorMessage in
+                             alertMessage = errorMessage
+                             showAlert = true
+                         })
+
+                    }
+                    .padding()
+                    .background(Color.gray)
+                    .cornerRadius(8)
+                    
+                    Button("C") {
+                        viewModel.testLogin(user:"userC@email.com",
+                         onSuccess: {
+                             appState.isLoggedIn = true
+                         },
+                         onFailure: { errorMessage in
+                             alertMessage = errorMessage
+                             showAlert = true
+                         })
+                    }
+                    .padding()
+                    .background(Color.gray)
+                    .cornerRadius(8)
+                }
+                .frame(maxWidth: .infinity)
+                
+                .padding(.bottom, 20)
+                
             }
             
         }

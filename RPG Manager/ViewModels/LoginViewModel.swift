@@ -9,9 +9,9 @@ import Foundation
 
 class LoginViewModel: ObservableObject {
 
-    @Published var email: String = "testreg@email.com"
+    @Published var email: String = "userA@email.com"
     @Published var password: String = "password"
-    
+        
     let userModel = UserModel.shared
 
     func login(onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
@@ -42,5 +42,30 @@ class LoginViewModel: ObservableObject {
         }
         
     }
+    
+    func testLogin(user: String, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
+        
+        Task {
+                    
+                
+            let (result, resultMessage) = try await userModel.signInAsync(withEmail: user, andPassword: "password")
+            
+            if result { // LOGIN SUCCEEDED
+                print("Login successful")
+                DispatchQueue.main.async {
+                    onSuccess()
+                }
+            }
+            
+            else { // LOGIN FAILED
+                DispatchQueue.main.async {
+                    onFailure("Login failed")
+                }
+            }
+            
+        }
+        
+    }
+        
     
 }
