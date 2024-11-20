@@ -39,7 +39,7 @@ struct RPGManagerApp: App {
     var body: some Scene {
         WindowGroup {
             if appState.isInStory && appState.isLoggedIn {
-                StoryDetailView()
+                StoryNavigationView()
                     .environmentObject(appState)
             }
             else if appState.isLoggedIn {
