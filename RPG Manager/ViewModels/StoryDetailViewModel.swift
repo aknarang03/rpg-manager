@@ -42,17 +42,5 @@ class StoryDetailViewModel: ObservableObject {
         }
         return username
     }
-    
-    func startObserving() {
-        print("start observing current characters and collaborators")
-        storyModel.observeCurrentCharacters()
-        storyModel.observeCurrentCollaborators()
-    }
-    
-    func stopObserving() {
-        print("stop observing current characters and collaborators")
-        storyModel.cancelCurrentCharactersObserver()
-        storyModel.cancelCurrentCollaboratorsObserver()
-    }
 
 }

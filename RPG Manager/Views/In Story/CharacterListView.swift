@@ -45,6 +45,14 @@ struct CharacterListView: View {
                 
             }
             .navigationBarTitle("Characters")
+            .navigationBarItems(
+                trailing: Button(action: {}, label: {
+                    NavigationLink(destination: AddCharacterView()) {
+                         Text("Add Character")
+                    }
+                }
+                                )
+                )
             
         }
         

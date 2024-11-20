@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct StoryNavigationView: View {
+struct StoryView: View {
+    
+    @ObservedObject var viewModel: StoryViewModel = StoryViewModel()
     
     var body: some View {
         
@@ -26,7 +28,14 @@ struct StoryNavigationView: View {
                 }
             
         }
+        .onAppear {
+            viewModel.startObserving()
+        }
+        .onDisappear {
+            viewModel.stopObserving()
+        }
         
     }
+    
     
 }

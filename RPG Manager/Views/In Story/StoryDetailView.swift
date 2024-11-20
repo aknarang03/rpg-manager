@@ -32,12 +32,6 @@ struct StoryDetailView: View {
             .navigationBarItems(
                 leading: Button("Back") { appState.isInStory = false }
             )
-            .onAppear {
-                viewModel.startObserving()
-            }
-            .onDisappear {
-                viewModel.stopObserving()
-            }
             
         }
             
