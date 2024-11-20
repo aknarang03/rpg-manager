@@ -19,7 +19,6 @@ struct Story {
     var storyName: String
     var creator: String
     var storyDescription: String
-    
     var characters: [Character]?
     var collaborators: [String]?
         

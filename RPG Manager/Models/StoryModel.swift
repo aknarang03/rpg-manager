@@ -13,17 +13,22 @@ class StoryModel {
     
     static let shared = StoryModel()
     
-    var msgObserverHandle: UInt?
+    var storyObserverHandle: UInt?
+    var characterObserverHandle: UInt?
+    var collaboratorObserverHandles: [String: UInt] = [:]
     
     let storyDBRef = Database.database().reference(withPath: "Stories")
     
-    @Published var currentStory: Story?
     @Published var stories:[Story] = []
     
+    @Published var currentStory: Story?
+    @Published var currentCharacters: [Character] = []
+    @Published var currentCollaborators: [String] = []
+    
     // watch for updates from Story realtime database table
-    func observeItems() {
+    func observeStories() {
         print("observe items")
-        msgObserverHandle = storyDBRef.observe(.value, with: {snapshot in
+        storyObserverHandle = storyDBRef.observe(.value, with: {snapshot in
             var tempStories:[Story] = []
             for child in snapshot.children {
                 if let data = child as? DataSnapshot {
@@ -41,13 +46,63 @@ class StoryModel {
     }
     
     // stop listening for updates
-    func cancelObserver() {
+    func cancelStoryObserver() {
         print("cancel observer")
-        if let observerHandle = msgObserverHandle {
+        if let observerHandle = storyObserverHandle {
             storyDBRef.removeObserver(withHandle: observerHandle)
         }
     }
     
+    // observe characters for a specific story
+    func observeCurrentCharacters() {
+        
+        if let story: Story = currentStory {
+            
+            print("Observing characters for story: \(story.storyID)")
+            
+            let charactersRef = storyDBRef.child(story.storyID).child("Characters")
+            
+            characterObserverHandle = charactersRef.observe(.value, with: { snapshot in
+                var tempCharacters: [Character] = []
+                for child in snapshot.children {
+                    if let data = child as? DataSnapshot,
+                       let character = Character(snapshot: data) {
+                        tempCharacters.append(character)
+                    }
+                }
+                self.currentCharacters.removeAll()
+                self.currentCharacters = tempCharacters
+            })
+        }
+        
+    }
+    
+    // observe collaborators for a specific story
+    func observeCurrentCollaborators() {
+        
+        if let story: Story = currentStory {
+            
+            print("Observing characters for story: \(story.storyID)")
+            
+            let charactersRef = storyDBRef.child(story.storyID).child("Characters")
+            
+            characterObserverHandle = charactersRef.observe(.value, with: { snapshot in
+                var tempCharacters: [Character] = []
+                for child in snapshot.children {
+                    if let data = child as? DataSnapshot,
+                       let character = Character(snapshot: data) {
+                        tempCharacters.append(character)
+                    }
+                }
+                self.currentCharacters.removeAll()
+                self.currentCharacters = tempCharacters
+            })
+        }
+        
+    }
+    
+    // func observeAllCollaborators() {}
+
     // get Story item based on item id using this model's saved data
     func getItem(id: String) -> Story? {
         return stories.first { $0.storyID == id }
