@@ -161,32 +161,15 @@ class StoryModel {
     }
         
     func addCharacterToStory(storyID: String, character: Character) {
-        
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let characterRef = storyRef.child("Characters").child(character.characterID)
-        
-        let characterData: [String: Any] = [
-            "characterID": character.characterID,
-            "creatorID": character.creatorID,
-            "characterName": character.characterName,
-            "stats": [
-                "attack": character.stats.attack,
-                "defense": character.stats.defense,
-                "speed": character.stats.speed,
-                "agility": character.stats.agility
-            ]
-        ]
-        
-        characterRef.setValue(characterData)
-         
+        characterRef.setValue(character.toAnyObject())
     }
     
     func addCollaboratorToStory(storyID: String, collaboratorID: String) {
-        
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
         collaboratorRef.setValue(true) // placeholder
-
     }
     
 }
