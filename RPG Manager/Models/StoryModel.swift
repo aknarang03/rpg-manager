@@ -28,7 +28,7 @@ class StoryModel {
     
     // watch for updates from Story realtime database table
     func observeStories() {
-        print("observe items")
+        print("observe stories")
         storyObserverHandle = storyDBRef.observe(.value, with: {snapshot in
             var tempStories:[Story] = []
             for child in snapshot.children {
@@ -42,7 +42,7 @@ class StoryModel {
             }
             self.stories.removeAll()
             self.stories = tempStories // update the list stored in this model
-            print("stories in observeItems: \(self.stories.count)")
+            print("stories in observeStories: \(self.stories.count)")
         })
     }
     
@@ -59,7 +59,7 @@ class StoryModel {
         
         if let story: Story = currentStory {
             
-            print("Observing characters for story: \(story.storyID)")
+            print("observing characters for story: \(story.storyID)")
             
             let charactersRef = storyDBRef.child(story.storyID).child("Characters")
             
@@ -93,7 +93,7 @@ class StoryModel {
         
         if let story: Story = currentStory {
             
-            print("Observing collaborators for story: \(story.storyID)")
+            print("observing collaborators for story: \(story.storyID)")
             
             let collaboratorsRef = storyDBRef.child(story.storyID).child("Collaborators")
             
@@ -125,26 +125,26 @@ class StoryModel {
     // func observeAllCollaborators() {}
 
     // get Story item based on item id using this model's saved data
-    func getItem(id: String) -> Story? {
+    func getStory(id: String) -> Story? {
         return stories.first { $0.storyID == id }
     }
     
     // post a new item to Story database table
-    func postNewItem(story: Story) {
+    func postNewStory(story: Story) {
         let storyDBRef = Database.database().reference(withPath: "Stories")
         let newStoryRef = storyDBRef.child(story.storyID)
         newStoryRef.setValue(story.toAnyObject())
     }
     
     // update an item (works the same way; just replaces old item under same ID)
-    func updateItem(story: Story) {
+    func updateStory(story: Story) {
         let storyDBRef = Database.database().reference(withPath: "Stories")
         let newStoryRef = storyDBRef.child(story.storyID)
         newStoryRef.setValue(story.toAnyObject())
     }
     
     // remove an item from Story database table
-    func deleteItem(story: Story) {
+    func deleteStory(story: Story) {
         let storyDBRef = Database.database().reference(withPath: "Stories")
         let storyRef = storyDBRef.child(story.storyID)
         storyRef.removeValue()
