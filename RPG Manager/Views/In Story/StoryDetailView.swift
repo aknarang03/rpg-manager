@@ -30,7 +30,7 @@ struct StoryDetailView: View {
             }
             
             .navigationBarItems(
-                leading: Button("Back") { appState.isInStory = false }
+                leading: Button("List") { appState.isInStory = false }
             )
             
         }

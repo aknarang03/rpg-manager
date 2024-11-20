@@ -21,28 +21,18 @@ struct CharacterListView: View {
             List {
                 
                 ForEach(viewModel.characters, id: \.characterID) { character in
-                                                        
-                    VStack(alignment: .leading) {
-                        Text(character.characterName)
-                        Text("created by \(viewModel.uidToUsername(uid: character.creatorID))")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-//                        Button("go") {
-//                            viewModel.tappedCharacter(character: character,
-//                                onSuccess: {
-//                                    // nav to character
-//                                },
-//                                onFailure: { errorMessage in
-//                                    print(errorMessage)
-//                                }
-//                            )
-//                        }
+                    NavigationLink(destination: CharacterDetailView(character: character)) {
+                        VStack(alignment: .leading) {
+                            Text(character.characterName)
+                            Text("created by \(viewModel.uidToUsername(uid: character.creatorID))")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        .padding()
                     }
-                    
-                    
-                    .padding()
                 }
-                
+                    
+                    
             }
             .navigationBarTitle("Characters")
             .navigationBarItems(
@@ -53,9 +43,12 @@ struct CharacterListView: View {
                 }
                                 )
                 )
+                
+        }
+            
             
         }
         
     }
     
-}
+

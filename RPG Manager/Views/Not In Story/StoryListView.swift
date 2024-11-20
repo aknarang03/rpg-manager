@@ -60,6 +60,7 @@ struct StoryListView: View {
                                 )
                 )
             .onAppear {
+                storyModel.currentStory = nil
                 viewModel.startObserving()
             }
             .onDisappear {
