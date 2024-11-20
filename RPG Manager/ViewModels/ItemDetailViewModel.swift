@@ -14,9 +14,18 @@ class ItemDetailViewModel: ObservableObject {
     let storyModel = StoryModel.shared
     
     @Published var item: Item
+    @Published var characterID: String
     
+    private var cancellables: Set<AnyCancellable> = []
+    
+    @Published var characters: [Character] = []
+
     init(item: Item) {
         self.item = item
+        self.characterID = ""
+        storyModel.$currentCharacters
+            .sink { [weak self] newChars in self?.characters = newChars }
+            .store(in: &cancellables)
     }
     
     func uidToUsername(uid: String) -> String {
@@ -27,8 +36,8 @@ class ItemDetailViewModel: ObservableObject {
         return username
     }
     
-    func testAddItemToBag() {
-        storyModel.addItemToBag(storyID: storyModel.currentStory!.storyID, characterID: storyModel.currentCharacters[0].characterID, itemID: item.itemID, addingAmt: 1)
+    func addItemToBag() {
+        storyModel.addItemToBag(storyID: storyModel.currentStory!.storyID, characterID: characterID, itemID: item.itemID, addingAmt: 1)
     }
 
 }

@@ -40,10 +40,24 @@ struct ItemDetailView: View {
                 
                 Spacer()
                 
-                Button("test add item to bag") {
-                    viewModel.testAddItemToBag()
+                Spacer()
+                                
+                // Dropdown to select character
+                Picker("Character", selection: $viewModel.characterID) {
+                    ForEach(viewModel.characters, id: \.characterID) { character in
+                        Text(character.characterName).tag(character.characterID)
+                    }
                 }
+                .pickerStyle(MenuPickerStyle())
+                .padding()
 
+                Button("Give Item to Character") {
+                    viewModel.addItemToBag()
+                }
+                .padding()
+                .disabled(viewModel.characterID.isEmpty)
+
+                Spacer()
                 
             }
             
