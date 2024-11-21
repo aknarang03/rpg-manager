@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
-enum ImpactsWhat: String {
+enum ImpactsWhat: String, CaseIterable {
     case health = "health"
     case attack = "attack"
     case defense = "defense"

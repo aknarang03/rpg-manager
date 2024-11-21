@@ -14,8 +14,8 @@ class AddItemViewModel: ObservableObject {
     
     @Published var itemName: String = ""
     @Published var itemDescription: String = ""
-    @Published var impactsWhat: String = ""
-    @Published var impact: String = ""
+    @Published var impactsWhat: ImpactsWhat = ImpactsWhat.none
+    @Published var impact: Float = 0
 
     func timeInterval() -> String {
         let timeNow = Date()
@@ -26,10 +26,10 @@ class AddItemViewModel: ObservableObject {
     
     func addItem() {
         
-        let impacts : ImpactsWhat = ImpactsWhat(rawValue: impactsWhat) ?? ImpactsWhat.none
-        let impactVal = Int(impact) ?? 0
+        //let impacts : ImpactsWhat = ImpactsWhat(rawValue: impactsWhat) ?? ImpactsWhat.none
+        let impactVal = Int(impact)
         
-        let newItem = Item(itemID: timeInterval(), creatorID: userModel.currentUser!.uid, itemName: itemName, itemDescription: itemDescription, impactsWhat: impacts.rawValue, impact: impactVal)
+        let newItem = Item(itemID: timeInterval(), creatorID: userModel.currentUser!.uid, itemName: itemName, itemDescription: itemDescription, impactsWhat: impactsWhat.rawValue, impact: impactVal)
         storyModel.addItemToStory(storyID: storyModel.currentStory!.storyID, item: newItem)
 
     }

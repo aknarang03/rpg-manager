@@ -18,26 +18,36 @@ struct AddItemView: View {
         NavigationView {
             
             VStack {
+                
+                Spacer()
+                
                 TextField(
                     "item name",
                     text: $viewModel.itemName
                 )
-                .padding(.top)
                 TextField(
                     "item description",
                     text: $viewModel.itemDescription
                 )
-                .padding(.top)
-                TextField(
-                    "impacts what", // make this a dropdown from enum
-                    text: $viewModel.impactsWhat
-                )
-                .padding(.top)
-                TextField(
-                    "impact",
-                    text: $viewModel.impact
-                )
-                .padding(.top)
+                
+                Spacer()
+                
+                HStack {
+                    Text("Impacts what?")
+                    Picker("Impacts what?", selection: $viewModel.impactsWhat) {
+                        ForEach(ImpactsWhat.allCases, id:\.self) { value in
+                            Text(value.rawValue)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
+                
+                HStack {
+                    Text("impact: \(Int(viewModel.impact))")
+                    Slider(value: $viewModel.impact, in: -100...100, step: 1)
+                }
+                
+                Spacer()
                 
                 Button ("Add") {
                     viewModel.addItem()
