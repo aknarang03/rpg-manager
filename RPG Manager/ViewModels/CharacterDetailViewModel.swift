@@ -128,7 +128,9 @@ class CharacterDetailViewModel: ObservableObject {
     }
     
     func equipItem(characterID: String) {
-        print("equip item")
+        var updateCharacter = storyModel.getCharacter(for: characterID)
+        updateCharacter?.heldItem = itemID
+        storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
     }
 
 }

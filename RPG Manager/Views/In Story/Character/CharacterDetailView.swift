@@ -80,6 +80,12 @@ struct CharacterDetailView: View {
                 
                 Divider()
                 
+                if let holding = character.heldItem {
+                    Text("holding: \(viewModel.itemIdToItemName(itemID: holding))")
+                } else {
+                    Text("holding nothing")
+                }
+                
                 Text("Bag")
                     .font(.title2)
                     .padding(.top)
