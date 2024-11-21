@@ -37,38 +37,41 @@ struct CharacterDetailView: View {
                 Spacer()
                 
                 HStack {
-                    Text("health: \(character.stats.health)/100")
+                    Text("health: \(character.stats.health)")
                     ProgressView(value: Double(character.stats.health), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
                 }
                 HStack {
-                    Text("attack: \(character.stats.attack)/100")
+                    Text("attack: \(character.stats.attack)")
                     ProgressView(value: Double(character.stats.attack), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)                }
                 HStack {
-                    Text("defense: \(character.stats.defense)/100")
+                    Text("defense: \(character.stats.defense)")
                     ProgressView(value: Double(character.stats.defense), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)                   }
                 HStack {
-                    Text("speed: \(character.stats.speed)/100")
+                    Text("speed: \(character.stats.speed)")
                     ProgressView(value: Double(character.stats.speed), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
                 }
                 HStack {
-                    Text("agility: \(character.stats.agility)/100")
+                    Text("agility: \(character.stats.agility)")
                     ProgressView(value: Double(character.stats.agility), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
                 }
                 HStack {
-                    Text("current hp: \(character.stats.hp)/100")
-                    ProgressView(value: Double(character.stats.hp), total: 100)
+                    Text("current hp: \(character.stats.hp)/\(character.stats.health)")
+                    ProgressView(value: Double(character.stats.hp), total: Double(character.stats.health))
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
+                        .onAppear {
+                            let clampedHp = max(0, min(character.stats.hp, character.stats.health))
+                        }
                 }
                 
                 Spacer()

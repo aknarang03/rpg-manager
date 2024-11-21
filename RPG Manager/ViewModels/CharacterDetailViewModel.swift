@@ -50,6 +50,9 @@ class CharacterDetailViewModel: ObservableObject {
             switch item?.impactsWhat {
             case "health":
                 updateCharacter!.stats.health += item!.impact
+                if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
+                    updateCharacter!.stats.hp = updateCharacter!.stats.health
+                }
                 print("item impacts health: \(item?.impact ?? 0)")
             case "attack":
                 updateCharacter!.stats.attack += item!.impact
