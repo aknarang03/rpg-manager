@@ -15,16 +15,20 @@ struct Character {
     var characterID: String
     var creatorID: String
     var characterName: String
+    var characterDescription: String
     var stats: Stats
     var bag: [String: Int]? // id : quantity
+    var isPlayer: Bool
     
-    init (characterID: String, creatorID: String, characterName: String, stats: Stats, bag: [String: Int]? = nil) {
+    init (characterID: String, creatorID: String, characterName: String, characterDescription: String, stats: Stats, bag: [String: Int]? = nil, isPlayer: Bool) {
         self.ref = nil
         self.characterID = characterID
         self.creatorID = creatorID
         self.characterName = characterName
+        self.characterDescription = characterDescription
         self.stats = stats
         self.bag = bag
+        self.isPlayer = isPlayer
     }
     
     init? (snapshot: DataSnapshot) {
@@ -34,13 +38,15 @@ struct Character {
             let characterID = value["characterID"] as? String,
             let creatorID = value["creatorID"] as? String,
             let characterName = value["characterName"] as? String,
+            let characterDescription = value["characterDescription"] as? String,
             let statsDict = value["stats"] as? [String: Int],
             let health = statsDict["health"],
             let attack = statsDict["attack"],
             let defense = statsDict["defense"],
             let speed = statsDict["speed"],
             let agility = statsDict["agility"],
-            let hp = statsDict["hp"]
+            let hp = statsDict["hp"],
+            let isPlayer = value["isPlayer"] as? Bool
         else {
             return nil
         }
@@ -51,8 +57,10 @@ struct Character {
         self.characterID = characterID
         self.creatorID = creatorID
         self.characterName = characterName
+        self.characterDescription = characterDescription
         self.stats = Stats(health: health, attack: attack, defense: defense, speed: speed, agility: agility, hp: hp)
         self.bag = bag
+        self.isPlayer = isPlayer
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
@@ -62,6 +70,7 @@ struct Character {
             "characterID": self.characterID,
             "creatorID": self.creatorID,
             "characterName": self.characterName,
+            "characterDescription": self.characterDescription,
             "stats": [
                 "health": self.stats.health,
                 "attack": self.stats.attack,
@@ -69,7 +78,8 @@ struct Character {
                 "speed": self.stats.speed,
                 "agility": self.stats.agility,
                 "hp": self.stats.hp
-            ]
+            ],
+            "isPlayer": self.isPlayer
         ]
                 
         // only add bag if it's not nil
