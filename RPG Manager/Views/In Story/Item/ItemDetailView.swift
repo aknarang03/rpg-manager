@@ -31,8 +31,15 @@ struct ItemDetailView: View {
                     .font(.largeTitle)
                     .padding()
                 Text("description: \(item.itemDescription)")
-                Text("impacts: \(item.impactsWhat)")
-                Text("impact: \(item.impact)")
+                
+                Spacer()
+                
+                if item.impact > 0 {
+                    Text("impact: +\(item.impact) \(item.impactsWhat)")
+                } else {
+                    Text("impact: \(item.impact) \(item.impactsWhat)")
+                }
+                Text("type: \(item.type)")
 
                 Spacer()
                 

@@ -19,6 +19,12 @@ enum ImpactsWhat: String, CaseIterable {
     case none = "none"
 }
 
+enum ItemType: String, CaseIterable {
+    case passive = "passive"
+    case consumable = "consumable"
+    case equippable = "equippable"
+}
+
 struct Item {
     
     var ref: DatabaseReference?
@@ -28,8 +34,9 @@ struct Item {
     var itemDescription: String
     var impactsWhat: String
     var impact: Int
+    var type: String
     
-    init (itemID: String, creatorID: String, itemName: String, itemDescription: String, impactsWhat: String, impact: Int) {
+    init (itemID: String, creatorID: String, itemName: String, itemDescription: String, impactsWhat: String, impact: Int, type: String) {
         self.ref = nil
         self.itemID = itemID
         self.creatorID = creatorID
@@ -37,6 +44,7 @@ struct Item {
         self.itemDescription = itemDescription
         self.impactsWhat = impactsWhat
         self.impact = impact
+        self.type = type
     }
     
     init? (snapshot: DataSnapshot) {
@@ -48,7 +56,8 @@ struct Item {
             let itemName = value["itemName"] as? String,
             let itemDescription = value["itemDescription"] as? String,
             let impactsWhat = value["impactsWhat"] as? String,
-            let impact = value["impact"] as? Int
+            let impact = value["impact"] as? Int,
+            let type = value["type"] as? String
         else {
             return nil
         }
@@ -60,6 +69,7 @@ struct Item {
         self.itemDescription = itemDescription
         self.impactsWhat = impactsWhat
         self.impact = impact
+        self.type = type
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
@@ -69,7 +79,8 @@ struct Item {
             "itemName": self.itemName,
             "itemDescription": self.itemDescription,
             "impactsWhat": self.impactsWhat,
-            "impact": self.impact
+            "impact": self.impact,
+            "type": self.type
         ]
     }
     

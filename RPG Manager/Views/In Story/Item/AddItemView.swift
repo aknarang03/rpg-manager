@@ -49,6 +49,18 @@ struct AddItemView: View {
                 
                 Spacer()
                 
+                HStack {
+                    Text("Type")
+                    Picker("Type", selection: $viewModel.type) {
+                        ForEach(ItemType.allCases, id:\.self) { value in
+                            Text(value.rawValue)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
+                
+                Spacer()
+                
                 Button ("Add") {
                     viewModel.addItem()
                 }
