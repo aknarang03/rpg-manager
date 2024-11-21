@@ -14,6 +14,8 @@ class CharacterDetailViewModel: ObservableObject {
     let storyModel = StoryModel.shared
     
     @Published var itemID: String = ""
+    @Published var itemType: String = ""
+    @Published var itemAction: () -> Void = {}
     
     func uidToUsername(uid: String) -> String {
         guard let username = userModel.getUsername(for: uid) else {
@@ -31,6 +33,15 @@ class CharacterDetailViewModel: ObservableObject {
         }
         return itemName
         
+    }
+    
+    func getItemType(itemID: String) -> String {
+        
+        guard let item = storyModel.getItem(for: itemID) else {
+            print("Item not found for \(itemID)")
+            return "unknown"
+        }
+        return item.type
     }
     
     func consumeItem(characterID: String) {
@@ -114,6 +125,10 @@ class CharacterDetailViewModel: ObservableObject {
             storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
 
         }
+    }
+    
+    func equipItem(characterID: String) {
+        print("equip item")
     }
 
 }
