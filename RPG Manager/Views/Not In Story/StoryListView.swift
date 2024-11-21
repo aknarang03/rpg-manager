@@ -12,6 +12,7 @@ struct StoryListView: View {
     @ObservedObject var viewModel: StoryListViewModel = StoryListViewModel()
     @EnvironmentObject var appState: AppState
     
+    // should move the logic used with these to view model..
     let storyModel = StoryModel.shared
     let userModel = UserModel.shared
     
@@ -26,13 +27,29 @@ struct StoryListView: View {
                 ForEach(viewModel.stories, id: \.storyID) { story in
                                                         
                     VStack(alignment: .leading) {
-                        Text(story.storyName)
+                        
+                        HStack {
+                            Text(story.storyName)
+                            Spacer()
+                            if let yourUid = userModel.currentUser?.uid {
+                                if (story.creator == yourUid) {
+                                    Image(systemName: "crown.fill")
+                                        .foregroundColor(.gray)
+                                }
+                                else {
+                                    Image(systemName: "sharedwithyou")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+//                            Text("created by \(userModel.getUsername(for: story.creator) ?? "Unknown")")
+//                                .font(.subheadline)
+//                                .foregroundColor(.gray)
+                        }
+                        
                         Text(story.storyDescription)
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                        Text("created by \(userModel.getUsername(for: story.creator) ?? "Unknown")")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                        
                         Button("") {
                             viewModel.tappedStory(story: story,
                                 onSuccess: {

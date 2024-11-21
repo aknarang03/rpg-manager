@@ -44,7 +44,7 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                Button("login") {
+                Button("Login") {
                     viewModel.login(
                         onSuccess: {
                             appState.isLoggedIn = true
@@ -64,10 +64,6 @@ struct LoginView: View {
                     destination: RegisterView(),
                     label: {
                         Text("Register")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
                     }
                 )
                 

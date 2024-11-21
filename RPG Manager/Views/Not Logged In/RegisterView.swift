@@ -48,7 +48,7 @@ struct RegisterView: View {
             
             Spacer()
             
-            Button("register") {
+            Button("Register") {
                 viewModel.register(
                     onSuccess: { successMessage in
                         alertMessage = successMessage

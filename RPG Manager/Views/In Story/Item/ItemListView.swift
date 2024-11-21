@@ -27,9 +27,6 @@ struct ItemListView: View {
                             Text(item.itemDescription)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
-                            Text("created by \(viewModel.uidToUsername(uid: item.creatorID))")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
                         }
                         .padding()
                     }

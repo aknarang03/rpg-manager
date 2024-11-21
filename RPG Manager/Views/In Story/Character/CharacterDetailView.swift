@@ -28,7 +28,11 @@ struct CharacterDetailView: View {
                     .font(.largeTitle)
                     .padding()
                 Text("\(character.characterDescription)")
-                Text("is a player character?: \(character.isPlayer)")
+                if (character.isPlayer) {
+                    Text("player")
+                } else {
+                    Text("NPC")
+                }
                 
                 Spacer()
                 
@@ -73,7 +77,7 @@ struct CharacterDetailView: View {
                     }
                     
                 } else {
-                    Text("Bag is empty (err)")
+                    Text("Bag is empty")
                         .foregroundColor(.gray)
                         .italic()
                 }
