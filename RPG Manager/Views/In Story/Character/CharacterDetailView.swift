@@ -125,6 +125,10 @@ struct CharacterDetailView: View {
                                         }
                                         showPopup=true
                                     }.frame(width: 0, height: 0)
+                                    Spacer()
+                                    if itemID == character.heldItem {
+                                        Image(systemName: "hand.palm.facing.fill")
+                                    }
                                 }
                             }
                         }
