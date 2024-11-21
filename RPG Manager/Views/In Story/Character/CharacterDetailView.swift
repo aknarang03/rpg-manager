@@ -36,12 +36,40 @@ struct CharacterDetailView: View {
                 
                 Spacer()
                 
-                Text("health: \(character.stats.health)")
-                Text("attack: \(character.stats.attack)")
-                Text("defense: \(character.stats.defense)")
-                Text("speed: \(character.stats.speed)")
-                Text("agility: \(character.stats.agility)")
-                Text("current HP: \(character.stats.hp)/100")
+                HStack {
+                    Text("health: \(character.stats.health)/100")
+                    ProgressView(value: Double(character.stats.health), total: 100)
+                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        .frame(height: 8)
+                }
+                HStack {
+                    Text("attack: \(character.stats.attack)/100")
+                    ProgressView(value: Double(character.stats.attack), total: 100)
+                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        .frame(height: 8)                }
+                HStack {
+                    Text("defense: \(character.stats.defense)/100")
+                    ProgressView(value: Double(character.stats.defense), total: 100)
+                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        .frame(height: 8)                   }
+                HStack {
+                    Text("speed: \(character.stats.speed)/100")
+                    ProgressView(value: Double(character.stats.speed), total: 100)
+                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        .frame(height: 8)
+                }
+                HStack {
+                    Text("agility: \(character.stats.agility)/100")
+                    ProgressView(value: Double(character.stats.agility), total: 100)
+                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        .frame(height: 8)
+                }
+                HStack {
+                    Text("current hp: \(character.stats.hp)/100")
+                    ProgressView(value: Double(character.stats.hp), total: 100)
+                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        .frame(height: 8)
+                }
                 
                 Spacer()
                 
