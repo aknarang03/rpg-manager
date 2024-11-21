@@ -15,11 +15,11 @@ class AddCharacterViewModel: ObservableObject {
     
     @Published var characterName: String = ""
     @Published var characterDescription: String = ""
-    @Published var health: String = ""
-    @Published var attack: String = ""
-    @Published var defense: String = ""
-    @Published var speed: String = ""
-    @Published var agility: String = ""
+    @Published var health: Float = 0
+    @Published var attack: Float = 0
+    @Published var defense: Float = 0
+    @Published var speed: Float = 0
+    @Published var agility: Float = 0
     @Published var isPlayer: String = ""
 
     func timeInterval() -> String {
@@ -31,11 +31,11 @@ class AddCharacterViewModel: ObservableObject {
     
     func addCharacter() {
         
-        let healthVal = Int(health) ?? 0
-        let attackVal = Int(attack) ?? 0
-        let defenseVal = Int(defense) ?? 0
-        let speedVal = Int(speed) ?? 0
-        let agilityVal = Int(agility) ?? 0
+        let healthVal = Int(health)
+        let attackVal = Int(attack)
+        let defenseVal = Int(defense)
+        let speedVal = Int(speed)
+        let agilityVal = Int(agility)
         
         var playerbool = false
         if (isPlayer == "false") { playerbool = false } else { playerbool = true }
