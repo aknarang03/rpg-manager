@@ -285,6 +285,32 @@ class StoryModel {
     func getItemName(for itemID: String) -> String? {
         return currentItems.first(where: { $0.itemID == itemID })?.itemName
     }
+    
+    func consumeItem(storyID: String, characterID: String, itemID: String) {
+        
+        
+        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
+        
+        characterBagRef.observeSingleEvent(of: .value) { snapshot in
+            
+            var bag = snapshot.value as? [String: Int] ?? [:]
+            
+            if let currentQuantity = bag[itemID] {
+                
+                if (currentQuantity == 1) {
+                    bag.removeValue(forKey: itemID)
+                } else {
+                    bag[itemID] = currentQuantity - 1
+                }
+                
+            }
+            
+            characterBagRef.setValue(bag)
+            print("updated bag: \(bag)")
+            
+        }
+        
+    }
 
     
 }

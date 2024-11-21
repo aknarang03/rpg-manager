@@ -63,6 +63,7 @@ struct CharacterDetailView: View {
                                     Spacer()
                                     Text("Quantity: \(bag[itemID] ?? 0)")
                                     Button("") {
+                                        viewModel.itemID = itemID
                                         popupMessage = "Consume \(viewModel.itemIdToItemName(itemID: itemID))?"
                                         showPopup=true
                                     }.frame(width: 0, height: 0)
@@ -83,6 +84,7 @@ struct CharacterDetailView: View {
             .alert(popupMessage, isPresented: $showPopup) {
                 Button("Yes", role: .none) {
                     print("consume")
+                    viewModel.consumeItem(characterID: character.characterID)
                 }
                 Button("No", role: .cancel) {
                     showPopup=false

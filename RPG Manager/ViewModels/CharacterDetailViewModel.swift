@@ -13,6 +13,8 @@ class CharacterDetailViewModel: ObservableObject {
     let userModel = UserModel.shared
     let storyModel = StoryModel.shared
     
+    @Published var itemID: String = ""
+    
     func uidToUsername(uid: String) -> String {
         guard let username = userModel.getUsername(for: uid) else {
             print("Username not found for \(uid)")
@@ -29,6 +31,10 @@ class CharacterDetailViewModel: ObservableObject {
         }
         return itemName
         
+    }
+    
+    func consumeItem(characterID: String) {
+        storyModel.consumeItem(storyID: storyModel.currentStory!.storyID, characterID: characterID, itemID: itemID)
     }
 
 }
