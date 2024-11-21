@@ -34,28 +34,44 @@ class CharacterDetailViewModel: ObservableObject {
     }
     
     func consumeItem(characterID: String) {
+        
         storyModel.consumeItem(storyID: storyModel.currentStory!.storyID, characterID: characterID, itemID: itemID)
         let item = storyModel.getItem(for: itemID)
+        
         if (item?.impactsWhat == "none" || item?.impact == 0) { // no impact
             print("item has no impact")
             return
-        } else {
+        }
+        
+        else {
+            
+            var updateCharacter = storyModel.getCharacter(for: characterID)
+            
             switch item?.impactsWhat {
             case "health":
+                updateCharacter!.stats.health += item!.impact
                 print("item impacts health: \(item?.impact ?? 0)")
             case "attack":
+                updateCharacter!.stats.attack += item!.impact
                 print("item impacts attack: \(item?.impact ?? 0)")
             case "defense":
+                updateCharacter!.stats.defense += item!.impact
                 print("item impacts defense: \(item?.impact ?? 0)")
             case "speed":
+                updateCharacter!.stats.speed += item!.impact
                 print("item impacts speed: \(item?.impact ?? 0)")
             case "agility":
+                updateCharacter!.stats.agility += item!.impact
                 print("item impacts agility: \(item?.impact ?? 0)")
             case "hp":
+                updateCharacter!.stats.hp += item!.impact
                 print("item impacts hp: \(item?.impact ?? 0)")
             default:
                 print("unhandled impact type: \(item?.impactsWhat ?? "unknown")")
             }
+            
+            storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
+
         }
     }
 

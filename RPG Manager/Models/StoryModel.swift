@@ -288,6 +288,10 @@ class StoryModel {
         
     }
     
+    func getCharacter(for characterID: String) -> Character? {
+        return currentCharacters.first(where: { $0.characterID == characterID })
+    }
+    
     func getItemName(for itemID: String) -> String? {
         return currentItems.first(where: { $0.itemID == itemID })?.itemName
     }
