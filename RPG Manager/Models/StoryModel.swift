@@ -248,6 +248,12 @@ class StoryModel {
         characterRef.setValue(character.toAnyObject())
     }
     
+    func updateCharacter(storyID: String, character: Character) {
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let characterRef = storyRef.child("Characters").child(character.characterID)
+        characterRef.setValue(character.toAnyObject())
+    }
+    
     func addItemToStory(storyID: String, item: Item) {
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let itemRef = storyRef.child("Items").child(item.itemID)
@@ -286,8 +292,11 @@ class StoryModel {
         return currentItems.first(where: { $0.itemID == itemID })?.itemName
     }
     
+    func getItem(for itemID: String) -> Item? {
+        return currentItems.first(where: { $0.itemID == itemID })
+    }
+    
     func consumeItem(storyID: String, characterID: String, itemID: String) {
-        
         
         let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
         
@@ -302,7 +311,7 @@ class StoryModel {
                 } else {
                     bag[itemID] = currentQuantity - 1
                 }
-                
+                                
             }
             
             characterBagRef.setValue(bag)
