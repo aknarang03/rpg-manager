@@ -32,6 +32,7 @@ struct LoginView: View {
                         "email",
                         text: $viewModel.email
                     )
+                    .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     .padding(.top)
@@ -39,6 +40,8 @@ struct LoginView: View {
                         "password",
                         text: $viewModel.password
                     )
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
                     .padding(.top)
                 }
                 
