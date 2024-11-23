@@ -60,6 +60,9 @@ struct ItemDetailView: View {
 
                 Button("Give Item to Character") {
                     viewModel.addItemToBag()
+                    if (viewModel.item.type == "passive") {
+                        viewModel.applyPassiveStatChanges()
+                    }
                 }
                 .padding()
                 .disabled(viewModel.characterID.isEmpty)

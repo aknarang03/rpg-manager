@@ -324,6 +324,41 @@ class StoryModel {
         }
         
     }
-
     
+//    func applyPassiveStatEffects(storyID: String, character: Character) {
+//        
+//        let characterRef = storyDBRef.child(storyID).child("Characters").child(characterID)
+//        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
+//        
+//        characterBagRef.observeSingleEvent(of: .value) { snapshot  in
+//            
+//            var bag = snapshot.value as? [String: Int] ?? [:]
+//            
+//            for (itemID,_) in bag {
+//                
+//                if let item = self.getItem(for: itemID) {
+//                    
+//                    if (item.type == ItemType.passive.rawValue) {
+//                        
+//                        var changedCharacter = character
+//                        
+//                        switch item.impactsWhat {
+//                        case "hp": changedCharacter.stats.hp += item.impact
+//                        }
+//                        
+//                        
+//                        
+//                        characterRef.setValue(character.toAnyObject())
+//                        
+//                    }
+//                    
+//                }
+//                
+//            }
+//                        
+//        }
+//
+//        
+//    }
+
 }

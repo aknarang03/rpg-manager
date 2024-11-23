@@ -97,12 +97,17 @@ struct CharacterDetailView: View {
                             .foregroundColor(.gray)
                             .italic()
                     } else {
+                        
+                        let list: [String] = Array(bag.keys).sorted()
+                        
                         List {
-                            ForEach(bag.keys.sorted(), id: \.self) { itemID in
+                            ForEach(list, id: \.self) { itemID in
                                 HStack {
                                     Text(viewModel.itemIdToItemName(itemID: itemID))
                                     Spacer()
-                                    Text("Quantity: \(bag[itemID] ?? 0)")
+                                    if (viewModel.getItemType(itemID: itemID) != "equippable") {
+                                        Text("Quantity: \(bag[itemID] ?? 0)")
+                                    }
                                     Button("") {
                                         viewModel.itemID = itemID
                                         switch viewModel.getItemType(itemID: itemID) {
@@ -111,9 +116,15 @@ struct CharacterDetailView: View {
                                             viewModel.itemType = "consumable"
                                             viewModel.itemAction = { viewModel.consumeItem(characterID: character.characterID) }
                                         case "equippable":
-                                            popupMessage = "Equip \(viewModel.itemIdToItemName(itemID: itemID))?"
                                             viewModel.itemType = "equippable"
-                                            viewModel.itemAction = { viewModel.equipItem(characterID: character.characterID) }
+                                            if (character.heldItem == viewModel.itemID) {
+                                                viewModel.itemAction = { viewModel.unequip(characterID: character.characterID) }
+                                                popupMessage = "Unequip \(viewModel.itemIdToItemName(itemID: itemID))?"
+                                            } else {
+                                                viewModel.itemAction = { viewModel.equipItem(characterID: character.characterID) }
+                                                popupMessage = "Equip \(viewModel.itemIdToItemName(itemID: itemID))?"
+                                            }
+                                            
                                         case "passive":
                                             popupMessage = "\(viewModel.itemIdToItemName(itemID: itemID)) is passive."
                                             viewModel.itemType = "passive"
