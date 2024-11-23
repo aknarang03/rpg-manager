@@ -15,38 +15,30 @@ struct CollaboratorListView: View {
     var body: some View {
         
         NavigationView {
-            
-            VStack {
                 
-                Text("Creator: \(viewModel.uidToUsername(uid: viewModel.getCreator()))")
-                    .font(.headline)
-                    .padding(.top)
-                    .padding(.horizontal)
+            List {
                 
-                List {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("\(viewModel.uidToUsername(uid: viewModel.getCreator()))")
+                        Spacer()
+                        Image(systemName: "crown.fill")
+                            .foregroundColor(.gray)
+                    }
+                }.padding()
+                
+                ForEach(viewModel.collaborators, id: \.self) { collaborator in
                     
-                    ForEach(viewModel.collaborators, id: \.self) { collaborator in
-                        
-                        VStack(alignment: .leading) {
-                            Text(viewModel.uidToUsername(uid: collaborator))
-                            //                        Button("go") {
-                            //                            viewModel.tappedCollaborator(collaborator: collaborator,
-                            //                                onSuccess: {
-                            //                                    // nav to collaborator
-                            //                                },
-                            //                                onFailure: { errorMessage in
-                            //                                    print(errorMessage)
-                            //                                }
-                            //                            )
-                            //                        }
-                        }
-                        
-                        
-                        .padding()
+                    VStack(alignment: .leading) {
+                        Text(viewModel.uidToUsername(uid: collaborator))
                     }
                     
+                    
+                    .padding()
                 }
+                
             }
+            
             .navigationBarTitle("Collaborators")
             .navigationBarItems(
                 trailing: Button(action: {}, label: {
