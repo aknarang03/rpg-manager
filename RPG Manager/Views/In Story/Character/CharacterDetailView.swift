@@ -106,6 +106,7 @@ struct CharacterDetailView: View {
                                                                         
                         List {
                            ForEach(bag.keys.sorted(), id: \.self) { itemID in
+                               
                                HStack {
                                    Text(viewModel.itemIdToItemName(itemID: itemID))
                                    Spacer()
@@ -143,9 +144,21 @@ struct CharacterDetailView: View {
                                    if itemID == character.heldItem {
                                        Image(systemName: "hand.palm.facing.fill")
                                    }
+                                   
+                                   Spacer()
+                                   
+                                   Button(action: {
+                                       viewModel.deleteItem(characterID: character.characterID)
+                                   }) {
+                                       Image(systemName: "trash")
+                                   }
+                                
                                }
+                               
                            }
-                       }
+                            
+                            
+                        }
                    }
                     
                 } else {

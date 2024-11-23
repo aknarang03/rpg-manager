@@ -298,7 +298,7 @@ class StoryModel {
             
             if let currentQuantity = bag[itemID] {
                 bag[itemID] = currentQuantity - removingAmt // removing from prev quantity
-                if currentQuantity <= 0 {
+                if currentQuantity <= 1 {
                     bag.removeValue(forKey: itemID) // remove item reference from bag
                 }
             }
