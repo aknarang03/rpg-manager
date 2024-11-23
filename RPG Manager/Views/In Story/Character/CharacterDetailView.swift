@@ -9,11 +9,17 @@
 import SwiftUI
 
 struct CharacterDetailView: View {
-    
-    @ObservedObject var viewModel: CharacterDetailViewModel = CharacterDetailViewModel()
+        
+    @ObservedObject var viewModel: CharacterDetailViewModel
     @EnvironmentObject var appState: AppState
     
     var character: Character
+    
+    // pass character to view model
+    init(character: Character) {
+        _viewModel = ObservedObject(wrappedValue: CharacterDetailViewModel(character: character))
+        self.character = character
+    }
     
     @State private var showPopup = false
     @State private var popupMessage = ""
@@ -37,40 +43,40 @@ struct CharacterDetailView: View {
                 Spacer()
                 
                 HStack {
-                    Text("health: \(character.stats.health)")
-                    ProgressView(value: Double(character.stats.health), total: 100)
+                    Text("health: \(viewModel.stats.health)")
+                    ProgressView(value: Double(viewModel.stats.health), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
                 }
                 HStack {
-                    Text("attack: \(character.stats.attack)")
-                    ProgressView(value: Double(character.stats.attack), total: 100)
+                    Text("attack: \(viewModel.stats.attack)")
+                    ProgressView(value: Double(viewModel.stats.attack), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)                }
                 HStack {
-                    Text("defense: \(character.stats.defense)")
-                    ProgressView(value: Double(character.stats.defense), total: 100)
+                    Text("defense: \(viewModel.stats.defense)")
+                    ProgressView(value: Double(viewModel.stats.defense), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)                   }
                 HStack {
-                    Text("speed: \(character.stats.speed)")
-                    ProgressView(value: Double(character.stats.speed), total: 100)
+                    Text("speed: \(viewModel.stats.speed)")
+                    ProgressView(value: Double(viewModel.stats.speed), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
                 }
                 HStack {
-                    Text("agility: \(character.stats.agility)")
-                    ProgressView(value: Double(character.stats.agility), total: 100)
+                    Text("agility: \(viewModel.stats.agility)")
+                    ProgressView(value: Double(viewModel.stats.agility), total: 100)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
                 }
                 HStack {
-                    Text("current hp: \(character.stats.hp)/\(character.stats.health)")
-                    ProgressView(value: Double(character.stats.hp), total: Double(character.stats.health))
+                    Text("current hp: \(viewModel.stats.hp)/\(viewModel.stats.health)")
+                    ProgressView(value: Double(viewModel.stats.hp), total: Double(viewModel.stats.health))
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
                         .onAppear {
-                            let clampedHp = max(0, min(character.stats.hp, character.stats.health))
+                            let clampedHp = max(0, min(viewModel.stats.hp, viewModel.stats.health))
                         }
                 }
                 
@@ -97,9 +103,7 @@ struct CharacterDetailView: View {
                             .foregroundColor(.gray)
                             .italic()
                     } else {
-                        
-                        let list: [String] = Array(bag.keys).sorted()
-                                                
+                                                                        
                         List {
                            ForEach(bag.keys.sorted(), id: \.self) { itemID in
                                HStack {

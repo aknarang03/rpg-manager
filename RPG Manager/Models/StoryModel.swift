@@ -325,40 +325,55 @@ class StoryModel {
         
     }
     
-//    func applyPassiveStatEffects(storyID: String, character: Character) {
-//        
-//        let characterRef = storyDBRef.child(storyID).child("Characters").child(characterID)
-//        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
-//        
-//        characterBagRef.observeSingleEvent(of: .value) { snapshot  in
-//            
-//            var bag = snapshot.value as? [String: Int] ?? [:]
-//            
-//            for (itemID,_) in bag {
-//                
-//                if let item = self.getItem(for: itemID) {
-//                    
-//                    if (item.type == ItemType.passive.rawValue) {
-//                        
-//                        var changedCharacter = character
-//                        
-//                        switch item.impactsWhat {
-//                        case "hp": changedCharacter.stats.hp += item.impact
-//                        }
-//                        
-//                        
-//                        
-//                        characterRef.setValue(character.toAnyObject())
-//                        
-//                    }
-//                    
-//                }
-//                
-//            }
-//                        
-//        }
-//
-//        
-//    }
+    func getTruncatedStats(characterID: String) -> Stats {
+        
+        let character = currentCharacters.first(where: { $0.characterID == characterID })
+        var stats = character!.stats
+        
+        if (character!.stats.health > 100) {
+            stats.health = 100
+        }
+        else if (character!.stats.health < 0) {
+            stats.health = 0
+        }
+    
+        if (character!.stats.attack > 100) {
+            stats.attack = 100
+        }
+        else if (character!.stats.attack < 0) {
+            stats.attack = 0
+        }
+    
+        if (character!.stats.defense > 100) {
+            stats.defense = 100
+        }
+        else if (character!.stats.defense < 0) {
+            stats.defense = 0
+        }
+    
+        if (character!.stats.speed > 100) {
+            stats.speed = 100
+        }
+        else if (character!.stats.speed < 0) {
+            stats.speed = 0
+        }
+        
+        if (character!.stats.agility > 100) {
+            stats.agility = 100
+        }
+        else if (character!.stats.agility < 0) {
+            stats.agility = 0
+        }
+    
+        if (character!.stats.hp > character!.stats.health) {
+            stats.hp = stats.health
+        }
+        else if (character!.stats.hp < 0) {
+            stats.hp = 0
+        }
+        
+        return stats
+        
+    }
 
 }
