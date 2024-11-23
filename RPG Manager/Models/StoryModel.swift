@@ -288,6 +288,29 @@ class StoryModel {
         
     }
     
+    func removeItemFromBag(storyID: String, characterID: String, itemID: String, removingAmt: Int) {
+        
+        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
+        
+        characterBagRef.observeSingleEvent(of: .value) { snapshot in
+            
+            var bag = snapshot.value as? [String: Int] ?? [:]
+            
+            if let currentQuantity = bag[itemID] {
+                bag[itemID] = currentQuantity - removingAmt // removing from prev quantity
+                if currentQuantity <= 0 {
+                    bag.removeValue(forKey: itemID) // remove item reference from bag
+                }
+            }
+            
+            characterBagRef.setValue(bag)
+            
+            print("updated bag: \(bag)")
+            
+        }
+        
+    }
+    
     func getCharacter(for characterID: String) -> Character? {
         return currentCharacters.first(where: { $0.characterID == characterID })
     }

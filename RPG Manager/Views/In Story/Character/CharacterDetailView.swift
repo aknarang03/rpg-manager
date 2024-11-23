@@ -75,9 +75,9 @@ struct CharacterDetailView: View {
                     ProgressView(value: Double(viewModel.stats.hp), total: Double(viewModel.stats.health))
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .frame(height: 8)
-                        .onAppear {
-                            let clampedHp = max(0, min(viewModel.stats.hp, viewModel.stats.health))
-                        }
+//                        .onAppear {
+//                            let clampedHp = max(0, min(viewModel.stats.hp, viewModel.stats.health))
+//                        }
                 }
                 
                 Spacer()

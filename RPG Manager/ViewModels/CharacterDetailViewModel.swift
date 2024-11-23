@@ -138,6 +138,57 @@ class CharacterDetailViewModel: ObservableObject {
         }
     }
     
+    func deleteItem(characterID: String) {
+        
+        if let item = storyModel.getItem(for: itemID) {
+            
+            if (item.itemID == character.heldItem) { // if item is equipped
+                unequipItem(characterID: character.characterID) // uneuqip item before deleted if it's equipped
+            }
+            
+            if (item.type == "passive") { // if item is passively impacting stats right now
+                // since passive stat changes were applied directly to character when item was added to bag,
+                // we now have to remove these stat changes
+                
+                var updateCharacter = character
+
+                switch item.impactsWhat {
+                case "health":
+                    updateCharacter.stats.health -= item.impact
+                    print("item impacts health: \(item.impact)")
+                case "attack":
+                    updateCharacter.stats.attack -= item.impact
+                    print("item impacts attack: \(item.impact)")
+                case "defense":
+                    updateCharacter.stats.defense -= item.impact
+                    print("item impacts defense: \(item.impact)")
+                case "speed":
+                    updateCharacter.stats.speed -= item.impact
+                    print("item impacts speed: \(item.impact)")
+                case "agility":
+                    updateCharacter.stats.agility -= item.impact
+                    print("item impacts agility: \(item.impact)")
+                case "hp":
+                    updateCharacter.stats.hp -= item.impact
+                    print("item impacts hp: \(item.impact)")
+                default:
+                    print("unhandled impact type: \(item.impactsWhat)")
+                }
+                
+                storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter)
+                self.stats = storyModel.getTruncatedStats(characterID: character.characterID)
+                
+            }
+
+        }
+        
+        // otherwise, item was consumable so does not matter; we can just remove it without worrying about
+        // stat changes
+        
+        storyModel.removeItemFromBag(storyID: storyModel.currentStory!.storyID, characterID: character.characterID, itemID: itemID, removingAmt: 1)
+        
+    }
+    
     func equipItem(characterID: String) {
         var updateCharacter = storyModel.getCharacter(for: characterID)
         updateCharacter?.heldItem = itemID
