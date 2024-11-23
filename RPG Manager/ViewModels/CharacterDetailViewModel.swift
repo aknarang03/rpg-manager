@@ -140,7 +140,11 @@ class CharacterDetailViewModel: ObservableObject {
     
     func deleteItem(characterID: String) {
         
+        print("delete item \(itemID)")
+        
         if let item = storyModel.getItem(for: itemID) {
+            
+            print("item = item")
             
             if (item.itemID == character.heldItem) { // if item is equipped
                 unequipItem(characterID: character.characterID) // uneuqip item before deleted if it's equipped

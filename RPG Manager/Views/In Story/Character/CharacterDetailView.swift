@@ -113,7 +113,7 @@ struct CharacterDetailView: View {
                                    if (viewModel.getItemType(itemID: itemID) != "equippable") {
                                        Text("Quantity: \(bag[itemID] ?? 0)")
                                    }
-                                   Button(action: {
+                                   Button("") {
                                        viewModel.itemID = itemID
                                        switch viewModel.getItemType(itemID: itemID) {
                                        case "consumable":
@@ -139,27 +139,28 @@ struct CharacterDetailView: View {
                                            viewModel.itemAction = { print("item is unknown") }
                                        }
                                        showPopup=true
-                                   }){
-                                       Image(systemName: "ellipsis.circle")
-                                   }
+                                   }.frame(width: 0, height: 0)
                                    Spacer()
                                    if itemID == character.heldItem {
                                        Image(systemName: "hand.palm.facing.fill")
                                    }
-                                   
-                                   Spacer()
-                                   
-                                   Button(action: {
-                                       viewModel.deleteItem(characterID: character.characterID)
-                                   }) {
-                                       Image(systemName: "trash")
-                                   }
                                 
+                                    
                                }
                                
+                               .swipeActions {
+                                   Button() {
+                                       viewModel.itemID = itemID
+                                       viewModel.deleteItem(characterID: character.characterID)
+                                   } label: {
+                                       Label("Delete", systemImage: "trash")
+                                   }
+                               }
+                               
+                               
                            }
-                            
-                            
+                           
+                           
                         }
                    }
                     
