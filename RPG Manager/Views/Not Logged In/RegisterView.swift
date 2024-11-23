@@ -29,6 +29,7 @@ struct RegisterView: View {
                     "email",
                     text: $viewModel.email
                 )
+                .keyboardType(.emailAddress)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .padding(.top)
@@ -43,6 +44,8 @@ struct RegisterView: View {
                     "password",
                     text: $viewModel.password
                 )
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
                 .padding(.top)
             }
             
