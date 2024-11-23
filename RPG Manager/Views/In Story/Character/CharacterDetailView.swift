@@ -113,7 +113,7 @@ struct CharacterDetailView: View {
                                    if (viewModel.getItemType(itemID: itemID) != "equippable") {
                                        Text("Quantity: \(bag[itemID] ?? 0)")
                                    }
-                                   Button("") {
+                                   Button(action: {
                                        viewModel.itemID = itemID
                                        switch viewModel.getItemType(itemID: itemID) {
                                        case "consumable":
@@ -139,7 +139,9 @@ struct CharacterDetailView: View {
                                            viewModel.itemAction = { print("item is unknown") }
                                        }
                                        showPopup=true
-                                   }.frame(width: 0, height: 0)
+                                   }){
+                                       Image(systemName: "ellipsis.circle")
+                                   }
                                    Spacer()
                                    if itemID == character.heldItem {
                                        Image(systemName: "hand.palm.facing.fill")
