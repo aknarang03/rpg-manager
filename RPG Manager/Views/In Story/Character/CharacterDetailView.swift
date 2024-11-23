@@ -99,51 +99,50 @@ struct CharacterDetailView: View {
                     } else {
                         
                         let list: [String] = Array(bag.keys).sorted()
-                        
+                                                
                         List {
-                            ForEach(list, id: \.self) { itemID in
-                                HStack {
-                                    Text(viewModel.itemIdToItemName(itemID: itemID))
-                                    Spacer()
-                                    if (viewModel.getItemType(itemID: itemID) != "equippable") {
-                                        Text("Quantity: \(bag[itemID] ?? 0)")
-                                    }
-                                    Button("") {
-                                        viewModel.itemID = itemID
-                                        switch viewModel.getItemType(itemID: itemID) {
-                                        case "consumable":
-                                            popupMessage = "Consume \(viewModel.itemIdToItemName(itemID: itemID))?"
-                                            viewModel.itemType = "consumable"
-                                            viewModel.itemAction = { viewModel.consumeItem(characterID: character.characterID) }
-                                        case "equippable":
-                                            viewModel.itemType = "equippable"
-                                            if (character.heldItem == viewModel.itemID) {
-                                                viewModel.itemAction = { viewModel.unequip(characterID: character.characterID) }
-                                                popupMessage = "Unequip \(viewModel.itemIdToItemName(itemID: itemID))?"
-                                            } else {
-                                                viewModel.itemAction = { viewModel.equipItem(characterID: character.characterID) }
-                                                popupMessage = "Equip \(viewModel.itemIdToItemName(itemID: itemID))?"
-                                            }
-                                            
-                                        case "passive":
-                                            popupMessage = "\(viewModel.itemIdToItemName(itemID: itemID)) is passive."
-                                            viewModel.itemType = "passive"
-                                            viewModel.itemAction = { print("item is passive") }
-                                        default:
-                                            popupMessage = "Invalid item"
-                                            viewModel.itemType = "unknown"
-                                            viewModel.itemAction = { print("item is unknown") }
-                                        }
-                                        showPopup=true
-                                    }.frame(width: 0, height: 0)
-                                    Spacer()
-                                    if itemID == character.heldItem {
-                                        Image(systemName: "hand.palm.facing.fill")
-                                    }
-                                }
-                            }
-                        }
-                    }
+                           ForEach(bag.keys.sorted(), id: \.self) { itemID in
+                               HStack {
+                                   Text(viewModel.itemIdToItemName(itemID: itemID))
+                                   Spacer()
+                                   if (viewModel.getItemType(itemID: itemID) != "equippable") {
+                                       Text("Quantity: \(bag[itemID] ?? 0)")
+                                   }
+                                   Button("") {
+                                       viewModel.itemID = itemID
+                                       switch viewModel.getItemType(itemID: itemID) {
+                                       case "consumable":
+                                           popupMessage = "Consume \(viewModel.itemIdToItemName(itemID: itemID))?"
+                                           viewModel.itemType = "consumable"
+                                           viewModel.itemAction = { viewModel.consumeItem(characterID: character.characterID) }
+                                       case "equippable":
+                                           viewModel.itemType = "equippable"
+                                           if (character.heldItem == viewModel.itemID) {
+                                               viewModel.itemAction = { viewModel.unequipItem(characterID: character.characterID) }
+                                               popupMessage = "Unequip \(viewModel.itemIdToItemName(itemID: itemID))?"
+                                           } else {
+                                               viewModel.itemAction = { viewModel.equipItem(characterID: character.characterID) }
+                                               popupMessage = "Equip \(viewModel.itemIdToItemName(itemID: itemID))?"
+                                           }
+                                       case "passive":
+                                           popupMessage = "\(viewModel.itemIdToItemName(itemID: itemID)) is passive."
+                                           viewModel.itemType = "passive"
+                                           viewModel.itemAction = { print("item is passive") }
+                                       default:
+                                           popupMessage = "Invalid item"
+                                           viewModel.itemType = "unknown"
+                                           viewModel.itemAction = { print("item is unknown") }
+                                       }
+                                       showPopup=true
+                                   }.frame(width: 0, height: 0)
+                                   Spacer()
+                                   if itemID == character.heldItem {
+                                       Image(systemName: "hand.palm.facing.fill")
+                                   }
+                               }
+                           }
+                       }
+                   }
                     
                 } else {
                     Text("Bag is empty")
