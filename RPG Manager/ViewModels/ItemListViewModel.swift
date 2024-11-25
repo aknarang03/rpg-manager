@@ -31,9 +31,5 @@ class ItemListViewModel: ObservableObject {
         }
         return username
     }
-    
-    func deleteItem(itemID: String) {
-        storyModel.deleteItem(storyID: storyModel.currentStory!.storyID, itemID: itemID)
-    }
 
 }

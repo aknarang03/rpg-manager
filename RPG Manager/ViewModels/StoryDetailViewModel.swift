@@ -47,5 +47,9 @@ class StoryDetailViewModel: ObservableObject {
         }
         return username
     }
+    
+    func deleteStory() {
+        storyModel.deleteStory(storyID: currentStory.storyID)
+    }
 
 }

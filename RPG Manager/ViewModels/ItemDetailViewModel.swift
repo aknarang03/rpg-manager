@@ -88,5 +88,9 @@ class ItemDetailViewModel: ObservableObject {
 
         }
     }
+    
+    func deleteItem() {
+        storyModel.deleteItem(storyID: storyModel.currentStory!.storyID, itemID: item.itemID)
+    }
 
 }

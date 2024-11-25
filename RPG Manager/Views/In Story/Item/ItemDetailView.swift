@@ -13,6 +13,8 @@ struct ItemDetailView: View {
     @ObservedObject var viewModel: ItemDetailViewModel
     @EnvironmentObject var appState: AppState
     
+    @Environment(\.dismiss) private var dismiss
+    
     var item: Item
     
     // pass item to view model
@@ -20,6 +22,10 @@ struct ItemDetailView: View {
         _viewModel = ObservedObject(wrappedValue: ItemDetailViewModel(item: item))
         self.item = item
     }
+    
+    // should move the logic used with these to view model..
+    let userModel = UserModel.shared
+    let storyModel = StoryModel.shared
     
     var body: some View {
         
@@ -68,6 +74,15 @@ struct ItemDetailView: View {
                 .disabled(viewModel.characterID.isEmpty)
 
                 Spacer()
+                
+                if let userid = userModel.currentUser?.uid {
+                    if userid == storyModel.currentStory?.creator || userid == item.creatorID {
+                        Button("Delete Item") {
+                            viewModel.deleteItem()
+                            dismiss()
+                        }
+                    }
+                }
                 
             }
             

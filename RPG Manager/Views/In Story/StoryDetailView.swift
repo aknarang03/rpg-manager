@@ -12,6 +12,11 @@ struct StoryDetailView: View {
     
     @ObservedObject var viewModel: StoryDetailViewModel = StoryDetailViewModel()
     @EnvironmentObject var appState: AppState
+        
+    // should move the logic used with these to view model..
+    let userModel = UserModel.shared
+    let storyModel = StoryModel.shared
+
     
     var body: some View {
         
@@ -27,6 +32,15 @@ struct StoryDetailView: View {
                 Text("amount of collaborators is \(viewModel.currentCollaborators.count)")
                 
                 Spacer()
+                
+                if let userid = userModel.currentUser?.uid {
+                    if userid == storyModel.currentStory?.creator {
+                        Button("Delete Story") {
+                            viewModel.deleteStory()
+                            appState.isInStory = false
+                        }
+                    }
+                }
                 
             }
             
