@@ -25,6 +25,10 @@ class StoryListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func deleteStory(storyID: String) {
+        storyModel.deleteStory(storyID: storyID)
+    }
+    
     func tappedStory(
             story: Story,
             onSuccess: @escaping () -> Void,

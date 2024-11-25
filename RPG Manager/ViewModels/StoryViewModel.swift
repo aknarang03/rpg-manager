@@ -26,6 +26,5 @@ class StoryViewModel: ObservableObject {
         storyModel.cancelCurrentItemsObserver()
         storyModel.cancelCurrentCollaboratorsObserver()
     }
-
-
+    
 }

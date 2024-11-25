@@ -236,9 +236,9 @@ class StoryModel {
     }
     
     // remove an item from Story database table
-    func deleteStory(story: Story) {
+    func deleteStory(storyID: String) {
         let storyDBRef = Database.database().reference(withPath: "Stories")
-        let storyRef = storyDBRef.child(story.storyID)
+        let storyRef = storyDBRef.child(storyID)
         storyRef.removeValue()
     }
         
