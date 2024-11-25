@@ -27,6 +27,11 @@ class AddItemViewModel: ObservableObject {
     
     func addItem() {
         
+        if (itemName == "") {
+            print("cannot add empty item name")
+            return;
+        }
+        
         //let impacts : ImpactsWhat = ImpactsWhat(rawValue: impactsWhat) ?? ImpactsWhat.none
         let impactVal = Int(impact)
         

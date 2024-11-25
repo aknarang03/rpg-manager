@@ -21,6 +21,8 @@ struct AddCollaboratorView: View {
                     "username",
                     text: $viewModel.username
                 )
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
                 .padding(.top)
                 
                 Button ("Add") {

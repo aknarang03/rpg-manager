@@ -20,7 +20,7 @@ class AddCharacterViewModel: ObservableObject {
     @Published var defense: Float = 0
     @Published var speed: Float = 0
     @Published var agility: Float = 0
-    @Published var isPlayer: String = ""
+    @Published var isPlayer: String = "true"
 
     func timeInterval() -> String {
         let timeNow = Date()
@@ -30,6 +30,11 @@ class AddCharacterViewModel: ObservableObject {
     }
     
     func addCharacter() {
+        
+        if (characterName == "" || isPlayer == "") {
+            print("cannot add empty character name or isplayer")
+            return
+        }
         
         let healthVal = Int(health)
         let attackVal = Int(attack)

@@ -20,6 +20,10 @@ class AddCollaboratorViewModel: ObservableObject {
             print("Cannot add yourself")
             return
         }
+        if (username == userModel.getUsername(for: storyModel.currentStory!.creator)) {
+            print("Cannot add creator")
+            return
+        }
         
         guard let newCollaborator = userModel.getId(for: username)
         else {
