@@ -245,7 +245,7 @@ class StoryModel {
     func deleteCharacter(storyID: String, characterID: String) {
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let characterRef = storyRef.child("Characters").child(characterID)
-        storyRef.removeValue()
+        characterRef.removeValue()
     }
     
     func deleteItem(storyID: String, itemID: String) {

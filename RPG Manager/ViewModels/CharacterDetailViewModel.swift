@@ -256,5 +256,9 @@ class CharacterDetailViewModel: ObservableObject {
         storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
         self.stats = storyModel.getTruncatedStats(characterID: character.characterID)
     }
+    
+    func deleteCharacter() {
+        storyModel.deleteCharacter(storyID: storyModel.currentStory!.storyID, characterID: character.characterID)
+    }
 
 }

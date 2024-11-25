@@ -13,6 +13,8 @@ struct CharacterDetailView: View {
     @ObservedObject var viewModel: CharacterDetailViewModel
     @EnvironmentObject var appState: AppState
     
+    @Environment(\.dismiss) private var dismiss
+    
     var character: Character
     
     // pass character to view model
@@ -90,7 +92,10 @@ struct CharacterDetailView: View {
                 
                 Divider()
                 
-                if let holding = character.heldItem {
+                if character.heldItem == nil || character.heldItem == "" {
+                    Text("holding nothing")
+                }
+                else if let holding = character.heldItem {
                     Text("holding: \(viewModel.itemIdToItemName(itemID: holding))")
                 } else {
                     Text("holding nothing")
@@ -178,6 +183,15 @@ struct CharacterDetailView: View {
                         .italic()
                 }
                 
+                if let userid = userModel.currentUser?.uid {
+                    if userid == storyModel.currentStory?.creator || userid == character.creatorID {
+                        Spacer()
+                        Button("Delete Character") {
+                            viewModel.deleteCharacter()
+                            dismiss()
+                        }
+                    }
+                }
                 
             }
             .padding()
