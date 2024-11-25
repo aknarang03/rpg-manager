@@ -20,11 +20,15 @@ struct StoryView: View {
                 }
             CharacterListView()
                 .tabItem {
-                    Label("Characters", systemImage: "person.bust.fill")
+                    Label("Characters", systemImage: "figure.2")
+                }
+            FightView()
+                .tabItem {
+                    Label("Fight", systemImage: "flame.fill")
                 }
             ItemListView()
                 .tabItem {
-                    Label("Items", systemImage: "duffle.bag.fill")
+                    Label("Items", systemImage: "cross.vial.fill")
                 }
             CollaboratorListView()
                 .tabItem {

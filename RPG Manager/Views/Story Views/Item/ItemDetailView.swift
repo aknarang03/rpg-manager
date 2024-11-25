@@ -36,7 +36,7 @@ struct ItemDetailView: View {
                 Text(item.itemName)
                     .font(.largeTitle)
                     .padding()
-                Text("description: \(item.itemDescription)")
+                Text(item.itemDescription)
                 
                 Spacer()
                 
@@ -52,7 +52,7 @@ struct ItemDetailView: View {
                 Text("created by: \(viewModel.uidToUsername(uid: item.creatorID))")
                 
                 Spacer()
-                
+                Divider()
                 Spacer()
                                 
                 // Dropdown to select character
@@ -81,6 +81,7 @@ struct ItemDetailView: View {
                             viewModel.deleteItem()
                             dismiss()
                         }
+                        Spacer()
                     }
                 }
                 

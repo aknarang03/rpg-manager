@@ -17,6 +17,9 @@ struct AddCharacterView: View {
         NavigationView {
             
             VStack {
+                
+                Spacer()
+                
                 TextField(
                     "character name",
                     text: $viewModel.characterName

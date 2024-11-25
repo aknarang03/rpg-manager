@@ -17,6 +17,9 @@ struct AddStoryView: View {
         NavigationView {
             
             VStack {
+                
+                Spacer()
+                
                 TextField(
                     "story name",
                     text: $viewModel.storyName
@@ -27,6 +30,8 @@ struct AddStoryView: View {
                     text: $viewModel.storyDescription
                 )
                 .padding(.top)
+                
+                Spacer()
                 
                 Button ("Add") {
                     viewModel.addStory()

@@ -90,7 +90,9 @@ struct CharacterDetailView: View {
                 
                 Text("created by: \(viewModel.uidToUsername(uid: character.creatorID))")
                 
+                Spacer()
                 Divider()
+                Spacer()
                 
                 if character.heldItem == nil || character.heldItem == "" {
                     Text("holding nothing")
@@ -118,10 +120,7 @@ struct CharacterDetailView: View {
                                
                                HStack {
                                    Text(viewModel.itemIdToItemName(itemID: itemID))
-                                   Spacer()
-                                   if (viewModel.getItemType(itemID: itemID) != "equippable") {
-                                       Text("Quantity: \(bag[itemID] ?? 0)")
-                                   }
+                                   
                                    Button("") {
                                        viewModel.itemID = itemID
                                        switch viewModel.getItemType(itemID: itemID) {
@@ -153,8 +152,11 @@ struct CharacterDetailView: View {
                                    if itemID == character.heldItem {
                                        Image(systemName: "hand.palm.facing.fill")
                                    }
+                                   if (viewModel.getItemType(itemID: itemID) != "equippable") {
+                                       Text("x\(bag[itemID] ?? 0)")
+                                           .foregroundColor(.gray)
+                                   }
                                 
-                                    
                                }
                                
                                .swipeActions {
@@ -167,6 +169,7 @@ struct CharacterDetailView: View {
                                        } label: {
                                            Label("Delete", systemImage: "trash")
                                        }
+                                       
                                    }
                                }
                                
@@ -183,6 +186,8 @@ struct CharacterDetailView: View {
                         .italic()
                 }
                 
+                Spacer()
+                
                 if let userid = userModel.currentUser?.uid {
                     if userid == storyModel.currentStory?.creator || userid == character.creatorID {
                         Spacer()
@@ -190,6 +195,7 @@ struct CharacterDetailView: View {
                             viewModel.deleteCharacter()
                             dismiss()
                         }
+                        Spacer()
                     }
                 }
                 

@@ -23,6 +23,8 @@ struct ProfileView: View {
             
             VStack {
                 
+                Spacer()
+                
                 if let user = userModel.currentUser {
                     
                     Text(user.username)
@@ -40,8 +42,9 @@ struct ProfileView: View {
                         appState.isLoggedIn = false
                     }
                 }
-                    
                 
+                Spacer()
+                    
             }
             
         }

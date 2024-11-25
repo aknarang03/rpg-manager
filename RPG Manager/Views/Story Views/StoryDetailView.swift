@@ -42,6 +42,8 @@ struct StoryDetailView: View {
                     }
                 }
                 
+                Spacer()
+                
             }
             
             .navigationBarItems(
