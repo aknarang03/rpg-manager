@@ -35,18 +35,6 @@ struct ItemListView: View {
                         .padding()
                     }
                     
-                    .swipeActions {
-                        
-                        if userModel.currentUser?.uid == item.creatorID || userModel.currentUser?.uid == storyModel.currentStory?.creator {
-                            
-                            Button() {
-                                viewModel.deleteItem(itemID: item.itemID)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
-                        }
-                    }
-                    
                 }
                     
                     

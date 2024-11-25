@@ -41,21 +41,7 @@ struct StoryListView: View {
                                         .foregroundColor(.gray)
                                 }
                             }
-//                            Text("created by \(userModel.getUsername(for: story.creator) ?? "Unknown")")
-//                                .font(.subheadline)
-//                                .foregroundColor(.gray)
-                        }
-                        
-                        .swipeActions {
-                            
-                            if userModel.currentUser?.uid == story.creator {
-                                Button() {
-                                    viewModel.deleteStory(storyID: story.storyID)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                            }
-                            
+
                         }
                         
                         Text(story.storyDescription)
