@@ -20,6 +20,7 @@ class FightViewModel: ObservableObject {
     
     @Published var character1ID: String
     @Published var character2ID: String
+    @Published var character1Stats: Stats
     
     @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
     @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
@@ -27,6 +28,7 @@ class FightViewModel: ObservableObject {
     init() {
         self.character1ID = ""
         self.character2ID = ""
+        self.character1Stats = Stats(health: 0,attack: 0,defense: 0,speed: 0,agility: 0,hp: 0)
         storyModel.$currentCharacters
             .sink { [weak self] newChars in
                 self?.characters = newChars
@@ -35,20 +37,71 @@ class FightViewModel: ObservableObject {
     }
     
     func updateCharacters () {
-        
         if let char1 = characters.first(where: { $0.characterID == character1ID }),
            let char2 = characters.first(where: { $0.characterID == character2ID }) {
             character1 = char1
             character2 = char2
+//            character1Stats = storyModel.getTruncatedStats(characterID: character1ID)
+//            print("stats? \(character1Stats.health)")
+            character1.stats = getTruncatedStats(character: char1)
+            character2.stats = getTruncatedStats(character: char2)
+        }
+    }
+    
+    // couldnt use the story model one because of what seems to be a synchronization issue...
+    func getTruncatedStats(character: Character) -> Stats {
+                
+        var stats = character.stats
+        
+        if (character.stats.health > 100) {
+            stats.health = 100
+        }
+        else if (character.stats.health < 0) {
+            stats.health = 0
+        }
+    
+        if (character.stats.attack > 100) {
+            stats.attack = 100
+        }
+        else if (character.stats.attack < 0) {
+            stats.attack = 0
+        }
+    
+        if (character.stats.defense > 100) {
+            stats.defense = 100
+        }
+        else if (character.stats.defense < 0) {
+            stats.defense = 0
+        }
+    
+        if (character.stats.speed > 100) {
+            stats.speed = 100
+        }
+        else if (character.stats.speed < 0) {
+            stats.speed = 0
         }
         
+        if (character.stats.agility > 100) {
+            stats.agility = 100
+        }
+        else if (character.stats.agility < 0) {
+            stats.agility = 0
+        }
+    
+        if (character.stats.hp > character.stats.health) {
+            stats.hp = stats.health
+        }
+        else if (character.stats.hp < 0) {
+            stats.hp = 0
+        }
+        
+        return stats
+        
+    
     }
     
     func startFight() {
         updateCharacters()
     }
-    
-    // when fight starts, need to store the 2 characters.. I think.. but let them update. they
-    // should be refs to the ones in firebase.
     
 }
