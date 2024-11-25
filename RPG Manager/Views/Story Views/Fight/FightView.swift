@@ -10,7 +10,7 @@ import SwiftUI
 
 struct FightView: View {
     
-    //@ObservedObject var viewModel: FightViewModel = FightViewModel()
+    @ObservedObject var viewModel: FightViewModel = FightViewModel()
     
     @EnvironmentObject var appState: AppState
     @State var fightStarted = false
@@ -29,15 +29,68 @@ struct FightView: View {
                 
                 if (!fightStarted) { // SETUP SCREEN CONTENT
                     Text("fight not started")
+                    Spacer()
+                    
+                    HStack {
+                        
+                        Spacer()
+                        
+                        Picker("Character", selection: $viewModel.character1ID) {
+                            ForEach(viewModel.characters, id: \.characterID) { character in
+                                Text(character.characterName).tag(character.characterID)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        
+                        Spacer()
+                        
+                        Picker("Character", selection: $viewModel.character2ID) {
+                            ForEach(viewModel.characters, id: \.characterID) { character in
+                                Text(character.characterName).tag(character.characterID)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        
+                        Spacer()
+                        
+                    }
+                    
                 }
                 
                 else { // FIGHT SCREEN CONTENT
                     Text("fight started")
+                    Spacer()
+                    
+                    HStack {
+                        
+                        Spacer()
+                        
+                        VStack {
+                            Text(viewModel.character1.characterName)
+                            Text("\(viewModel.character1.stats.hp)/\(viewModel.character1.stats.health)")
+                        }
+                        
+                        Spacer()
+                        
+                        VStack {
+                            Text(viewModel.character2.characterName)
+                            Text("\(viewModel.character2.stats.hp)/\(viewModel.character2.stats.health)")
+                        }
+                        
+                        Spacer()
+                        
+                    }
+                    
                 }
                 
                 Spacer()
                 
-                Button("toggle fight started") { fightStarted = !fightStarted }
+                Button("toggle fight started") {
+                    fightStarted = !fightStarted
+                    if (fightStarted == true) {
+                        viewModel.startFight()
+                    }
+                }
                 
                 Spacer()
                 
