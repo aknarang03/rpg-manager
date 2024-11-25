@@ -20,7 +20,6 @@ class FightViewModel: ObservableObject {
     
     @Published var character1ID: String
     @Published var character2ID: String
-    @Published var character1Stats: Stats
     
     @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
     @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
@@ -28,7 +27,6 @@ class FightViewModel: ObservableObject {
     init() {
         self.character1ID = ""
         self.character2ID = ""
-        self.character1Stats = Stats(health: 0,attack: 0,defense: 0,speed: 0,agility: 0,hp: 0)
         storyModel.$currentCharacters
             .sink { [weak self] newChars in
                 self?.characters = newChars
@@ -41,8 +39,6 @@ class FightViewModel: ObservableObject {
            let char2 = characters.first(where: { $0.characterID == character2ID }) {
             character1 = char1
             character2 = char2
-//            character1Stats = storyModel.getTruncatedStats(characterID: character1ID)
-//            print("stats? \(character1Stats.health)")
             character1.stats = getTruncatedStats(character: char1)
             character2.stats = getTruncatedStats(character: char2)
         }
