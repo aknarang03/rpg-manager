@@ -73,6 +73,40 @@ class UserModel {
         let userNodeRef = userDBref.child(user.uid)
         userNodeRef.setValue(user.toAnyObject())
     }
+    
+//    func deleteAccount() {
+//        let userNodeRef = userDBref.child(authorizedUser!.uid)
+//        userNodeRef.removeValue()
+//        // remove from authentication in firebase
+//    }
+    
+    func deleteAccount() async throws {
+        
+        guard let user = Auth.auth().currentUser else {
+            print("no auth user; cannot delete user")
+            return
+        }
+
+        let userRef = userDBref.child(user.uid)
+        userRef.removeValue { error, _ in
+            if let error = error {
+                print("error removing user data: \(error.localizedDescription)")
+            } else {
+                print("user data successfully removed from realtime database")
+            }
+        }
+
+        do {
+            try await user.delete()
+            print("user successfully deleted from authentication")
+            authorizedUser = nil
+            currentUser = nil
+        } catch {
+            print("error deleting user from authentication: \(error.localizedDescription)")
+            throw error
+        }
+        
+    }
 
     // watch for updates from User realtime database table
     func observeUsers () {

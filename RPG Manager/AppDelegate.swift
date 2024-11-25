@@ -43,10 +43,10 @@ struct RPGManagerApp: App {
                     .environmentObject(appState)
             }
             else if appState.isLoggedIn {
-                StoryListView ()
+                HomeView()
                     .environmentObject(appState)
             } else {
-                LoginView ()
+                LoginView()
                     .environmentObject(appState)
             }
 //            NavigationView {
