@@ -11,6 +11,10 @@ struct CollaboratorListView: View {
     
     @ObservedObject var viewModel: CollaboratorListViewModel = CollaboratorListViewModel()
     @EnvironmentObject var appState: AppState
+    
+    // should move the logic used with these to view model..
+    let userModel = UserModel.shared
+    let storyModel = StoryModel.shared
 
     var body: some View {
         
@@ -31,6 +35,18 @@ struct CollaboratorListView: View {
                     
                     VStack(alignment: .leading) {
                         Text(viewModel.uidToUsername(uid: collaborator))
+                    }
+                    
+                    .swipeActions {
+                        
+                        if userModel.currentUser?.uid == storyModel.currentStory?.creator {
+                            
+                            Button() {
+                                viewModel.removeCollaborator(uid: collaborator)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                     }
                     
                     

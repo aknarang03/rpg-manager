@@ -33,6 +33,10 @@ class CollaboratorListViewModel: ObservableObject {
 //            onSuccess()
 //    }
     
+    func removeCollaborator(uid: String) {
+        storyModel.removeCollaboratorFromStory(storyID: storyModel.currentStory!.storyID, collaboratorID: uid)
+    }
+    
     func getCreator() -> String {
         
         if let creator = storyModel.currentStory?.creator {

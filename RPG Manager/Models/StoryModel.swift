@@ -278,6 +278,12 @@ class StoryModel {
         collaboratorRef.setValue(true) // placeholder
     }
     
+    func removeCollaboratorFromStory(storyID: String, collaboratorID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
+        collaboratorRef.removeValue()
+    }
+    
     func addItemToBag(storyID: String, characterID: String, itemID: String, addingAmt: Int) {
         
         let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
