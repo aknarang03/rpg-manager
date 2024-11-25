@@ -32,5 +32,9 @@ class CharacterListViewModel: ObservableObject {
         }
         return username
     }
+    
+    func deleteCharacter(characterID: String) {
+        storyModel.deleteCharacter(storyID: storyModel.currentStory!.storyID, characterID: characterID)
+    }
 
 }

@@ -16,6 +16,7 @@ struct CharacterListView: View {
     
     // should move the logic used with these to view model..
     let userModel = UserModel.shared
+    let storyModel = StoryModel.shared
 
     var body: some View {
         
@@ -42,7 +43,21 @@ struct CharacterListView: View {
                         }
                         .padding()
                     }
+                    
+                    .swipeActions {
+                        
+                        if userModel.currentUser?.uid == character.creatorID || userModel.currentUser?.uid == storyModel.currentStory?.creator {
+                            Button() {
+                                viewModel.deleteCharacter(characterID: character.characterID)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
+                        
+                    }
+                    
                 }
+                
                     
                     
             }

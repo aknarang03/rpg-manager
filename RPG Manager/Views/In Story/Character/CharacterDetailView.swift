@@ -21,6 +21,10 @@ struct CharacterDetailView: View {
         self.character = character
     }
     
+    // should move the logic used with these to view model..
+    let userModel = UserModel.shared
+    let storyModel = StoryModel.shared
+    
     @State private var showPopup = false
     @State private var popupMessage = ""
     
@@ -149,11 +153,15 @@ struct CharacterDetailView: View {
                                }
                                
                                .swipeActions {
-                                   Button() {
-                                       viewModel.itemID = itemID
-                                       viewModel.deleteItem(characterID: character.characterID)
-                                   } label: {
-                                       Label("Delete", systemImage: "trash")
+                                   
+                                   if userModel.currentUser?.uid == character.creatorID || userModel.currentUser?.uid == storyModel.currentStory?.creator {
+                                       
+                                       Button() {
+                                           viewModel.itemID = itemID
+                                           viewModel.deleteItem(characterID: character.characterID)
+                                       } label: {
+                                           Label("Delete", systemImage: "trash")
+                                       }
                                    }
                                }
                                

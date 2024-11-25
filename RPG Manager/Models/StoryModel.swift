@@ -235,11 +235,23 @@ class StoryModel {
         newStoryRef.setValue(story.toAnyObject())
     }
     
-    // remove an item from Story database table
+    // remove a story from Story database table
     func deleteStory(storyID: String) {
         let storyDBRef = Database.database().reference(withPath: "Stories")
         let storyRef = storyDBRef.child(storyID)
         storyRef.removeValue()
+    }
+    
+    func deleteCharacter(storyID: String, characterID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let characterRef = storyRef.child("Characters").child(characterID)
+        storyRef.removeValue()
+    }
+    
+    func deleteItem(storyID: String, itemID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let itemRef = storyRef.child("Items").child(itemID)
+        itemRef.removeValue()
     }
         
     func addCharacterToStory(storyID: String, character: Character) {
