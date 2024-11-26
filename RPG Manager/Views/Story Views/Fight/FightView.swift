@@ -59,6 +59,7 @@ struct FightView: View {
                 
                 else { // FIGHT SCREEN CONTENT
                     Text("fight started")
+                    Text("attacker: \(storyModel.getCharacter(for: viewModel.attackingCharacterID)?.characterName)")
                     Spacer()
                     
                     HStack {
@@ -77,9 +78,29 @@ struct FightView: View {
                             Text("\(viewModel.character2.stats.hp)/\(viewModel.character2.stats.health)")
                         }
                         
+                    }
+                    
+                    Spacer()
+                    
+                    HStack {
+                        
+                        Spacer()
+                        
+                        Button("attack") {
+                            viewModel.attackAction()
+                        }
+                        
+                        Spacer()
+                        
+                        Button("use item") {
+                            viewModel.consumeItemAction()
+                        }
+                        
                         Spacer()
                         
                     }
+                    
+                    Spacer()
                     
                 }
                 
@@ -88,6 +109,7 @@ struct FightView: View {
                 if (fightStarted) {
                     Button("Stop") {
                         fightStarted = false
+                        viewModel.stopFight()
                     }
                 } else {
                     Button("Start") {

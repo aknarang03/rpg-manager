@@ -431,16 +431,56 @@ class StoryModel {
         
     }
     
+    func getOutcomeString(type: OutcomeType, attackerName: String, defenderName: String, impact: Int, itemName: String) -> String {
+        
+        var plusMinus: String = "+"
+        if (impact < 0) {
+            plusMinus = "-"
+        }
+        
+        switch type {
+        case .attackerAttack:
+            return "\(attackerName) attacks \(defenderName) for \(impact) damage."
+        case .attackerUsesItem:
+            return "\(attackerName) uses \(itemName) for \(plusMinus)\(impact)"
+        case .attackerPass:
+            return "\(attackerName) idles."
+        case .attackerLose:
+            return "\(attackerName) loses."
+        case .attackerFlee:
+            return "\(attackerName) flees."
+        case .defenderAvoid:
+            return "\(defenderName) avoids the attack."
+        case .defenderGetHit:
+            return "\(defenderName) loses \(impact) HP."
+        case .defenderIdle:
+            return "\(defenderName) idles."
+        case .defenderLose:
+            return "\(defenderName) loses."
+        case .defenderFlee:
+            return "\(defenderName) flees."
+        default:
+            return "Unknown outcome."
+        }
+        
+    }
+    
     func startFight(storyID: String, fight: Fight) {
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let fightRef = storyRef.child("Fights").child(fight.fightID)
         fightRef.setValue(fight.toAnyObject())
     }
     
-    func endFight(storyID: String, fight: Fight) { // would pass in fight with outcomes array this time
+    func updateFight(storyID: String, fight: Fight) {
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let fightRef = storyRef.child("Fights").child(fight.fightID)
         fightRef.setValue(fight.toAnyObject())
     }
+    
+//    func endFight(storyID: String, fight: Fight) { // would pass in fight with outcomes array this time
+//        let storyRef = Database.database().reference().child("Stories").child(storyID)
+//        let fightRef = storyRef.child("Fights").child(fight.fightID)
+//        fightRef.setValue(fight.toAnyObject())
+//    }
 
 }

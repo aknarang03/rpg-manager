@@ -10,6 +10,24 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
+enum OutcomeType: String, CaseIterable {
+    
+    // attacker actions
+    case attackerAttack = "attack" // {attacker} attacks {defender} for {damage} damage.
+    case attackerUsesItem = "uses item" // {attacker} uses {consumable item name} for {+ or -}{imapct amt} {impact}.
+    case attackerPass = "pass" // {attacker} idles.
+    case attackerLose = "attacker lose" // {attacker} loses.
+    case attackerFlee = "attacker flee" // {attacker} flees.
+    
+    // defender actions
+    case defenderAvoid = "avoid" // {defender} avoids attack.
+    case defenderGetHit = "get hit" // {defender} is hit. Loses {damage} HP.
+    case defenderIdle = "idle" // {defender} idles. (THIS IS WHEN ATTACKER DOESNT DO SOMETHING THAT IMPACTS DEFENDER)
+    case defenderLose = "defender lose" // {defender} loses.
+    case defenderFlee = "defender flee" // {defender} flees.
+    
+}
+
 struct Fight {
     
     var ref: DatabaseReference?
@@ -17,10 +35,10 @@ struct Fight {
     var userID: String
     var character1ID: String
     var character2ID: String
-    var outcomes: [String]?
+    var outcomes: [(String, String)]? // each round consists of two outcomes
     var winner: String?
     
-    init (fightID: String, userID: String, character1ID: String, character2ID: String, outcomes: [String]? = nil, winner: String) {
+    init (fightID: String, userID: String, character1ID: String, character2ID: String, outcomes: [(String, String)]? = nil, winner: String) {
         self.ref = nil
         self.fightID = fightID
         self.userID = userID
@@ -42,7 +60,7 @@ struct Fight {
             return nil
         }
         
-        let outcomes = value["outcomes"] as? [String] ?? []
+        let outcomes = value["outcomes"] as? [(String, String)] ?? []
         let winner = value["winner"] as? String
         
         self.ref = snapshot.ref
