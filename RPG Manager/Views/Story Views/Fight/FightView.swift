@@ -85,9 +85,13 @@ struct FightView: View {
                 
                 Spacer()
                 
-                Button("toggle fight started") {
-                    fightStarted = !fightStarted
-                    if (fightStarted == true) {
+                if (fightStarted) {
+                    Button("Stop") {
+                        fightStarted = false
+                    }
+                } else {
+                    Button("Start") {
+                        fightStarted = true
                         viewModel.startFight()
                     }
                 }
