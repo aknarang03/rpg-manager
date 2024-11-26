@@ -16,6 +16,9 @@ class FightViewModel: ObservableObject {
         
     var cancellables: Set<AnyCancellable> = []
     
+    @Published var showCharacterBag: Bool = false
+    @Published var itemToConsume: String = ""
+    
     @Published var characters: [Character] = []
     
     @Published var character1ID: String
@@ -28,7 +31,7 @@ class FightViewModel: ObservableObject {
     
     @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
     @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
-    
+        
     @Published var outcomes: [String] = []
 
     init() {
@@ -39,6 +42,22 @@ class FightViewModel: ObservableObject {
                 self?.characters = newChars
                 self?.updateCharacters() }
             .store(in: &cancellables)
+    }
+    
+    func itemIdToItemName(itemID: String) -> String {
+        guard let itemName = storyModel.getItemName(for: itemID) else {
+            print("Item name not found for \(itemID)")
+            return "Unknown" // default item name
+        }
+        return itemName
+    }
+    
+    func getItemType(itemID: String) -> String {
+        guard let item = storyModel.getItem(for: itemID) else {
+            print("Item not found for \(itemID)")
+            return "unknown"
+        }
+        return item.type
     }
     
     func updateCharacters () {
@@ -137,14 +156,14 @@ class FightViewModel: ObservableObject {
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
             
             character2.stats.hp -= DAMAGE_TEST
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character1.characterName, defenderName: character2.characterName, impact: DAMAGE_TEST, itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character1.characterName, defenderName: character2.characterName, impact: DAMAGE_TEST, itemName: "")
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(DAMAGE_TEST), itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(DAMAGE_TEST), itemName: "")
             
         } else { // character 2 is attacking; character 1 is defending
             
             character1.stats.hp -= DAMAGE_TEST
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character2.characterName, defenderName: character1.characterName, impact: DAMAGE_TEST, itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character2.characterName, defenderName: character1.characterName, impact: DAMAGE_TEST, itemName: "")
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(DAMAGE_TEST), itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(DAMAGE_TEST), itemName: "")
             
         }
         
@@ -158,27 +177,44 @@ class FightViewModel: ObservableObject {
         
     }
     
-    func consumeItemAction() { // TEST
+    func consumeItemAction() {
         
-        // NOTE TO SELF: should either somehow use the existing consume method, or truncate stats at 0-100 here upon
-        // consume
-        // or i should figure out how to have entire bag and functionality be like a little view i can put in both detail view and fight screen.
-            // I think I should do this; you can subclass a view and show it in multiple screens. just give it its own file
+        if let item = storyModel.getItem(for: itemToConsume) {
+            
+            var plusMinus: String = "+"
+            if (item.impact < 0) {
+                plusMinus = ""
+            }
+            
+            let impactStr = "\(plusMinus)\(item.impact) \(item.impactsWhat)"
+            
+            if (attackingCharacterID == character1ID) { // character 1 is consuming item; character 2 is idling
+                
+                // CALL CONSUME ITEM
+                
+                currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
+                currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
+                
+            } else { // character 2 is consuming item; character 1 is idling
+                
+                // CALL CONSUME ITEM
+                
+                currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
+                currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
+                
+            }
+            
+        }
         
-        let IMPACT_TEST = -10
-        let ITEM_NAME_TEST = "fake test item"
-        
-        if (attackingCharacterID == character1ID) { // character 1 is consuming item; character 2 is idling
+        else {
             
-            character1.stats.hp += IMPACT_TEST
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character1.characterName, defenderName: character2.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
-            
-        } else { // character 2 is consuming item; character 1 is idling
-            
-            character2.stats.hp += IMPACT_TEST
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character2.characterName, defenderName: character1.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
+            if (attackingCharacterID == character1ID) {
+                currentAttackerRoundOutcome = "\(character1.characterName) tries to use item."
+                currentDefenderRoundOutcome = "\(character2.characterName) idles."
+            } else {
+                currentAttackerRoundOutcome = "\(character2.characterName) tries to use item."
+                currentDefenderRoundOutcome = "\(character1.characterName) idles."
+            }
             
         }
         

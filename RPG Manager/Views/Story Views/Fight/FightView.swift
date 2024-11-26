@@ -28,6 +28,7 @@ struct FightView: View {
                 Spacer()
                 
                 if (!fightStarted) { // SETUP SCREEN CONTENT
+                    
                     Text("fight not started")
                     Spacer()
                     
@@ -55,11 +56,13 @@ struct FightView: View {
                         
                     }
                     
-                }
+                } // end setup screen content
                 
                 else { // FIGHT SCREEN CONTENT
+                    
                     Text("fight started")
                     Text("attacker: \(storyModel.getCharacter(for: viewModel.attackingCharacterID)!.characterName)")
+                    
                     Spacer()
                     
                     HStack {
@@ -78,6 +81,8 @@ struct FightView: View {
                             Text("\(viewModel.character2.stats.hp)/\(viewModel.character2.stats.health)")
                         }
                         
+                        Spacer()
+                        
                     }
                     
                     Spacer()
@@ -92,9 +97,67 @@ struct FightView: View {
                         
                         Spacer()
                         
-                        Button("use item") {
-                            viewModel.consumeItemAction()
+                        VStack {
+                            
+                            Button("use item") {
+                                viewModel.showCharacterBag = true
+                            }
+                            
+                            if (viewModel.showCharacterBag == true) {
+                                
+                                Spacer()
+                                
+                                HStack {
+                                    
+                                    Picker("Consumables", selection: $viewModel.itemToConsume) {
+                                        
+                                        if (viewModel.attackingCharacterID == viewModel.character1ID) {
+                                            
+                                            if let bag = viewModel.character1.bag {
+                                                
+                                                ForEach(bag.keys.sorted(), id: \.self) { itemID in
+                                                    
+                                                    if (viewModel.getItemType(itemID: itemID) == "consumable") {
+                                                        Text(viewModel.itemIdToItemName(itemID: itemID))
+                                                    }
+                                                                                                
+                                                }
+                                                
+                                            }
+                                            
+                                        } // end show character 1 bag
+                                        
+                                        else {
+                                            
+                                            if let bag = viewModel.character2.bag {
+                                                
+                                                ForEach(bag.keys.sorted(), id: \.self) { itemID in
+                                                    
+                                                    if (viewModel.getItemType(itemID: itemID) == "consumable") {
+                                                        Text(viewModel.itemIdToItemName(itemID: itemID))
+                                                    }
+                                                                                                
+                                                }
+                                                
+                                            }
+                                            
+                                        } // end show character 2 bag
+                                    
+                                    }
+                                    .pickerStyle(MenuPickerStyle())
+                                    Spacer()
+                                    Button("use") {
+                                        viewModel.consumeItemAction()
+                                    }
+                                }
+                                
+                                
+                                
+                            }
+                            
                         }
+                        
+                        
                         
                         Spacer()
                         
@@ -102,7 +165,7 @@ struct FightView: View {
                     
                     Spacer()
                     
-                }
+                } // end fight screen content
                 
                 Spacer()
                 

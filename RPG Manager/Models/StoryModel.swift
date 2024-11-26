@@ -449,18 +449,13 @@ class StoryModel {
         
     }
     
-    func getOutcomeString(type: OutcomeType, attackerName: String, defenderName: String, impact: Int, itemName: String) -> String {
-        
-        var plusMinus: String = "+"
-        if (impact < 0) {
-            plusMinus = ""
-        }
+    func getOutcomeString(type: OutcomeType, attackerName: String, defenderName: String, impact: String, itemName: String) -> String {
         
         switch type {
         case .attackerAttack:
             return "\(attackerName) attacks \(defenderName) for \(impact) damage."
         case .attackerUsesItem:
-            return "\(attackerName) uses \(itemName) for \(plusMinus)\(impact)."
+            return "\(attackerName) uses \(itemName) for \(impact)."
         case .attackerPass:
             return "\(attackerName) idles."
         case .attackerLose:
