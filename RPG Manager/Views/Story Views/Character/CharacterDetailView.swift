@@ -107,84 +107,7 @@ struct CharacterDetailView: View {
                     .font(.title2)
                     .padding(.top)
                 
-                if let bag = character.bag {
-                    
-                    if bag.isEmpty {
-                        Text("Bag is empty")
-                            .foregroundColor(.gray)
-                            .italic()
-                    } else {
-                                                                        
-                        List {
-                           ForEach(bag.keys.sorted(), id: \.self) { itemID in
-                               
-                               HStack {
-                                   Text(viewModel.itemIdToItemName(itemID: itemID))
-                                   
-                                   Button("") {
-                                       viewModel.itemID = itemID
-                                       switch viewModel.getItemType(itemID: itemID) {
-                                       case "consumable":
-                                           popupMessage = "Consume \(viewModel.itemIdToItemName(itemID: itemID))?"
-                                           viewModel.itemType = "consumable"
-                                           viewModel.itemAction = { viewModel.consumeItem(characterID: character.characterID) }
-                                       case "equippable":
-                                           viewModel.itemType = "equippable"
-                                           if (character.heldItem == viewModel.itemID) {
-                                               viewModel.itemAction = { viewModel.unequipItem(characterID: character.characterID) }
-                                               popupMessage = "Unequip \(viewModel.itemIdToItemName(itemID: itemID))?"
-                                           } else {
-                                               viewModel.itemAction = { viewModel.equipItem(characterID: character.characterID) }
-                                               popupMessage = "Equip \(viewModel.itemIdToItemName(itemID: itemID))?"
-                                           }
-                                       case "passive":
-                                           popupMessage = "\(viewModel.itemIdToItemName(itemID: itemID)) is passive."
-                                           viewModel.itemType = "passive"
-                                           viewModel.itemAction = { print("item is passive") }
-                                       default:
-                                           popupMessage = "Invalid item"
-                                           viewModel.itemType = "unknown"
-                                           viewModel.itemAction = { print("item is unknown") }
-                                       }
-                                       showPopup=true
-                                   }.frame(width: 0, height: 0)
-                                   Spacer()
-                                   if itemID == character.heldItem {
-                                       Image(systemName: "hand.palm.facing.fill")
-                                   }
-                                   if (viewModel.getItemType(itemID: itemID) != "equippable") {
-                                       Text("x\(bag[itemID] ?? 0)")
-                                           .foregroundColor(.gray)
-                                   }
-                                
-                               }
-                               
-                               .swipeActions {
-                                   
-                                   if userModel.currentUser?.uid == character.creatorID || userModel.currentUser?.uid == storyModel.currentStory?.creator {
-                                       
-                                       Button() {
-                                           viewModel.itemID = itemID
-                                           viewModel.deleteItem(characterID: character.characterID)
-                                       } label: {
-                                           Label("Delete", systemImage: "trash")
-                                       }
-                                       
-                                   }
-                               }
-                               
-                               
-                           }
-                           
-                           
-                        }
-                   }
-                    
-                } else {
-                    Text("Bag is empty")
-                        .foregroundColor(.gray)
-                        .italic()
-                }
+                CharacterBagView(character: viewModel.character)
                 
                 Spacer()
                 
@@ -201,22 +124,6 @@ struct CharacterDetailView: View {
                 
             }
             .padding()
-            .alert(popupMessage, isPresented: $showPopup) {
-                
-                if (viewModel.itemType == "consumable" || viewModel.itemType == "equippable") {
-                    Button("Yes", role: .none) {
-                        viewModel.itemAction()
-                    }
-                    Button("No", role: .cancel) {
-                        showPopup=false
-                    }
-                } else {
-                    Button("OK", role: .cancel) {
-                        showPopup=false
-                    }
-                }
-                
-            }
             
             
         }
