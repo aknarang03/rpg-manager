@@ -96,8 +96,26 @@ class FightViewModel: ObservableObject {
     
     }
     
-    func startFight() {
-        updateCharacters()
+    func timeInterval() -> String {
+        let timeNow = Date()
+        var timeStr = String(timeNow.timeIntervalSince1970)
+        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
+        return timeStr
     }
+    
+    func startFight() {
+        
+        updateCharacters()
+        
+        // this part untested
+        let fight = Fight(fightID: timeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "")
+        storyModel.startFight(storyID: storyModel.currentStory!.storyID, fight: fight)
+        
+    }
+    
+    // add a method to add outcome string to outcoemes array. makes string based on incoming parameters.
+    // should have an array saved in this view model as published.
+    
+    // endFight()
     
 }
