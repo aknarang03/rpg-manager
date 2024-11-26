@@ -93,6 +93,7 @@ struct FightView: View {
                         
                         Button("attack") {
                             viewModel.attackAction()
+                            viewModel.showCharacterBag = false
                         }
                         
                         Spacer()
@@ -104,9 +105,7 @@ struct FightView: View {
                             }
                             
                             if (viewModel.showCharacterBag == true) {
-                                
-                                Spacer()
-                                
+                                                                
                                 HStack {
                                     
                                     Picker("Consumables", selection: $viewModel.itemToConsume) {
@@ -119,6 +118,7 @@ struct FightView: View {
                                                     
                                                     if (viewModel.getItemType(itemID: itemID) == "consumable") {
                                                         Text(viewModel.itemIdToItemName(itemID: itemID))
+                                                            .tag(itemID)
                                                     }
                                                                                                 
                                                 }
@@ -135,6 +135,7 @@ struct FightView: View {
                                                     
                                                     if (viewModel.getItemType(itemID: itemID) == "consumable") {
                                                         Text(viewModel.itemIdToItemName(itemID: itemID))
+                                                            .tag(itemID)
                                                     }
                                                                                                 
                                                 }
@@ -143,19 +144,17 @@ struct FightView: View {
                                             
                                         } // end show character 2 bag
                                     
-                                    }
+                                    } // end picker
                                     .pickerStyle(MenuPickerStyle())
-                                    Spacer()
                                     Button("use") {
                                         viewModel.consumeItemAction()
+                                        viewModel.showCharacterBag = false
                                     }
-                                }
+                                } // end use item hstack
                                 
-                                
-                                
-                            }
+                            } // end show character bag
                             
-                        }
+                        } // end item vstack
                         
                         
                         

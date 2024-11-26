@@ -236,6 +236,7 @@ class FightViewModel: ObservableObject {
         storyModel.addOutcomesToFight(storyID: storyModel.currentStory!.storyID, fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
         currentAttackerRoundOutcome = ""
         currentDefenderRoundOutcome = ""
+        itemToConsume = ""
         
         storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character1)
         storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character2)
