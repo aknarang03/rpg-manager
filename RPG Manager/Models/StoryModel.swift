@@ -436,5 +436,11 @@ class StoryModel {
         let fightRef = storyRef.child("Fights").child(fight.fightID)
         fightRef.setValue(fight.toAnyObject())
     }
+    
+    func endFight(storyID: String, fight: Fight) { // would pass in fight with outcomes array this time
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let fightRef = storyRef.child("Fights").child(fight.fightID)
+        fightRef.setValue(fight.toAnyObject())
+    }
 
 }
