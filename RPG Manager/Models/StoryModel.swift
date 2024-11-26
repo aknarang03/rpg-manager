@@ -11,6 +11,8 @@ import FirebaseDatabase
 
 class StoryModel {
     
+    // probably going to split this into more models but i dont know yet
+    
     static let shared = StoryModel()
     let userModel = UserModel.shared
     
@@ -427,6 +429,12 @@ class StoryModel {
         
         return Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
         
+    }
+    
+    func startFight(storyID: String, fight: Fight) {
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let fightRef = storyRef.child("Fights").child(fight.fightID)
+        fightRef.setValue(fight.toAnyObject())
     }
 
 }
