@@ -163,6 +163,7 @@ class FightViewModel: ObservableObject {
         // NOTE TO SELF: should either somehow use the existing consume method, or truncate stats at 0-100 here upon
         // consume
         // or i should figure out how to have entire bag and functionality be like a little view i can put in both detail view and fight screen.
+            // I think I should do this; you can subclass a view and show it in multiple screens. just give it its own file
         
         let IMPACT_TEST = -10
         let ITEM_NAME_TEST = "fake test item"
