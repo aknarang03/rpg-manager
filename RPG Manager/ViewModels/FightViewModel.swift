@@ -152,7 +152,7 @@ class FightViewModel: ObservableObject {
             attackingCharacterID = character1ID
         }
         
-        finishOutcome()
+        finishAction()
         
     }
     
@@ -181,20 +181,16 @@ class FightViewModel: ObservableObject {
             attackingCharacterID = character1ID
         }
         
-        finishOutcome()
+        finishAction()
         
     }
     
     // called at end of each action (attacker outcome, defender outcome)
-    func finishOutcome() {
+    func finishAction() {
         
         print("in finish outcome")
-                
-        //print("num outcomes: \(fight.outcomes?.count)")
-        
-        let outcome = (currentAttackerRoundOutcome,currentDefenderRoundOutcome)
-        
-        storyModel.addOutcomeToFight(storyID: storyModel.currentStory!.storyID, fightID: fight.fightID, outcome: outcome)
+                                
+        storyModel.addOutcomesToFight(storyID: storyModel.currentStory!.storyID, fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
         currentAttackerRoundOutcome = ""
         currentDefenderRoundOutcome = ""
         

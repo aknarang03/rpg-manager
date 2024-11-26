@@ -35,10 +35,10 @@ struct Fight {
     var userID: String
     var character1ID: String
     var character2ID: String
-    var outcomes: [(String, String)]? // each round consists of two outcomes
+    var outcomes: [String]? // each round consists of two outcomes
     var winner: String?
     
-    init (fightID: String, userID: String, character1ID: String, character2ID: String, outcomes: [(String, String)]? = nil, winner: String) {
+    init (fightID: String, userID: String, character1ID: String, character2ID: String, outcomes: [String]? = nil, winner: String) {
         self.ref = nil
         self.fightID = fightID
         self.userID = userID
@@ -60,7 +60,7 @@ struct Fight {
             return nil
         }
         
-        let outcomes = value["outcomes"] as? [(String, String)] ?? []
+        let outcomes = value["outcomes"] as? [String] ?? []
         let winner = value["winner"] as? String
         
         self.ref = snapshot.ref

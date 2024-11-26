@@ -286,16 +286,17 @@ class StoryModel {
         collaboratorRef.removeValue()
     }
     
-    func addOutcomeToFight(storyID: String, fightID: String, outcome: (String,String)) {
+    func addOutcomesToFight(storyID: String, fightID: String, outcome1: String, outcome2: String) {
         
         let fightOutcomesRef = storyDBRef.child(storyID).child("Fights").child(fightID).child("outcomes")
         
         fightOutcomesRef.observeSingleEvent(of: .value) { snapshot in
             
-            var outcomes = snapshot.value as? [(String,String)] ?? []
+            var outcomes = snapshot.value as? [String] ?? []
             
-            outcomes.append(outcome)
-            fightOutcomesRef.setValue(outcome)
+            outcomes.append(outcome1)
+            outcomes.append(outcome2)
+            fightOutcomesRef.setValue(outcomes)
             
             print("updated outcomes: \(outcomes)")
             
@@ -452,7 +453,7 @@ class StoryModel {
         
         var plusMinus: String = "+"
         if (impact < 0) {
-            plusMinus = "-"
+            plusMinus = ""
         }
         
         switch type {
