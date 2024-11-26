@@ -286,6 +286,23 @@ class StoryModel {
         collaboratorRef.removeValue()
     }
     
+    func addOutcomeToFight(storyID: String, fightID: String, outcome: (String,String)) {
+        
+        let fightOutcomesRef = storyDBRef.child(storyID).child("Fights").child(fightID).child("outcomes")
+        
+        fightOutcomesRef.observeSingleEvent(of: .value) { snapshot in
+            
+            var outcomes = snapshot.value as? [(String,String)] ?? []
+            
+            outcomes.append(outcome)
+            fightOutcomesRef.setValue(outcome)
+            
+            print("updated outcomes: \(outcomes)")
+            
+        }
+        
+    }
+    
     func addItemToBag(storyID: String, characterID: String, itemID: String, addingAmt: Int) {
         
         let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")

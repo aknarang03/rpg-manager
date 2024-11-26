@@ -152,6 +152,8 @@ class FightViewModel: ObservableObject {
             attackingCharacterID = character1ID
         }
         
+        finishOutcome()
+        
     }
     
     func consumeItemAction() { // TEST
@@ -179,14 +181,26 @@ class FightViewModel: ObservableObject {
             attackingCharacterID = character1ID
         }
         
+        finishOutcome()
+        
     }
     
     // called at end of each action (attacker outcome, defender outcome)
     func finishOutcome() {
-        fight.outcomes?.append((currentAttackerRoundOutcome,currentDefenderRoundOutcome))
-        storyModel.updateFight(storyID: storyModel.currentStory!.storyID, fight: fight)
+        
+        print("in finish outcome")
+                
+        //print("num outcomes: \(fight.outcomes?.count)")
+        
+        let outcome = (currentAttackerRoundOutcome,currentDefenderRoundOutcome)
+        
+        storyModel.addOutcomeToFight(storyID: storyModel.currentStory!.storyID, fightID: fight.fightID, outcome: outcome)
         currentAttackerRoundOutcome = ""
         currentDefenderRoundOutcome = ""
+        
+        storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character1)
+        storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character2)
+        
     }
     // NOTE: rounds are just two outcomes, which is the result of one action. rounds are not stored in database; they will just be displayed as such in the UI.
     
