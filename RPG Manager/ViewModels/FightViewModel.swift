@@ -190,15 +190,15 @@ class FightViewModel: ObservableObject {
             
             if (attackingCharacterID == character1ID) { // character 1 is consuming item; character 2 is idling
                 
-                // CALL CONSUME ITEM
+                consumeItem(item:item,characterID:character1ID)
                 
                 currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
                 currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
                 
             } else { // character 2 is consuming item; character 1 is idling
                 
-                // CALL CONSUME ITEM
-                
+                consumeItem(item:item,characterID:character2ID)
+
                 currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
                 currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
                 
@@ -247,5 +247,90 @@ class FightViewModel: ObservableObject {
     // END FIGHT:
     // surrender(which character)
     // lose(which character)
+    
+    
+    
+    
+    func consumeItem(item: Item, characterID: String) {
+        
+        storyModel.consumeItem(storyID: storyModel.currentStory!.storyID, characterID: characterID, itemID: itemToConsume)
+        
+        if (item.impactsWhat == "none" || item.impact == 0) { // no impact
+            print("item has no impact")
+            return
+        }
+        
+        else {
+            
+            var updateCharacter = storyModel.getCharacter(for: characterID)
+            
+            // make an update stats method.. this is very messy
+            
+            switch item.impactsWhat {
+            case "health":
+                updateCharacter!.stats.health += item.impact
+                if (updateCharacter!.stats.health > 100) {
+                    updateCharacter!.stats.health = 100
+                }
+                else if (updateCharacter!.stats.health < 0) {
+                    updateCharacter!.stats.health = 0
+                }
+                if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
+                    updateCharacter!.stats.hp = updateCharacter!.stats.health
+                }
+                print("item impacts health: \(item.impact)")
+            case "attack":
+                updateCharacter!.stats.attack += item.impact
+                if (updateCharacter!.stats.attack > 100) {
+                    updateCharacter!.stats.attack = 100
+                }
+                else if (updateCharacter!.stats.attack < 0) {
+                    updateCharacter!.stats.attack = 0
+                }
+                print("item impacts attack: \(item.impact)")
+            case "defense":
+                updateCharacter!.stats.defense += item.impact
+                if (updateCharacter!.stats.defense > 100) {
+                    updateCharacter!.stats.defense = 100
+                }
+                else if (updateCharacter!.stats.defense < 0) {
+                    updateCharacter!.stats.defense = 0
+                }
+                print("item impacts defense: \(item.impact)")
+            case "speed":
+                updateCharacter!.stats.speed += item.impact
+                if (updateCharacter!.stats.speed > 100) {
+                    updateCharacter!.stats.speed = 100
+                }
+                else if (updateCharacter!.stats.speed < 0) {
+                    updateCharacter!.stats.speed = 0
+                }
+                print("item impacts speed: \(item.impact)")
+            case "agility":
+                updateCharacter!.stats.agility += item.impact
+                if (updateCharacter!.stats.agility > 100) {
+                    updateCharacter!.stats.agility = 100
+                }
+                else if (updateCharacter!.stats.agility < 0) {
+                    updateCharacter!.stats.agility = 0
+                }
+                print("item impacts agility: \(item.impact)")
+            case "hp":
+                updateCharacter!.stats.hp += item.impact
+                if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
+                    updateCharacter!.stats.hp = updateCharacter!.stats.health
+                }
+                else if (updateCharacter!.stats.hp < 0) {
+                    updateCharacter!.stats.hp = 0
+                }
+                print("item impacts hp: \(item.impact)")
+            default:
+                print("unhandled impact type: \(item.impactsWhat)")
+            }
+            
+            storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
+
+        }
+    }
         
 }
