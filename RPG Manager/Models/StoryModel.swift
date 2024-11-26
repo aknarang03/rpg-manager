@@ -460,7 +460,7 @@ class StoryModel {
         case .attackerAttack:
             return "\(attackerName) attacks \(defenderName) for \(impact) damage."
         case .attackerUsesItem:
-            return "\(attackerName) uses \(itemName) for \(plusMinus)\(impact)"
+            return "\(attackerName) uses \(itemName) for \(plusMinus)\(impact)."
         case .attackerPass:
             return "\(attackerName) idles."
         case .attackerLose:

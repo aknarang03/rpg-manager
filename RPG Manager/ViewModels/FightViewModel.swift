@@ -130,6 +130,8 @@ class FightViewModel: ObservableObject {
     
     func attackAction() { // TEST
         
+        // NOTE TO SELF: should truncate defender hp at 0
+        
         let DAMAGE_TEST = 20
         
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
@@ -158,18 +160,22 @@ class FightViewModel: ObservableObject {
     
     func consumeItemAction() { // TEST
         
+        // NOTE TO SELF: should either somehow use the existing consume method, or truncate stats at 0-100 here upon
+        // consume
+        // or i should figure out how to have entire bag and functionality be like a little view i can put in both detail view and fight screen.
+        
         let IMPACT_TEST = -10
         let ITEM_NAME_TEST = "fake test item"
         
         if (attackingCharacterID == character1ID) { // character 1 is consuming item; character 2 is idling
             
-            character1.stats.hp -= IMPACT_TEST
+            character1.stats.hp += IMPACT_TEST
             currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character1.characterName, defenderName: character2.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
             currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
             
         } else { // character 2 is consuming item; character 1 is idling
             
-            character2.stats.hp -= IMPACT_TEST
+            character2.stats.hp += IMPACT_TEST
             currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character2.characterName, defenderName: character1.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
             currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: IMPACT_TEST, itemName: ITEM_NAME_TEST)
             

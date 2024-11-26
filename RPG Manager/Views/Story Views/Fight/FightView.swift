@@ -59,7 +59,7 @@ struct FightView: View {
                 
                 else { // FIGHT SCREEN CONTENT
                     Text("fight started")
-                    Text("attacker: \(storyModel.getCharacter(for: viewModel.attackingCharacterID)?.characterName)")
+                    Text("attacker: \(storyModel.getCharacter(for: viewModel.attackingCharacterID)!.characterName)")
                     Spacer()
                     
                     HStack {
