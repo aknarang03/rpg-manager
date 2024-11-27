@@ -19,6 +19,9 @@ struct FightView: View {
     let userModel = UserModel.shared
     let storyModel = StoryModel.shared
 
+    
+    // take some views out and insert in because this is too messy
+    
     var body: some View {
         
         NavigationView {
@@ -68,29 +71,39 @@ struct FightView: View {
                     
                     Spacer()
                     
-                    HStack {
+                    HStack { // characters view
                         
                         Spacer()
                         
                         VStack {
                             Text(viewModel.character1.characterName)
-                            Text("\(viewModel.character1.stats.hp)/\(viewModel.character1.stats.health)")
+                            
+                            Text("hp: \(viewModel.character1.stats.hp)/\(viewModel.character1.stats.health)")
+                            ProgressView(value: Double(viewModel.character1.stats.hp), total: Double(viewModel.character1.stats.health))
+                                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                                .frame(height: 8)
+                            
                         }
                         
                         Spacer()
                         
                         VStack {
                             Text(viewModel.character2.characterName)
-                            Text("\(viewModel.character2.stats.hp)/\(viewModel.character2.stats.health)")
+                            
+                            Text("hp: \(viewModel.character2.stats.hp)/\(viewModel.character2.stats.health)")
+                            ProgressView(value: Double(viewModel.character2.stats.hp), total: Double(viewModel.character2.stats.health))
+                                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                                .frame(height: 8)
+                            
                         }
                         
                         Spacer()
                         
-                    }
+                    } // end characters view
                     
                     Spacer()
                     
-                    HStack {
+                    HStack { // actions view
                         
                         Spacer()
                         
@@ -104,7 +117,7 @@ struct FightView: View {
                         VStack {
                             
                             Button("use item") {
-                                viewModel.showCharacterBag = true
+                                viewModel.showCharacterBag = !viewModel.showCharacterBag
                             }
                             
                             if (viewModel.showCharacterBag == true) {
@@ -158,12 +171,17 @@ struct FightView: View {
                             } // end show character bag
                             
                         } // end item vstack
+                    
+                        Spacer()
                         
-                        
+                        Button("pass") {
+                            viewModel.passAction()
+                            viewModel.showCharacterBag = false
+                        }
                         
                         Spacer()
                         
-                    }
+                    } // end actions view
                     
                     Spacer()
                     

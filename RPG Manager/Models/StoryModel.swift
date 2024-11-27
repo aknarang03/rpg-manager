@@ -504,7 +504,7 @@ class StoryModel {
         case .attackerUsesItem:
             return "\(attackerName) uses \(itemName) for \(impact)."
         case .attackerPass:
-            return "\(attackerName) idles."
+            return "\(attackerName) does nothing."
         case .attackerLose:
             return "\(attackerName) loses."
         case .attackerFlee:

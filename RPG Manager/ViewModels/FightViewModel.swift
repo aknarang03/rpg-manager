@@ -149,8 +149,8 @@ class FightViewModel: ObservableObject {
     
     func attackAction() { // TEST
         
-        // NOTE TO SELF: should truncate defender hp at 0
-        
+        // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
+                
         let DAMAGE_TEST = 20
         
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
@@ -196,6 +196,8 @@ class FightViewModel: ObservableObject {
             
             let impactStr = "\(plusMinus)\(item.impact) \(item.impactsWhat)"
             
+            // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
+            
             if (attackingCharacterID == character1ID) { // character 1 is consuming item; character 2 is idling
                 
                 consumeItem(item:item,characterID:character1ID)
@@ -223,6 +225,32 @@ class FightViewModel: ObservableObject {
                 currentAttackerRoundOutcome = "\(character2.characterName) tries to use item."
                 currentDefenderRoundOutcome = "\(character1.characterName) idles."
             }
+            
+        }
+        
+        if (attackingCharacterID == character1ID) {
+            attackingCharacterID = character2ID
+        } else {
+            attackingCharacterID = character1ID
+        }
+        
+        finishAction()
+        
+    }
+    
+    func passAction() {
+        
+        // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
+        
+        if (attackingCharacterID == character1ID) {
+                        
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerPass, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            
+        } else {
+            
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerPass, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
             
         }
         
