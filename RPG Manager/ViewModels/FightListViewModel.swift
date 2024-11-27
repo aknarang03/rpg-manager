@@ -34,6 +34,10 @@ class FightListViewModel: ObservableObject {
         }
     }
     
+    func removeFight(fightID: String) {
+        storyModel.deleteFight(storyID: storyModel.currentStory!.storyID, fightID: fightID)
+    }
+    
 //    func startObserving() {
 //        print("start observing fights")
 //        storyModel.observeCurrentFights()

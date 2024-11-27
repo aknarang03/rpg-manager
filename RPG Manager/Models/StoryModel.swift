@@ -327,6 +327,12 @@ class StoryModel {
         collaboratorRef.removeValue()
     }
     
+    func deleteFight(storyID: String, fightID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let fightRef = storyRef.child("Fights").child(fightID)
+        fightRef.removeValue()
+    }
+    
     func addOutcomesToFight(storyID: String, fightID: String, outcome1: String, outcome2: String) {
         
         let fightOutcomesRef = storyDBRef.child(storyID).child("Fights").child(fightID).child("outcomes")

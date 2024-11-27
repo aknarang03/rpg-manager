@@ -34,17 +34,17 @@ struct FightListView: View {
                     
                     
                     
-//                    .swipeActions {
-//                        
-//                        if userModel.currentUser?.uid == storyModel.currentStory?.creator {
-//                            
-//                            Button() {
-//                                viewModel.removeFight(fightID: fight.fightID)
-//                            } label: {
-//                                Label("Delete", systemImage: "trash")
-//                            }
-//                        }
-//                    }
+                    .swipeActions {
+                        
+                        if userModel.currentUser?.uid == storyModel.currentStory?.creator {
+                            
+                            Button() {
+                                viewModel.removeFight(fightID: fight.fightID)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
+                    }
                     
                     
                     .padding()
