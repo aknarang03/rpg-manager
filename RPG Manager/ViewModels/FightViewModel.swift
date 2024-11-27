@@ -53,7 +53,7 @@ class FightViewModel: ObservableObject {
     func itemIdToItemName(itemID: String) -> String {
         guard let itemName = storyModel.getItemName(for: itemID) else {
             print("Item name not found for \(itemID)")
-            return "Unknown" // default item name
+            return "nothing" // default item name
         }
         return itemName
     }
@@ -137,6 +137,8 @@ class FightViewModel: ObservableObject {
     func stopFight() { // reset vars
         fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
         attackingCharacterID = ""
+        character1ID = ""
+        character2ID = ""
     }
     
     func startFight() {
@@ -150,6 +152,31 @@ class FightViewModel: ObservableObject {
         } else {
             attackingCharacterID = character1ID
         }
+        
+    }
+    
+    func fleeAction() {
+                
+        if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
+            
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            
+        } else { // character 2 is attacking; character 1 is defending
+            
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            
+        }
+        
+        if (attackingCharacterID == character1ID) {
+            attackingCharacterID = character2ID
+        } else {
+            attackingCharacterID = character1ID
+        }
+        
+        finishAction()
+        stopFight()
         
     }
     

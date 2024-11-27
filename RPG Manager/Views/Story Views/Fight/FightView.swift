@@ -65,7 +65,7 @@ struct FightView: View {
                 
                 else { // FIGHT SCREEN CONTENT
                     
-                    Text("\(storyModel.getCharacter(for: viewModel.attackingCharacterID)!.characterName)'s Turn")
+                    Text("\(storyModel.getCharacter(for: viewModel.attackingCharacterID)?.characterName ?? "Unknown")'s Turn")
                         .font(.largeTitle)
                         .padding()
                     
@@ -75,7 +75,8 @@ struct FightView: View {
                         
                         Spacer()
                         
-                        VStack {
+                        VStack { // character 1 view
+                            
                             if (viewModel.character1ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
                                 Text(viewModel.character1.characterName)
                                     .font(.title)
@@ -88,11 +89,13 @@ struct FightView: View {
                                 .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                                 .frame(height: 8)
                             
-                        }
+                            Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character1.heldItem ?? "nothing"))")
+                            
+                        } // end character 1 view
                         
                         Spacer()
                         
-                        VStack {
+                        VStack { // character 2 view
                             
                             if (viewModel.character2ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
                                 Text(viewModel.character2.characterName)
@@ -106,7 +109,9 @@ struct FightView: View {
                                 .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                                 .frame(height: 8)
                             
-                        }
+                            Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character2.heldItem ?? "nothing"))")
+                            
+                        } // end character 2 view
                         
                         Spacer()
                         
@@ -126,10 +131,13 @@ struct FightView: View {
                         Spacer()
                         
                         VStack {
-                            
+                                                        
                             Button("use item") {
                                 viewModel.showCharacterBag = !viewModel.showCharacterBag
-                            }.disabled(viewModel.showOutcome == true || viewModel.isWorking)
+                            }.disabled(viewModel.showOutcome == true
+                                       || viewModel.isWorking
+                                       || storyModel.getCharacter(for: viewModel.attackingCharacterID)!.bag!.isEmpty
+                            )
                             
                             if (viewModel.showCharacterBag == true) {
                                                                 
@@ -176,7 +184,9 @@ struct FightView: View {
                                     Button("use") {
                                         viewModel.consumeItemAction()
                                         viewModel.showCharacterBag = false
-                                    }
+                                    }.disabled(
+                                        viewModel.itemToConsume == ""
+                                    )
                                 } // end use item hstack
                                 
                             } // end show character bag
@@ -192,6 +202,14 @@ struct FightView: View {
                         
                         Spacer()
                         
+                        Button("flee") {
+                            viewModel.fleeAction()
+                            viewModel.showCharacterBag = false
+                            fightStarted = false // this should be in view model..
+                        }.disabled(viewModel.showOutcome == true || viewModel.isWorking)
+                        
+                        Spacer()
+                        
                     } // end actions view
                     
                     Spacer()
@@ -203,9 +221,6 @@ struct FightView: View {
                             Text(viewModel.showOutcomeStr)
                                 .foregroundColor(.red)
                                 .opacity(viewModel.showOutcome ? 1 : 0)
-//                            Text(viewModel.currentDefenderRoundOutcome)
-//                                .foregroundColor(.red)
-//                                .transition(.opacity)
                             
                         }.onChange(of: viewModel.isWorking) {
                             if !viewModel.isWorking {
@@ -231,7 +246,8 @@ struct FightView: View {
                     Button("Start") {
                         fightStarted = true
                         viewModel.startFight()
-                    }
+                    }.disabled(viewModel.character1ID == "" || viewModel.character2ID == "" || viewModel.character1ID == viewModel.character2ID)
+
                 }
                 
                 Spacer()
