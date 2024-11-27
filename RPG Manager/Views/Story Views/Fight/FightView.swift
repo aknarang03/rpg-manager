@@ -207,17 +207,13 @@ struct FightView: View {
 //                                .foregroundColor(.red)
 //                                .transition(.opacity)
                             
-                        }.onAppear {
-                            
-
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        }.onChange(of: viewModel.isWorking) {
+                            if !viewModel.isWorking {
                                 withAnimation {
                                     print("anim done")
                                     viewModel.showOutcome = false
                                 }
                             }
-                            
                         }
                         
                     } // end outcome view

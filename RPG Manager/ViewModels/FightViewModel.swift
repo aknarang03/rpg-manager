@@ -190,10 +190,10 @@ class FightViewModel: ObservableObject {
         }
         
         finishAction()
+        self.showOutcome = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.isWorking = false
-            self.showOutcome = true
         }
         
     }
@@ -250,10 +250,10 @@ class FightViewModel: ObservableObject {
         }
         
         finishAction()
+        self.showOutcome = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.isWorking = false
-            self.showOutcome = true
         }
         
     }
@@ -283,10 +283,10 @@ class FightViewModel: ObservableObject {
         }
         
         finishAction()
+        self.showOutcome = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.isWorking = false
-            self.showOutcome = true
         }
         
     }
