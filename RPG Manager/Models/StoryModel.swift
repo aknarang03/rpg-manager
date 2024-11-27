@@ -263,6 +263,7 @@ class StoryModel {
     }
     
     func updateCharacter(storyID: String, character: Character) {
+        print("updating character in story model")
         let storyRef = Database.database().reference().child("Stories").child(storyID)
         let characterRef = storyRef.child("Characters").child(character.characterID)
         characterRef.setValue(character.toAnyObject())

@@ -156,12 +156,20 @@ class FightViewModel: ObservableObject {
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
             
             character2.stats.hp -= DAMAGE_TEST
+            if (character2.stats.hp < 0) {
+                character2.stats.hp = 0
+            }
+            
             currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(DAMAGE_TEST), itemName: "")
             currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(DAMAGE_TEST), itemName: "")
             
         } else { // character 2 is attacking; character 1 is defending
             
             character1.stats.hp -= DAMAGE_TEST
+            if (character1.stats.hp < 0) {
+                character1.stats.hp = 0
+            }
+            
             currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(DAMAGE_TEST), itemName: "")
             currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(DAMAGE_TEST), itemName: "")
             
@@ -263,6 +271,7 @@ class FightViewModel: ObservableObject {
         else {
             
             var updateCharacter = storyModel.getCharacter(for: characterID)
+            print("id for update character: \(characterID)")
             
             // make an update stats method.. this is very messy
             
@@ -327,8 +336,12 @@ class FightViewModel: ObservableObject {
             default:
                 print("unhandled impact type: \(item.impactsWhat)")
             }
-            
-            storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
+                        
+            if character1ID == attackingCharacterID {
+                character1 = updateCharacter!
+            } else {
+                character2 = updateCharacter!
+            }
 
         }
     }
