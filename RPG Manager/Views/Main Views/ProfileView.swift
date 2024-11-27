@@ -35,6 +35,7 @@ struct ProfileView: View {
                 }
                 
                 Spacer()
+                Spacer()
                 
                 Button("Delete Account") {
                     Task {

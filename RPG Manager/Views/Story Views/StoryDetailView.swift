@@ -27,6 +27,10 @@ struct StoryDetailView: View {
                 Text(viewModel.currentStory.storyName)
                     .font(.largeTitle)
                     .padding()
+                Text(viewModel.currentStory.storyDescription)
+                
+                Spacer()
+                
                 Text("amount of characters is \(viewModel.currentCharacters.count)")
                 Text("amount of items is \(viewModel.currentItems.count)")
                 Text("amount of collaborators is \(viewModel.currentCollaborators.count)")
@@ -35,6 +39,7 @@ struct StoryDetailView: View {
                 
                 if let userid = userModel.currentUser?.uid {
                     if userid == storyModel.currentStory?.creator {
+                        Spacer()
                         Button("Delete Story") {
                             viewModel.deleteStory()
                             appState.isInStory = false

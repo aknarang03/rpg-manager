@@ -29,7 +29,9 @@ struct FightView: View {
                 
                 if (!fightStarted) { // SETUP SCREEN CONTENT
                     
-                    Text("fight not started")
+                    Text("Select Characters")
+                        .font(.largeTitle)
+                        .padding()
                     Spacer()
                     
                     HStack {
@@ -60,8 +62,9 @@ struct FightView: View {
                 
                 else { // FIGHT SCREEN CONTENT
                     
-                    Text("fight started")
-                    Text("attacker: \(storyModel.getCharacter(for: viewModel.attackingCharacterID)!.characterName)")
+                    Text("\(storyModel.getCharacter(for: viewModel.attackingCharacterID)!.characterName)'s Turn")
+                        .font(.largeTitle)
+                        .padding()
                     
                     Spacer()
                     
