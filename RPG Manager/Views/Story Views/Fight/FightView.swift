@@ -185,8 +185,14 @@ struct FightView: View {
             }
             .navigationBarTitle("Fight")
             .navigationBarItems(
-                trailing: Button("Fights") { }
-            )
+                trailing: Button(action: {}, label: {
+                    NavigationLink(destination: FightListView()) {
+                         Text("Fights")
+                    }
+                }
+                                )
+                )
+            
             
         }
             

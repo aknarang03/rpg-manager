@@ -30,6 +30,7 @@ class StoryModel {
     @Published var currentCharacters: [Character] = []
     @Published var currentItems: [Item] = []
     @Published var currentCollaborators: [String] = []
+    @Published var currentFights: [Fight] = []
     
     func setCurrentStory(tappedOn: Story) { // async?
         currentStory = tappedOn
@@ -214,6 +215,45 @@ class StoryModel {
             if let observerHandle = itemObserverHandle {
                 let itemsRef = storyDBRef.child(story.storyID).child("Items")
                 itemsRef.removeObserver(withHandle: observerHandle)
+            }
+        }
+    }
+    
+    func observeCurrentFights() {
+        
+        if let story: Story = currentStory {
+            
+            print("observing fights for story: \(story.storyID)")
+            
+            let fightsRef = storyDBRef.child(story.storyID).child("Fights")
+            
+            itemObserverHandle = fightsRef.observe(.value, with: { snapshot in
+                
+                print("fights snapshot: \(snapshot.value ?? "No data")")
+                
+                var tempFights: [Fight] = []
+                for child in snapshot.children {
+                    if let data = child as? DataSnapshot,
+                       let fight = Fight(snapshot: data) {
+                        tempFights.append(fight)
+                    } else {
+                        print("could not append fight")
+                    }
+                }
+                self.currentFights.removeAll()
+                self.currentFights = tempFights
+                print("fights in observeCurrentFights: \(self.currentFights.count)")
+            })
+        }
+        
+    }
+    
+    func cancelCurrentFightsObserver() {
+        print("cancel current story fights observer")
+        if let story: Story = currentStory {
+            if let observerHandle = itemObserverHandle {
+                let fightsRef = storyDBRef.child(story.storyID).child("Fights")
+                fightsRef.removeObserver(withHandle: observerHandle)
             }
         }
     }
