@@ -76,7 +76,12 @@ struct FightView: View {
                         Spacer()
                         
                         VStack {
-                            Text(viewModel.character1.characterName)
+                            if (viewModel.character1ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
+                                Text(viewModel.character1.characterName)
+                                    .font(.title)
+                            } else {
+                                Text(viewModel.character1.characterName)
+                            }
                             
                             Text("hp: \(viewModel.character1.stats.hp)/\(viewModel.character1.stats.health)")
                             ProgressView(value: Double(viewModel.character1.stats.hp), total: Double(viewModel.character1.stats.health))
@@ -88,7 +93,13 @@ struct FightView: View {
                         Spacer()
                         
                         VStack {
-                            Text(viewModel.character2.characterName)
+                            
+                            if (viewModel.character2ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
+                                Text(viewModel.character2.characterName)
+                                    .font(.title)
+                            } else {
+                                Text(viewModel.character2.characterName)
+                            }
                             
                             Text("hp: \(viewModel.character2.stats.hp)/\(viewModel.character2.stats.health)")
                             ProgressView(value: Double(viewModel.character2.stats.hp), total: Double(viewModel.character2.stats.health))
@@ -110,7 +121,7 @@ struct FightView: View {
                         Button("attack") {
                             viewModel.attackAction()
                             viewModel.showCharacterBag = false
-                        }
+                        }.disabled(viewModel.showOutcome == true)
                         
                         Spacer()
                         
@@ -118,7 +129,7 @@ struct FightView: View {
                             
                             Button("use item") {
                                 viewModel.showCharacterBag = !viewModel.showCharacterBag
-                            }
+                            }.disabled(viewModel.showOutcome == true)
                             
                             if (viewModel.showCharacterBag == true) {
                                                                 
@@ -177,13 +188,35 @@ struct FightView: View {
                         Button("pass") {
                             viewModel.passAction()
                             viewModel.showCharacterBag = false
-                        }
+                        }.disabled(viewModel.showOutcome == true)
                         
                         Spacer()
                         
                     } // end actions view
                     
                     Spacer()
+                    
+                    if (viewModel.showOutcome) {
+                        
+                        VStack {
+                            
+                            Text(viewModel.showOutcomeStr)
+                                .foregroundColor(.red)
+                                .transition(.opacity)
+//                            Text(viewModel.currentDefenderRoundOutcome)
+//                                .foregroundColor(.red)
+//                                .transition(.opacity)
+                            
+                        }.onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                withAnimation {
+                                    print("anim done")
+                                    viewModel.showOutcome = false
+                                }
+                            }
+                        }
+                        
+                    } // end outcome view
                     
                 } // end fight screen content
                 

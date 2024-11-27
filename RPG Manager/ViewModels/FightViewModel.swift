@@ -26,8 +26,12 @@ class FightViewModel: ObservableObject {
     @Published var attackingCharacterID: String = ""
     
     @Published var fight: Fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
+    
     @Published var currentAttackerRoundOutcome: String = ""
     @Published var currentDefenderRoundOutcome: String = ""
+    
+    @Published var showOutcomeStr: String = ""
+    @Published var showOutcome: Bool = false
     
     @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
     @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "")
@@ -268,6 +272,9 @@ class FightViewModel: ObservableObject {
     func finishAction() {
         
         print("in finish outcome")
+        
+        showOutcomeStr = "\(currentAttackerRoundOutcome)\n\(currentDefenderRoundOutcome)"
+        showOutcome = true
                                 
         storyModel.addOutcomesToFight(storyID: storyModel.currentStory!.storyID, fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
         currentAttackerRoundOutcome = ""
@@ -276,7 +283,7 @@ class FightViewModel: ObservableObject {
         
         storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character1)
         storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character2)
-        
+                
     }
     // NOTE: rounds are just two outcomes, which is the result of one action. rounds are not stored in database; they will just be displayed as such in the UI.
     

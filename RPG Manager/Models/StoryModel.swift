@@ -341,8 +341,7 @@ class StoryModel {
             
             var outcomes = snapshot.value as? [String] ?? []
             
-            outcomes.append(outcome1)
-            outcomes.append(outcome2)
+            outcomes.append("\(outcome1)\n\(outcome2)")
             fightOutcomesRef.setValue(outcomes)
             
             print("updated outcomes: \(outcomes)")
