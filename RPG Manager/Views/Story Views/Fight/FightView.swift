@@ -121,7 +121,7 @@ struct FightView: View {
                         Button("attack") {
                             viewModel.attackAction()
                             viewModel.showCharacterBag = false
-                        }.disabled(viewModel.showOutcome == true)
+                        }.disabled(viewModel.showOutcome == true || viewModel.isWorking)
                         
                         Spacer()
                         
@@ -129,7 +129,7 @@ struct FightView: View {
                             
                             Button("use item") {
                                 viewModel.showCharacterBag = !viewModel.showCharacterBag
-                            }.disabled(viewModel.showOutcome == true)
+                            }.disabled(viewModel.showOutcome == true || viewModel.isWorking)
                             
                             if (viewModel.showCharacterBag == true) {
                                                                 
@@ -188,7 +188,7 @@ struct FightView: View {
                         Button("pass") {
                             viewModel.passAction()
                             viewModel.showCharacterBag = false
-                        }.disabled(viewModel.showOutcome == true)
+                        }.disabled(viewModel.showOutcome == true || viewModel.isWorking)
                         
                         Spacer()
                         
@@ -196,24 +196,28 @@ struct FightView: View {
                     
                     Spacer()
                     
-                    if (viewModel.showOutcome) {
+                    if (viewModel.showOutcome) { // outcome view
                         
                         VStack {
                             
                             Text(viewModel.showOutcomeStr)
                                 .foregroundColor(.red)
-                                .transition(.opacity)
+                                .opacity(viewModel.showOutcome ? 1 : 0)
 //                            Text(viewModel.currentDefenderRoundOutcome)
 //                                .foregroundColor(.red)
 //                                .transition(.opacity)
                             
                         }.onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            
+
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 withAnimation {
                                     print("anim done")
                                     viewModel.showOutcome = false
                                 }
                             }
+                            
                         }
                         
                     } // end outcome view

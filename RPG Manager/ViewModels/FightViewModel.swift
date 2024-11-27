@@ -19,6 +19,8 @@ class FightViewModel: ObservableObject {
     @Published var showCharacterBag: Bool = false
     @Published var itemToConsume: String = ""
     
+    @Published var isWorking = false
+    
     @Published var characters: [Character] = []
     
     @Published var character1ID: String
@@ -154,7 +156,9 @@ class FightViewModel: ObservableObject {
     func attackAction() { // TEST
         
         // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
-                
+        
+        isWorking = true
+                    
         let DAMAGE_TEST = 20
         
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
@@ -187,9 +191,16 @@ class FightViewModel: ObservableObject {
         
         finishAction()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.isWorking = false
+            self.showOutcome = true
+        }
+        
     }
     
     func consumeItemAction() {
+        
+        isWorking = true
         
         if let item = storyModel.getItem(for: itemToConsume) {
             
@@ -240,14 +251,21 @@ class FightViewModel: ObservableObject {
         
         finishAction()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.isWorking = false
+            self.showOutcome = true
+        }
+        
     }
     
     func passAction() {
         
         // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
         
+        isWorking = true
+            
         if (attackingCharacterID == character1ID) {
-                        
+            
             currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerPass, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             
@@ -266,6 +284,11 @@ class FightViewModel: ObservableObject {
         
         finishAction()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.isWorking = false
+            self.showOutcome = true
+        }
+        
     }
     
     // called at end of each action (attacker outcome, defender outcome)
@@ -274,7 +297,7 @@ class FightViewModel: ObservableObject {
         print("in finish outcome")
         
         showOutcomeStr = "\(currentAttackerRoundOutcome)\n\(currentDefenderRoundOutcome)"
-        showOutcome = true
+        //showOutcome = true
                                 
         storyModel.addOutcomesToFight(storyID: storyModel.currentStory!.storyID, fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
         currentAttackerRoundOutcome = ""
