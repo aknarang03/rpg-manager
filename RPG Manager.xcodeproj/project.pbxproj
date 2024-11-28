@@ -35,6 +35,7 @@
 		405191002CEA7ED000CD59FB /* RPG Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RPG Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		405191162CEA7ED200CD59FB /* RPG ManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RPG ManagerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		405191202CEA7ED200CD59FB /* RPG ManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RPG ManagerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		40D978CE2CF7EED4003A846B /* PencilKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PencilKit.framework; path = System/Library/Frameworks/PencilKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -104,6 +105,7 @@
 				405191022CEA7ED000CD59FB /* RPG Manager */,
 				405191192CEA7ED200CD59FB /* RPG ManagerTests */,
 				405191232CEA7ED200CD59FB /* RPG ManagerUITests */,
+				40D978CD2CF7EED4003A846B /* Frameworks */,
 				405191012CEA7ED000CD59FB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,6 +118,14 @@
 				405191202CEA7ED200CD59FB /* RPG ManagerUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		40D978CD2CF7EED4003A846B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				40D978CE2CF7EED4003A846B /* PencilKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
