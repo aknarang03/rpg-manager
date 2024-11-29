@@ -182,36 +182,36 @@ class FightViewModel: ObservableObject {
     
     func attackAction() {
         
-        // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
-        
         isWorking = true
-                            
-        if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
-            
-            let damage = calculateDamage(attacker: character1, defender: character2)
-
-            character2.stats.hp -= damage
-            if (character2.stats.hp < 0) {
-                character2.stats.hp = 0
-            }
-            
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(damage), itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(damage), itemName: "")
-            
-        } else { // character 2 is attacking; character 1 is defending
-            
-            let damage = calculateDamage(attacker: character2, defender: character1)
-            
-            character1.stats.hp -= damage
-            if (character1.stats.hp < 0) {
-                character1.stats.hp = 0
-            }
-            
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(damage), itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(damage), itemName: "")
-            
+        
+        // set up temp vars
+        var attackingChar: Character = character1
+        var defendingChar: Character = character2
+        if (attackingCharacterID == character2ID) {
+            attackingChar = character2
+            defendingChar = character1
         }
         
+        let damage = calculateDamage(attacker: attackingChar, defender: defendingChar)
+        
+        defendingChar.stats.hp -= damage
+        if (defendingChar.stats.hp < 0) {
+            defendingChar.stats.hp = 0
+        }
+        
+        currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+        currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+        
+        // apply changes
+        if (attackingCharacterID == character1ID) {
+            character1 = attackingChar
+            character2 = defendingChar
+        } else {
+            character1 = defendingChar
+            character2 = attackingChar
+        }
+        
+        // swap for fight tracking
         if (attackingCharacterID == character1ID) {
             attackingCharacterID = character2ID
         } else {
