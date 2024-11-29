@@ -35,7 +35,7 @@ struct CharacterDetailView: View {
         
         NavigationView {
             
-            ScrollView {
+           // ScrollView {
                 
                 VStack {
                     
@@ -138,16 +138,16 @@ struct CharacterDetailView: View {
                         }
                     }
                     
-                }
+                } // VStack
                 .padding()
                 
                 
-            }
+            //} // ScrollView
             
             
-        }
+        } // NavigationView
         
-    }
+    } // View
             
 }
 
