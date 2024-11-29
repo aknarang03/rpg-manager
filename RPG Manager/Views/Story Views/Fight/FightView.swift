@@ -115,6 +115,10 @@ struct FightView: View {
                                 } placeholder: {
                                     ProgressView()
                                 }
+                            } else {
+                                Rectangle() // to even out spacing
+                                    .frame(width: 30, height: 30)
+                                    .opacity(0)
                             }
                             
                             if (viewModel.character2ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..

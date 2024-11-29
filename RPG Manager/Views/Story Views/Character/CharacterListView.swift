@@ -28,11 +28,20 @@ struct CharacterListView: View {
                     NavigationLink(destination: CharacterDetailView(character: character)) {
                         VStack(alignment: .leading) {
                             HStack {
+                                if let iconURLString = character.iconURL, let url = URL(string: iconURLString) {
+                                    AsyncImage(url: url) { image in
+                                        image.resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                }
                                 Text(character.characterName)
                                 Spacer()
                                 if let yourUid = userModel.currentUser?.uid {
                                     if (character.creatorID == yourUid) {
-                                        Image(systemName: "star.circle.fill")
+                                        Image(systemName: "star.fill")
                                             .foregroundColor(.gray)
                                     }
                                 }
