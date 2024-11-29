@@ -20,8 +20,9 @@ struct Character {
     var bag: [String: Int]? // id : quantity
     var isPlayer: Bool
     var heldItem: String?
+    var iconURL: String?
     
-    init (characterID: String, creatorID: String, characterName: String, characterDescription: String, stats: Stats, bag: [String: Int]? = nil, isPlayer: Bool, heldItem: String) {
+    init (characterID: String, creatorID: String, characterName: String, characterDescription: String, stats: Stats, bag: [String: Int]? = nil, isPlayer: Bool, heldItem: String, iconURL: String) {
         self.ref = nil
         self.characterID = characterID
         self.creatorID = creatorID
@@ -31,6 +32,7 @@ struct Character {
         self.bag = bag
         self.isPlayer = isPlayer
         self.heldItem = heldItem
+        self.iconURL = iconURL
     }
     
     init? (snapshot: DataSnapshot) {
@@ -55,6 +57,7 @@ struct Character {
         
         let bag = value["bag"] as? [String: Int] ?? [:]
         let heldItem = value["heldItem"] as? String
+        let iconURL = value["iconURL"] as? String
         
         self.ref = snapshot.ref
         self.characterID = characterID
@@ -65,6 +68,7 @@ struct Character {
         self.bag = bag
         self.isPlayer = isPlayer
         self.heldItem = heldItem
+        self.iconURL = iconURL
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
@@ -92,6 +96,9 @@ struct Character {
         }
         if let heldItem = self.heldItem {
             dict["heldItem"] = heldItem
+        }
+        if let iconURL = self.iconURL {
+            dict["iconURL"] = iconURL
         }
         
         return dict

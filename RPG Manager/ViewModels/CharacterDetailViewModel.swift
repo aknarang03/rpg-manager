@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import PhotosUI
 
 class CharacterDetailViewModel: ObservableObject {
     
@@ -45,6 +46,17 @@ class CharacterDetailViewModel: ObservableObject {
     
     func deleteCharacter() {
         storyModel.deleteCharacter(storyID: storyModel.currentStory!.storyID, characterID: character.characterID)
+    }
+    
+    func updateCharacterIcon(image: UIImage) {
+        storyModel.uploadImage(image: image, imageID: timeInterval(), characterID: character.characterID, storyID: storyModel.currentStory!.storyID) // this also calls function that updates database ref
+    }
+    
+    func timeInterval() -> String {
+        let timeNow = Date()
+        var timeStr = String(timeNow.timeIntervalSince1970)
+        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
+        return timeStr
     }
 
 }
