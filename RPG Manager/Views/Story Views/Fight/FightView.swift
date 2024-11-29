@@ -77,6 +77,16 @@ struct FightView: View {
                         
                         VStack { // character 1 view
                             
+                            if let iconURLString = viewModel.character1.iconURL, let url = URL(string: iconURLString) {
+                                AsyncImage(url: url) { image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            }
+                            
                             if (viewModel.character1ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
                                 Text(viewModel.character1.characterName)
                                     .font(.title)
@@ -96,6 +106,16 @@ struct FightView: View {
                         Spacer()
                         
                         VStack { // character 2 view
+                            
+                            if let iconURLString = viewModel.character2.iconURL, let url = URL(string: iconURLString) {
+                                AsyncImage(url: url) { image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            }
                             
                             if (viewModel.character2ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
                                 Text(viewModel.character2.characterName)
