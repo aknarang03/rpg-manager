@@ -194,21 +194,33 @@ class FightViewModel: ObservableObject {
         
         let damage = calculateDamage(attacker: attackingChar, defender: defendingChar)
         
-        defendingChar.stats.hp -= damage
-        if (defendingChar.stats.hp < 0) {
-            defendingChar.stats.hp = 0
-        }
+        let avoidChance = calcAvoidChance(attacker: attackingChar, defender: defendingChar)
+        let tryAvoid = Int.random(in: 0...100)
         
-        currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
-        currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
-        
-        // apply changes
-        if (attackingCharacterID == character1ID) {
-            character1 = attackingChar
-            character2 = defendingChar
-        } else {
-            character1 = defendingChar
-            character2 = attackingChar
+        if (tryAvoid < avoidChance) { // defender avoids attack
+            
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderAvoid, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            
+        } else { // defender is hit
+                        
+            defendingChar.stats.hp -= damage
+            if (defendingChar.stats.hp < 0) {
+                defendingChar.stats.hp = 0
+            }
+            
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            
+            // apply changes
+            if (attackingCharacterID == character1ID) {
+                character1 = attackingChar
+                character2 = defendingChar
+            } else {
+                character1 = defendingChar
+                character2 = attackingChar
+            }
+            
         }
         
         // swap for fight tracking
@@ -439,6 +451,15 @@ class FightViewModel: ObservableObject {
         let randomFactor = Double.random(in: 0.8...1.2)
         damage = Int(Double(damage) * randomFactor)
         return max(damage, 1)
+    }
+    
+    // TEMP FORMULA
+    func calcAvoidChance(attacker: Character, defender: Character) -> Int {
+        guard attacker.stats.agility + defender.stats.agility > 0 else {
+            return 0
+        }
+        let avoidChance = Double(defender.stats.agility) / Double(attacker.stats.agility + defender.stats.agility) * 0.5 * 100
+        return Int(avoidChance)
     }
         
 }
