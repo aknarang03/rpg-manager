@@ -45,7 +45,7 @@ class AddCharacterViewModel: ObservableObject {
         var playerbool = false
         if (isPlayer == "false") { playerbool = false } else { playerbool = true }
         
-        let newCharacter = Character(characterID: timeInterval(), creatorID: userModel.currentUser!.uid, characterName: characterName, characterDescription: characterDescription, stats: Stats(health: healthVal, attack: attackVal, defense: defenseVal, speed: speedVal, agility: agilityVal, hp: healthVal), bag: [:], isPlayer: playerbool, heldItem: "")
+        let newCharacter = Character(characterID: timeInterval(), creatorID: userModel.currentUser!.uid, characterName: characterName, characterDescription: characterDescription, stats: Stats(health: healthVal, attack: attackVal, defense: defenseVal, speed: speedVal, agility: agilityVal, hp: healthVal), bag: [:], isPlayer: playerbool, heldItem: "", iconURL: "")
         storyModel.addCharacterToStory(storyID: storyModel.currentStory!.storyID, character: newCharacter)
 
     }

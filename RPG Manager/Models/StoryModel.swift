@@ -8,6 +8,9 @@
 import Foundation
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
+
+import PhotosUI
 
 class StoryModel {
     
@@ -541,5 +544,50 @@ class StoryModel {
 //        let fightRef = storyRef.child("Fights").child(fight.fightID)
 //        fightRef.setValue(fight.toAnyObject())
 //    }
+    
+    func uploadImage(image: UIImage, imageID: String, characterID: String, storyID: String) {
+        
+        let storageRef = Storage.storage().reference()
+        let imageRef = storageRef.child("images/\(imageID).jpg")
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            print("failed to get image data")
+            return
+        }
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        imageRef.putData(imageData, metadata: metadata) { metadata, error in
+            
+            if let error = error {
+                print("cannot upload; \(error.localizedDescription)")
+                return
+            }
+
+            // url for character
+            imageRef.downloadURL { url, error in
+                if let error = error {
+                    print("cannot get download URL; \(error.localizedDescription)")
+                } else if let url = url {
+                    print("got download URL; \(url.absoluteString)")
+                    self.updateCharacterIcon(characterID: characterID, storyID: storyID, imageURL: url.absoluteString)
+                }
+            }
+        }
+        
+    }
+    
+    func updateCharacterIcon(characterID: String, storyID: String, imageURL: String) {
+        print("updating character ICON in story model")
+        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        if var character = self.getCharacter(for: characterID) {
+            character.iconURL = imageURL
+            let characterRef = storyRef.child("Characters").child(character.characterID)
+            characterRef.setValue(character.toAnyObject())
+        }
+    }
+    
+    
 
 }
