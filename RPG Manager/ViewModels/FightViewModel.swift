@@ -180,33 +180,35 @@ class FightViewModel: ObservableObject {
         
     }
     
-    func attackAction() { // TEST
+    func attackAction() {
         
         // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
         
         isWorking = true
-                    
-        let DAMAGE_TEST = 20
-        
+                            
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
             
-            character2.stats.hp -= DAMAGE_TEST
+            let damage = calculateDamage(attacker: character1, defender: character2)
+
+            character2.stats.hp -= damage
             if (character2.stats.hp < 0) {
                 character2.stats.hp = 0
             }
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(DAMAGE_TEST), itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(DAMAGE_TEST), itemName: "")
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(damage), itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character1.characterName, defenderName: character2.characterName, impact: String(damage), itemName: "")
             
         } else { // character 2 is attacking; character 1 is defending
             
-            character1.stats.hp -= DAMAGE_TEST
+            let damage = calculateDamage(attacker: character2, defender: character1)
+            
+            character1.stats.hp -= damage
             if (character1.stats.hp < 0) {
                 character1.stats.hp = 0
             }
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(DAMAGE_TEST), itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(DAMAGE_TEST), itemName: "")
+            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(damage), itemName: "")
+            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: character2.characterName, defenderName: character1.characterName, impact: String(damage), itemName: "")
             
         }
         
@@ -429,6 +431,14 @@ class FightViewModel: ObservableObject {
             }
 
         }
+    }
+    
+    // TEMP FORMULA
+    func calculateDamage(attacker: Character, defender: Character) -> Int {
+        var damage = max(0, (attacker.stats.attack - defender.stats.defense) / 2)
+        let randomFactor = Double.random(in: 0.8...1.2)
+        damage = Int(Double(damage) * randomFactor)
+        return max(damage, 1)
     }
         
 }
