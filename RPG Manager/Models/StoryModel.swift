@@ -548,15 +548,15 @@ class StoryModel {
     func uploadImage(image: UIImage, imageID: String, characterID: String, storyID: String) {
         
         let storageRef = Storage.storage().reference()
-        let imageRef = storageRef.child("images/\(imageID).jpg")
+        let imageRef = storageRef.child("images/\(imageID).png")
         
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+        guard let imageData = image.pngData() else {
             print("failed to get image data")
             return
         }
         
         let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
+        metadata.contentType = "image/png"
         
         imageRef.putData(imageData, metadata: metadata) { metadata, error in
             
