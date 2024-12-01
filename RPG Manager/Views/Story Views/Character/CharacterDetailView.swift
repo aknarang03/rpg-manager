@@ -26,7 +26,6 @@ struct CharacterDetailView: View {
     
     // should move the logic used with these to view model..
     let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
     
     @State private var showPopup = false
     @State private var popupMessage = ""
@@ -128,7 +127,7 @@ struct CharacterDetailView: View {
                     
                     PhotoPicker(viewModel: viewModel)
                     if let userid = userModel.currentUser?.uid {
-                        if userid == storyModel.currentStory?.creator || userid == character.creatorID {
+                        if youAreCurrentStoryCreator() || youAreCharacterCreator(character: character) {
                             Spacer()
                             Button("Delete Character") {
                                 viewModel.deleteCharacter()

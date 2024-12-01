@@ -14,8 +14,6 @@ struct ProfileView: View {
         
     // should move the logic used with these to view model..
     let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
-
     
     var body: some View {
         

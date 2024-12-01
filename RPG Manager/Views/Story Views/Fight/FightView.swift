@@ -16,8 +16,6 @@ struct FightView: View {
     @State var fightStarted = false
     
     // should move the logic used with these to view model..
-    let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
     let characterModel = CharacterModel.shared
 
     

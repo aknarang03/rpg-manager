@@ -13,7 +13,6 @@ struct StoryListView: View {
     @EnvironmentObject var appState: AppState
     
     // should move the logic used with these to view model..
-    let storyModel = StoryModel.shared
     let userModel = UserModel.shared
     
     @State private var selectedStory: Story?

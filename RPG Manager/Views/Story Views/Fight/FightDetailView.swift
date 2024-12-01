@@ -12,10 +12,6 @@ struct FightDetailView: View {
     
     @ObservedObject var viewModel: FightDetailViewModel
     
-    // should move the logic used with these to view model..
-    let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
-    
     var fight: Fight
     
     // pass character to view model

@@ -13,6 +13,10 @@ class HomeViewModel: ObservableObject {
     let storyModel = StoryModel.shared
     let userModel = UserModel.shared
     
+    func resetCurrent() {
+        storyModel.currentStory = nil
+    }
+    
     func startObserving() {
         print("start observing")
         userModel.observeUsers()
