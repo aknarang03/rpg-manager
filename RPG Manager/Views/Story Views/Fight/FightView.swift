@@ -18,6 +18,7 @@ struct FightView: View {
     // should move the logic used with these to view model..
     let userModel = UserModel.shared
     let storyModel = StoryModel.shared
+    let characterModel = CharacterModel.shared
 
     
     // take some views out and insert in because this is too messy
@@ -65,7 +66,7 @@ struct FightView: View {
                 
                 else { // FIGHT SCREEN CONTENT
                     
-                    Text("\(storyModel.getCharacter(for: viewModel.attackingCharacterID)?.characterName ?? "Unknown")'s Turn")
+                    Text("\(characterModel.getCharacter(for: viewModel.attackingCharacterID)?.characterName ?? "Unknown")'s Turn")
                         .font(.largeTitle)
                         .padding()
                     
@@ -164,7 +165,7 @@ struct FightView: View {
                                 viewModel.showCharacterBag = !viewModel.showCharacterBag
                             }.disabled(viewModel.showOutcome == true
                                        || viewModel.isWorking
-                                       || storyModel.getCharacter(for: viewModel.attackingCharacterID)!.bag!.isEmpty
+                                       || characterModel.getCharacter(for: viewModel.attackingCharacterID)!.bag!.isEmpty
                             )
                             
                             if (viewModel.showCharacterBag == true) {

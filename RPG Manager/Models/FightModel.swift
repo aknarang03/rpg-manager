@@ -59,15 +59,15 @@ class FightModel {
         }
     }
     
-    func deleteFight(storyID: String, fightID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func deleteFight(fightID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let fightRef = storyRef.child("Fights").child(fightID)
         fightRef.removeValue()
     }
     
-    func addOutcomesToFight(storyID: String, fightID: String, outcome1: String, outcome2: String) {
+    func addOutcomesToFight(fightID: String, outcome1: String, outcome2: String) {
         
-        let fightOutcomesRef = storyDBRef.child(storyID).child("Fights").child(fightID).child("outcomes")
+        let fightOutcomesRef = storyDBRef.child(storyModel.currentStoryID).child("Fights").child(fightID).child("outcomes")
         
         fightOutcomesRef.observeSingleEvent(of: .value) { snapshot in
             
@@ -115,14 +115,14 @@ class FightModel {
         
     }
     
-    func startFight(storyID: String, fight: Fight) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func startFight(fight: Fight) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let fightRef = storyRef.child("Fights").child(fight.fightID)
         fightRef.setValue(fight.toAnyObject())
     }
     
-    func updateFight(storyID: String, fight: Fight) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func updateFight(fight: Fight) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let fightRef = storyRef.child("Fights").child(fight.fightID)
         fightRef.setValue(fight.toAnyObject())
     }

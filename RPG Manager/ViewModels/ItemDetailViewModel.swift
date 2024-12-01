@@ -12,6 +12,8 @@ class ItemDetailViewModel: ObservableObject {
     
     let userModel = UserModel.shared
     let storyModel = StoryModel.shared
+    let characterModel = CharacterModel.shared
+    let itemModel = ItemModel.shared
     
     @Published var item: Item
     @Published var characterID: String
@@ -23,7 +25,7 @@ class ItemDetailViewModel: ObservableObject {
     init(item: Item) {
         self.item = item
         self.characterID = ""
-        storyModel.$currentCharacters
+        characterModel.$currentCharacters
             .sink { [weak self] newChars in self?.characters = newChars }
             .store(in: &cancellables)
     }
@@ -37,13 +39,13 @@ class ItemDetailViewModel: ObservableObject {
     }
     
     func addItemToBag() {
-        let character = storyModel.getCharacter(for: characterID)
+        let character = characterModel.getCharacter(for: characterID)
         if character?.bag?.keys.contains(item.itemID) == true {
             if (item.type == "equippable") {
                 return;
             }
         }
-        storyModel.addItemToBag(storyID: storyModel.currentStory!.storyID, characterID: characterID, itemID: item.itemID, addingAmt: 1)
+        characterModel.addItemToBag(characterID: characterID, itemID: item.itemID, addingAmt: 1)
     }
     
     
@@ -57,7 +59,7 @@ class ItemDetailViewModel: ObservableObject {
         
         else {
             
-            var updateCharacter = storyModel.getCharacter(for: characterID)
+            var updateCharacter = characterModel.getCharacter(for: characterID)
             
             // make an update stats method.. this is very messy
             
@@ -84,13 +86,13 @@ class ItemDetailViewModel: ObservableObject {
                 print("unhandled impact type: \(item.impactsWhat)")
             }
             
-            storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
+            characterModel.updateCharacter(character: updateCharacter!)
 
         }
     }
     
     func deleteItem() {
-        storyModel.deleteItem(storyID: storyModel.currentStory!.storyID, itemID: item.itemID)
+        itemModel.deleteItem(itemID: item.itemID)
     }
 
 }

@@ -10,8 +10,8 @@ import Foundation
 
 class AddCharacterViewModel: ObservableObject {
     
-    let storyModel = StoryModel.shared
     let userModel = UserModel.shared
+    let characterModel = CharacterModel.shared
     
     @Published var characterName: String = ""
     @Published var characterDescription: String = ""
@@ -39,7 +39,7 @@ class AddCharacterViewModel: ObservableObject {
         if (isPlayer == "false") { playerbool = false } else { playerbool = true }
         
         let newCharacter = Character(characterID: idWithTimeInterval(), creatorID: userModel.currentUser!.uid, characterName: characterName, characterDescription: characterDescription, stats: Stats(health: healthVal, attack: attackVal, defense: defenseVal, speed: speedVal, agility: agilityVal, hp: healthVal), bag: [:], isPlayer: playerbool, heldItem: "", iconURL: "")
-        storyModel.addCharacterToStory(storyID: storyModel.currentStory!.storyID, character: newCharacter)
+        characterModel.addCharacterToStory(character: newCharacter)
 
     }
 

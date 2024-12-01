@@ -12,7 +12,8 @@ import Combine
 class CharacterBagViewModel: ObservableObject {
     
     let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
+    let characterModel = CharacterModel.shared
+    let itemModel = ItemModel.shared
     
     @Published var itemID: String = ""
     @Published var itemType: String = ""
@@ -23,11 +24,11 @@ class CharacterBagViewModel: ObservableObject {
     
     init(character: Character) {
         self.bagOwner = character
-        self.stats = storyModel.getTruncatedStats(characterID: character.characterID)
+        self.stats = characterModel.getTruncatedStats(characterID: character.characterID)
     }
     
     func itemIdToItemName(itemID: String) -> String {
-        guard let itemName = storyModel.getItemName(for: itemID) else {
+        guard let itemName = itemModel.getItemName(for: itemID) else {
             print("Item name not found for \(itemID)")
             return "Unknown" // default item name
         }
@@ -35,7 +36,7 @@ class CharacterBagViewModel: ObservableObject {
     }
     
     func getItemType(itemID: String) -> String {
-        guard let item = storyModel.getItem(for: itemID) else {
+        guard let item = itemModel.getItem(for: itemID) else {
             print("Item not found for \(itemID)")
             return "unknown"
         }
@@ -47,8 +48,8 @@ class CharacterBagViewModel: ObservableObject {
     // kick back in.
     func consumeItem(characterID: String) {
         
-        storyModel.consumeItem(storyID: storyModel.currentStory!.storyID, characterID: characterID, itemID: itemID)
-        let item = storyModel.getItem(for: itemID)
+        characterModel.consumeItem(characterID: characterID, itemID: itemID)
+        let item = itemModel.getItem(for: itemID)
         
         if (item?.impactsWhat == "none" || item?.impact == 0) { // no impact
             print("item has no impact")
@@ -57,7 +58,7 @@ class CharacterBagViewModel: ObservableObject {
         
         else {
             
-            var updateCharacter = storyModel.getCharacter(for: characterID)
+            var updateCharacter = characterModel.getCharacter(for: characterID)
             
             // make an update stats method.. this is very messy
             
@@ -123,7 +124,7 @@ class CharacterBagViewModel: ObservableObject {
                 print("unhandled impact type: \(item?.impactsWhat ?? "unknown")")
             }
             
-            storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
+            characterModel.updateCharacter(character: updateCharacter!)
 
         }
     }
@@ -132,7 +133,7 @@ class CharacterBagViewModel: ObservableObject {
         
         print("delete item \(itemID)")
         
-        if let item = storyModel.getItem(for: itemID) {
+        if let item = itemModel.getItem(for: itemID) {
             
             print("item = item")
             
@@ -169,8 +170,8 @@ class CharacterBagViewModel: ObservableObject {
                     print("unhandled impact type: \(item.impactsWhat)")
                 }
                 
-                storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter)
-                self.stats = storyModel.getTruncatedStats(characterID: bagOwner.characterID)
+                characterModel.updateCharacter(character: updateCharacter)
+                self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
                 
             }
 
@@ -179,15 +180,15 @@ class CharacterBagViewModel: ObservableObject {
         // otherwise, item was consumable so does not matter; we can just remove it without worrying about
         // stat changes
         
-        storyModel.removeItemFromBag(storyID: storyModel.currentStory!.storyID, characterID: bagOwner.characterID, itemID: itemID, removingAmt: 1)
+        characterModel.removeItemFromBag(characterID: bagOwner.characterID, itemID: itemID, removingAmt: 1)
         
     }
     
     func equipItem(characterID: String) {
-        var updateCharacter = storyModel.getCharacter(for: characterID)
+        var updateCharacter = characterModel.getCharacter(for: characterID)
         updateCharacter?.heldItem = itemID
         
-        let item = storyModel.getItem(for: itemID)
+        let item = itemModel.getItem(for: itemID)
         switch item?.impactsWhat {
         case "health":
             updateCharacter!.stats.health += item!.impact
@@ -211,15 +212,15 @@ class CharacterBagViewModel: ObservableObject {
             print("unhandled impact type: \(item?.impactsWhat ?? "unknown")")
         }
         
-        storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
-        self.stats = storyModel.getTruncatedStats(characterID: bagOwner.characterID)
+        characterModel.updateCharacter(character: updateCharacter!)
+        self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
     }
     
     func unequipItem(characterID: String) {
-        var updateCharacter = storyModel.getCharacter(for: characterID)
+        var updateCharacter = characterModel.getCharacter(for: characterID)
         updateCharacter?.heldItem = nil
         
-        let item = storyModel.getItem(for: itemID)
+        let item = itemModel.getItem(for: itemID)
         switch item?.impactsWhat {
         case "health":
             updateCharacter!.stats.health -= item!.impact
@@ -243,8 +244,8 @@ class CharacterBagViewModel: ObservableObject {
             print("unhandled impact type: \(item?.impactsWhat ?? "unknown")")
         }
         
-        storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: updateCharacter!)
-        self.stats = storyModel.getTruncatedStats(characterID: bagOwner.characterID)
+        characterModel.updateCharacter(character: updateCharacter!)
+        self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
     }
 
 }

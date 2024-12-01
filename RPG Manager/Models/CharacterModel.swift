@@ -65,9 +65,9 @@ class CharacterModel {
         }
     }
     
-    func consumeItem(storyID: String, characterID: String, itemID: String) {
+    func consumeItem(characterID: String, itemID: String) {
         
-        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
+        let characterBagRef = storyDBRef.child(storyModel.currentStoryID).child("Characters").child(characterID).child("bag")
         
         characterBagRef.observeSingleEvent(of: .value) { snapshot in
             
@@ -153,7 +153,7 @@ class CharacterModel {
         
     }
     
-    func uploadCharacterIcon(image: UIImage, imageID: String, characterID: String, storyID: String) {
+    func uploadCharacterIcon(image: UIImage, imageID: String, characterID: String) {
         
         let storageRef = Storage.storage().reference()
         let imageRef = storageRef.child("images/\(imageID).png")
@@ -179,16 +179,16 @@ class CharacterModel {
                     print("cannot get download URL; \(error.localizedDescription)")
                 } else if let url = url {
                     print("got download URL; \(url.absoluteString)")
-                    self.updateCharacterIcon(characterID: characterID, storyID: storyID, imageURL: url.absoluteString)
+                    self.updateCharacterIcon(characterID: characterID, imageURL: url.absoluteString)
                 }
             }
         }
         
     }
     
-    func updateCharacterIcon(characterID: String, storyID: String, imageURL: String) {
+    func updateCharacterIcon(characterID: String, imageURL: String) {
         print("updating character ICON in story model")
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         if var character = self.getCharacter(for: characterID) {
             character.iconURL = imageURL
             let characterRef = storyRef.child("Characters").child(character.characterID)
@@ -196,9 +196,9 @@ class CharacterModel {
         }
     }
     
-    func addItemToBag(storyID: String, characterID: String, itemID: String, addingAmt: Int) {
+    func addItemToBag(characterID: String, itemID: String, addingAmt: Int) {
         
-        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
+        let characterBagRef = storyDBRef.child(storyModel.currentStoryID).child("Characters").child(characterID).child("bag")
         
         characterBagRef.observeSingleEvent(of: .value) { snapshot in
             
@@ -218,9 +218,9 @@ class CharacterModel {
         
     }
     
-    func removeItemFromBag(storyID: String, characterID: String, itemID: String, removingAmt: Int) {
+    func removeItemFromBag(characterID: String, itemID: String, removingAmt: Int) {
         
-        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
+        let characterBagRef = storyDBRef.child(storyModel.currentStoryID).child("Characters").child(characterID).child("bag")
         
         characterBagRef.observeSingleEvent(of: .value) { snapshot in
             
@@ -241,23 +241,23 @@ class CharacterModel {
         
     }
     
-    func deleteCharacter(storyID: String, characterID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func deleteCharacter(characterID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let characterRef = storyRef.child("Characters").child(characterID)
         characterRef.removeValue()
     }
     
     
         
-    func addCharacterToStory(storyID: String, character: Character) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func addCharacterToStory(character: Character) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let characterRef = storyRef.child("Characters").child(character.characterID)
         characterRef.setValue(character.toAnyObject())
     }
     
-    func updateCharacter(storyID: String, character: Character) {
+    func updateCharacter(character: Character) {
         print("updating character in story model")
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let characterRef = storyRef.child("Characters").child(character.characterID)
         characterRef.setValue(character.toAnyObject())
     }

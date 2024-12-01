@@ -12,21 +12,24 @@ class StoryViewModel: ObservableObject {
     
     let storyModel = StoryModel.shared
     let userModel = UserModel.shared
+    let fightModel = FightModel.shared
+    let itemModel = ItemModel.shared
+    let characterModel = CharacterModel.shared
     
     func startObserving() {
         print("start observing current characters, items, fights, and collaborators")
-        storyModel.observeCurrentCharacters()
-        storyModel.observeCurrentItems()
+        characterModel.observeCurrentCharacters()
+        itemModel.observeCurrentItems()
         storyModel.observeCurrentCollaborators()
-        storyModel.observeCurrentFights()
+        fightModel.observeCurrentFights()
     }
     
     func stopObserving() {
         print("stop observing current characters, items, fights, and collaborators")
-        storyModel.cancelCurrentCharactersObserver()
-        storyModel.cancelCurrentItemsObserver()
+        characterModel.cancelCurrentCharactersObserver()
+        itemModel.cancelCurrentItemsObserver()
         storyModel.cancelCurrentCollaboratorsObserver()
-        storyModel.cancelCurrentFightsObserver()
+        fightModel.cancelCurrentFightsObserver()
     }
     
 }

@@ -26,10 +26,12 @@ class StoryModel {
     @Published var stories:[Story] = []
     
     @Published var currentStory: Story?
+    @Published var currentStoryID: String = ""
     @Published var currentCollaborators: [String] = []
     
     func setCurrentStory(tappedOn: Story) { // async?
         currentStory = tappedOn
+        currentStoryID = currentStory!.storyID
     }
     
     // watch for updates from Story realtime database table
@@ -167,14 +169,14 @@ class StoryModel {
     
     
     
-    func addCollaboratorToStory(storyID: String, collaboratorID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func addCollaboratorToStory(collaboratorID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(currentStoryID)
         let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
         collaboratorRef.setValue(true) // placeholder
     }
     
-    func removeCollaboratorFromStory(storyID: String, collaboratorID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func removeCollaboratorFromStory(collaboratorID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(currentStoryID)
         let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
         collaboratorRef.removeValue()
     }

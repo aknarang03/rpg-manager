@@ -29,14 +29,14 @@ class ItemModel {
         return currentItems.first(where: { $0.itemID == itemID })
     }
     
-    func addItemToStory(storyID: String, item: Item) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func addItemToStory(item: Item) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let itemRef = storyRef.child("Items").child(item.itemID)
         itemRef.setValue(item.toAnyObject())
     }
     
-    func deleteItem(storyID: String, itemID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func deleteItem(itemID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let itemRef = storyRef.child("Items").child(itemID)
         itemRef.removeValue()
     }

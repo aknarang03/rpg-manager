@@ -13,13 +13,14 @@ class ItemListViewModel: ObservableObject {
     
     let storyModel = StoryModel.shared
     let userModel = UserModel.shared
+    let itemModel = ItemModel.shared
     
     private var cancellables: Set<AnyCancellable> = []
     
     @Published var items: [Item] = []
 
     init() {
-        storyModel.$currentItems
+        itemModel.$currentItems
             .sink { [weak self] newItems in self?.items = newItems }
             .store(in: &cancellables)
     }

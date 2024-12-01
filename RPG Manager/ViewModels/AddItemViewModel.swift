@@ -9,8 +9,8 @@ import Foundation
 
 class AddItemViewModel: ObservableObject {
     
-    let storyModel = StoryModel.shared
     let userModel = UserModel.shared
+    let itemModel = ItemModel.shared
     
     @Published var itemName: String = ""
     @Published var itemDescription: String = ""
@@ -29,7 +29,7 @@ class AddItemViewModel: ObservableObject {
         let impactVal = Int(impact)
         
         let newItem = Item(itemID: idWithTimeInterval(), creatorID: userModel.currentUser!.uid, itemName: itemName, itemDescription: itemDescription, impactsWhat: impactsWhat.rawValue, impact: impactVal, type: type.rawValue)
-        storyModel.addItemToStory(storyID: storyModel.currentStory!.storyID, item: newItem)
+        itemModel.addItemToStory(item: newItem)
 
     }
 
