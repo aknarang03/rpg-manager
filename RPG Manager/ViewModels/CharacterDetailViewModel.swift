@@ -49,7 +49,7 @@ class CharacterDetailViewModel: ObservableObject {
     }
     
     func updateCharacterIcon(image: UIImage) {
-        storyModel.uploadImage(image: image, imageID: idWithTimeInterval(), characterID: character.characterID, storyID: storyModel.currentStory!.storyID) // this also calls function that updates database ref
+        storyModel.uploadCharacterIcon(image: image, imageID: idWithTimeInterval(), characterID: character.characterID, storyID: storyModel.currentStory!.storyID) // this also calls function that updates database ref
     }
 
 }
