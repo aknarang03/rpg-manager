@@ -165,11 +165,7 @@ class FightViewModel: ObservableObject {
             
         }
         
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         stopFight()
@@ -219,12 +215,7 @@ class FightViewModel: ObservableObject {
             
         }
         
-        // swap for fight tracking
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         self.showOutcome = true
@@ -280,11 +271,7 @@ class FightViewModel: ObservableObject {
             
         }
         
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         self.showOutcome = true
@@ -313,11 +300,7 @@ class FightViewModel: ObservableObject {
             
         }
         
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         self.showOutcome = true
@@ -351,6 +334,14 @@ class FightViewModel: ObservableObject {
     // surrender(which character)
     // lose(which character)
     
+    
+    func swap() {
+        if (attackingCharacterID == character1ID) {
+            attackingCharacterID = character2ID
+        } else {
+            attackingCharacterID = character1ID
+        }
+    }
     
     
     
@@ -456,6 +447,13 @@ class FightViewModel: ObservableObject {
         }
         let avoidChance = Double(defender.stats.agility) / Double(attacker.stats.agility + defender.stats.agility) * 0.5 * 100
         return Int(avoidChance)
+    }
+    
+    func character1Attacking() -> Bool {
+        return character1ID == attackingCharacterID
+    }
+    func character2Attacking() -> Bool {
+        return character2ID == attackingCharacterID
     }
         
 }

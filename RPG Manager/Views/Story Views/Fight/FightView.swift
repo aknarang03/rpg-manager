@@ -15,9 +15,7 @@ struct FightView: View {
     @EnvironmentObject var appState: AppState
     @State var fightStarted = false
     
-    // should move the logic used with these to view model..
     let characterModel = CharacterModel.shared
-
     
     // take some views out and insert in because this is too messy
     
@@ -90,7 +88,7 @@ struct FightView: View {
                                     .opacity(0)
                             }
                             
-                            if (viewModel.character1ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
+                            if (viewModel.character1Attacking()) {
                                 Text(viewModel.character1.characterName)
                                     .font(.title)
                             } else {
@@ -124,7 +122,7 @@ struct FightView: View {
                                     .opacity(0)
                             }
                             
-                            if (viewModel.character2ID == viewModel.attackingCharacterID) { // need to make a method for detecting who is attacking..
+                            if (viewModel.character2Attacking()) {
                                 Text(viewModel.character2.characterName)
                                     .font(.title)
                             } else {
@@ -172,7 +170,7 @@ struct FightView: View {
                                     
                                     Picker("Consumables", selection: $viewModel.itemToConsume) {
                                         
-                                        if (viewModel.attackingCharacterID == viewModel.character1ID) {
+                                        if (viewModel.character1Attacking()) {
                                             
                                             if let bag = viewModel.character1.bag {
                                                 
