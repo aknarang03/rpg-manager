@@ -21,13 +21,6 @@ class AddCharacterViewModel: ObservableObject {
     @Published var speed: Float = 0
     @Published var agility: Float = 0
     @Published var isPlayer: String = "true"
-
-    func timeInterval() -> String {
-        let timeNow = Date()
-        var timeStr = String(timeNow.timeIntervalSince1970)
-        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
-        return timeStr
-    }
     
     func addCharacter() {
         
@@ -45,7 +38,7 @@ class AddCharacterViewModel: ObservableObject {
         var playerbool = false
         if (isPlayer == "false") { playerbool = false } else { playerbool = true }
         
-        let newCharacter = Character(characterID: timeInterval(), creatorID: userModel.currentUser!.uid, characterName: characterName, characterDescription: characterDescription, stats: Stats(health: healthVal, attack: attackVal, defense: defenseVal, speed: speedVal, agility: agilityVal, hp: healthVal), bag: [:], isPlayer: playerbool, heldItem: "", iconURL: "")
+        let newCharacter = Character(characterID: idWithTimeInterval(), creatorID: userModel.currentUser!.uid, characterName: characterName, characterDescription: characterDescription, stats: Stats(health: healthVal, attack: attackVal, defense: defenseVal, speed: speedVal, agility: agilityVal, hp: healthVal), bag: [:], isPlayer: playerbool, heldItem: "", iconURL: "")
         storyModel.addCharacterToStory(storyID: storyModel.currentStory!.storyID, character: newCharacter)
 
     }

@@ -49,14 +49,7 @@ class CharacterDetailViewModel: ObservableObject {
     }
     
     func updateCharacterIcon(image: UIImage) {
-        storyModel.uploadImage(image: image, imageID: timeInterval(), characterID: character.characterID, storyID: storyModel.currentStory!.storyID) // this also calls function that updates database ref
-    }
-    
-    func timeInterval() -> String {
-        let timeNow = Date()
-        var timeStr = String(timeNow.timeIntervalSince1970)
-        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
-        return timeStr
+        storyModel.uploadImage(image: image, imageID: idWithTimeInterval(), characterID: character.characterID, storyID: storyModel.currentStory!.storyID) // this also calls function that updates database ref
     }
 
 }

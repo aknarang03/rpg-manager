@@ -127,13 +127,6 @@ class FightViewModel: ObservableObject {
         
     }
     
-    func timeInterval() -> String {
-        let timeNow = Date()
-        var timeStr = String(timeNow.timeIntervalSince1970)
-        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
-        return timeStr
-    }
-    
     func stopFight() { // reset vars
         fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
         attackingCharacterID = ""
@@ -144,7 +137,7 @@ class FightViewModel: ObservableObject {
     func startFight() {
         
         updateCharacters()
-        fight = Fight(fightID: timeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "")
+        fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "")
         storyModel.startFight(storyID: storyModel.currentStory!.storyID, fight: fight)
         
         if (character2.stats.speed > character1.stats.speed) {
