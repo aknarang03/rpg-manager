@@ -8,6 +8,14 @@
 let characterModel = CharacterModel.shared
 let itemModel = ItemModel.shared
 
+func applyStatChanges() {
+    
+}
+
+func unapplyStatChanges() {
+    
+}
+
 func applyStatChangesWithTruncation(characterID: String, itemID: String) -> Character{
     
     var updateCharacter = characterModel.getCharacter(for: characterID)
