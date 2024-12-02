@@ -328,7 +328,6 @@ class FightViewModel: ObservableObject {
         characterModel.updateCharacter(character: character2)
                 
     }
-    // NOTE: rounds are just two outcomes, which is the result of one action. rounds are not stored in database; they will just be displayed as such in the UI.
     
     // END FIGHT:
     // surrender(which character)
