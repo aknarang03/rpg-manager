@@ -8,15 +8,65 @@
 let characterModel = CharacterModel.shared
 let itemModel = ItemModel.shared
 
-func applyStatChanges() {
+func applyStatChanges(characterID: String, itemID: String) -> Character {
+    
+    var updateCharacter = characterModel.getCharacter(for: characterID)
+    let item = itemModel.getItem(for: itemID)
+    
+    switch item?.impactsWhat {
+    case "health":
+        updateCharacter!.stats.health += item!.impact
+        print("item impacts health: \(item?.impact ?? 0)")
+    case "attack":
+        updateCharacter!.stats.attack += item!.impact
+        print("item impacts attack: \(item?.impact ?? 0)")
+    case "defense":
+        updateCharacter!.stats.defense += item!.impact
+        print("item impacts defense: \(item?.impact ?? 0)")
+    case "speed":
+        updateCharacter!.stats.speed += item!.impact
+        print("item impacts speed: \(item?.impact ?? 0)")
+    case "agility":
+        updateCharacter!.stats.agility += item!.impact
+        print("item impacts agility: \(item?.impact ?? 0)")
+    case "hp":
+        updateCharacter!.stats.hp += item!.impact
+        print("item impacts hp: \(item?.impact ?? 0)")
+    default:
+        print("unhandled impact type: \(item?.impactsWhat ?? "unknown")")
+    }
+
+    return updateCharacter!
     
 }
 
-func unapplyStatChanges() {
+func unapplyStatChanges(characterID: String, itemID: String) -> Character {
+    
+    var updateCharacter = characterModel.getCharacter(for: characterID)
+    let item = itemModel.getItem(for: itemID)
+    
+    switch item?.impactsWhat {
+    case "health":
+        updateCharacter!.stats.health -= item!.impact
+    case "attack":
+        updateCharacter!.stats.attack -= item!.impact
+    case "defense":
+        updateCharacter!.stats.defense -= item!.impact
+    case "speed":
+        updateCharacter!.stats.speed -= item!.impact
+    case "agility":
+        updateCharacter!.stats.agility -= item!.impact
+    case "hp":
+        updateCharacter!.stats.hp -= item!.impact
+    default:
+        print("unhandled impact type: \(item!.impactsWhat)")
+    }
+    
+    return updateCharacter!
     
 }
 
-func applyStatChangesWithTruncation(characterID: String, itemID: String) -> Character{
+func applyStatChangesWithTruncation(characterID: String, itemID: String) -> Character {
     
     var updateCharacter = characterModel.getCharacter(for: characterID)
     let item = itemModel.getItem(for: itemID)
