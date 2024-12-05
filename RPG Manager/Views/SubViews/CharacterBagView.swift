@@ -20,11 +20,7 @@ struct CharacterBagView: View {
         _viewModel = ObservedObject(wrappedValue: CharacterBagViewModel(character: character))
         self.character = character
     }
-    
-    // should move the logic used with these to view model..
-    let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
-    
+        
     @State private var showPopup = false
     @State private var popupMessage = ""
     
@@ -93,7 +89,7 @@ struct CharacterBagView: View {
                             
                             .swipeActions {
                                 
-                                if userModel.currentUser?.uid == character.creatorID || userModel.currentUser?.uid == storyModel.currentStory?.creator {
+                                if youAreCharacterCreator(character: character) || youAreCurrentStoryCreator() {
                                     
                                     Button() {
                                         viewModel.itemID = itemID

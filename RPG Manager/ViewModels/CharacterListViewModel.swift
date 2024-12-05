@@ -10,8 +10,8 @@ import Combine
 
 class CharacterListViewModel: ObservableObject {
     
-    let storyModel = StoryModel.shared
     let userModel = UserModel.shared
+    let characterModel = CharacterModel.shared
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -20,7 +20,7 @@ class CharacterListViewModel: ObservableObject {
     init() {
         // I don't fully understand it, but it lets this.stories synch with storyModel.stories...
         // This way I can keep this stuff out of the view and in the view model.
-        storyModel.$currentCharacters
+        characterModel.$currentCharacters
             .sink { [weak self] newChars in self?.characters = newChars }
             .store(in: &cancellables)
     }

@@ -11,8 +11,7 @@ import Combine
 
 class FightDetailViewModel: ObservableObject {
     
-    let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
+    let fightModel = FightModel.shared
     
     @Published var fight: Fight
     

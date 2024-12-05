@@ -12,7 +12,8 @@ import PhotosUI
 class CharacterDetailViewModel: ObservableObject {
     
     let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
+    let itemModel = ItemModel.shared
+    let characterModel = CharacterModel.shared
     
     @Published var itemID: String = ""
     @Published var itemType: String = ""
@@ -23,7 +24,7 @@ class CharacterDetailViewModel: ObservableObject {
     
     init(character: Character) {
         self.character = character
-        self.stats = storyModel.getTruncatedStats(characterID: character.characterID)
+        self.stats = characterModel.getTruncatedStats(characterID: character.characterID)
     }
     
     func uidToUsername(uid: String) -> String {
@@ -36,7 +37,7 @@ class CharacterDetailViewModel: ObservableObject {
     
     func itemIdToItemName(itemID: String) -> String {
         
-        guard let itemName = storyModel.getItemName(for: itemID) else {
+        guard let itemName = itemModel.getItemName(for: itemID) else {
             print("Item name not found for \(itemID)")
             return "Unknown" // default item name
         }
@@ -45,18 +46,11 @@ class CharacterDetailViewModel: ObservableObject {
     }
     
     func deleteCharacter() {
-        storyModel.deleteCharacter(storyID: storyModel.currentStory!.storyID, characterID: character.characterID)
+        characterModel.deleteCharacter(characterID: character.characterID)
     }
     
     func updateCharacterIcon(image: UIImage) {
-        storyModel.uploadImage(image: image, imageID: timeInterval(), characterID: character.characterID, storyID: storyModel.currentStory!.storyID) // this also calls function that updates database ref
-    }
-    
-    func timeInterval() -> String {
-        let timeNow = Date()
-        var timeStr = String(timeNow.timeIntervalSince1970)
-        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
-        return timeStr
+        characterModel.uploadCharacterIcon(image: image, imageID: idWithTimeInterval(), characterID: character.characterID) // this also calls function that updates database ref
     }
 
 }

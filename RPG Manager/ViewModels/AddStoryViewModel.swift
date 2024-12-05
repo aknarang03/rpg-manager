@@ -16,13 +16,6 @@ class AddStoryViewModel: ObservableObject {
     @Published var storyDescription: String = ""
     @Published var testID: String = ""
     
-    func timeInterval() -> String {
-        let timeNow = Date()
-        var timeStr = String(timeNow.timeIntervalSince1970)
-        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
-        return timeStr
-    }
-    
     func addStory() {
         
         if (storyName == "") {
@@ -30,7 +23,7 @@ class AddStoryViewModel: ObservableObject {
             return;
         }
         
-        let newStory = Story(storyID: timeInterval(), storyName: storyName, storyDescription: storyDescription, creator: userModel.currentUser!.uid)
+        let newStory = Story(storyID: idWithTimeInterval(), storyName: storyName, storyDescription: storyDescription, creator: userModel.currentUser!.uid)
         storyModel.postNewStory(story: newStory)
         testID = newStory.storyID
 

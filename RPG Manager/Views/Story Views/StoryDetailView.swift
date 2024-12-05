@@ -15,8 +15,6 @@ struct StoryDetailView: View {
         
     // should move the logic used with these to view model..
     let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
-
     
     var body: some View {
         
@@ -38,7 +36,7 @@ struct StoryDetailView: View {
                 Spacer()
                 
                 if let userid = userModel.currentUser?.uid {
-                    if userid == storyModel.currentStory?.creator {
+                    if youAreCurrentStoryCreator() {
                         Spacer()
                         Button("Delete Story") {
                             viewModel.deleteStory()

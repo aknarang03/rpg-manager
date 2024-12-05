@@ -13,6 +13,9 @@ class FightViewModel: ObservableObject {
     
     let userModel = UserModel.shared
     let storyModel = StoryModel.shared
+    let fightModel = FightModel.shared
+    let itemModel = ItemModel.shared
+    let characterModel = CharacterModel.shared
         
     var cancellables: Set<AnyCancellable> = []
     
@@ -43,7 +46,7 @@ class FightViewModel: ObservableObject {
     init() {
         self.character1ID = ""
         self.character2ID = ""
-        storyModel.$currentCharacters
+        characterModel.$currentCharacters
             .sink { [weak self] newChars in
                 self?.characters = newChars
                 self?.updateCharacters() }
@@ -51,7 +54,7 @@ class FightViewModel: ObservableObject {
     }
     
     func itemIdToItemName(itemID: String) -> String {
-        guard let itemName = storyModel.getItemName(for: itemID) else {
+        guard let itemName = itemModel.getItemName(for: itemID) else {
             print("Item name not found for \(itemID)")
             return "nothing" // default item name
         }
@@ -59,7 +62,7 @@ class FightViewModel: ObservableObject {
     }
     
     func getItemType(itemID: String) -> String {
-        guard let item = storyModel.getItem(for: itemID) else {
+        guard let item = itemModel.getItem(for: itemID) else {
             print("Item not found for \(itemID)")
             return "unknown"
         }
@@ -127,13 +130,6 @@ class FightViewModel: ObservableObject {
         
     }
     
-    func timeInterval() -> String {
-        let timeNow = Date()
-        var timeStr = String(timeNow.timeIntervalSince1970)
-        timeStr = timeStr.replacingOccurrences(of: ".", with: "")
-        return timeStr
-    }
-    
     func stopFight() { // reset vars
         fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
         attackingCharacterID = ""
@@ -144,8 +140,8 @@ class FightViewModel: ObservableObject {
     func startFight() {
         
         updateCharacters()
-        fight = Fight(fightID: timeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "")
-        storyModel.startFight(storyID: storyModel.currentStory!.storyID, fight: fight)
+        fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "")
+        fightModel.startFight(fight: fight)
         
         if (character2.stats.speed > character1.stats.speed) {
             attackingCharacterID = character2ID
@@ -159,21 +155,17 @@ class FightViewModel: ObservableObject {
                 
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             
         } else { // character 2 is attacking; character 1 is defending
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
             
         }
         
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         stopFight()
@@ -199,8 +191,8 @@ class FightViewModel: ObservableObject {
         
         if (tryAvoid < avoidChance) { // defender avoids attack
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderAvoid, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderAvoid, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
             
         } else { // defender is hit
                         
@@ -209,8 +201,8 @@ class FightViewModel: ObservableObject {
                 defendingChar.stats.hp = 0
             }
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
+            currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
             
             // apply changes
             if (attackingCharacterID == character1ID) {
@@ -223,12 +215,7 @@ class FightViewModel: ObservableObject {
             
         }
         
-        // swap for fight tracking
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         self.showOutcome = true
@@ -243,7 +230,7 @@ class FightViewModel: ObservableObject {
         
         isWorking = true
         
-        if let item = storyModel.getItem(for: itemToConsume) {
+        if let item = itemModel.getItem(for: itemToConsume) {
             
             var plusMinus: String = "+"
             if (item.impact < 0) {
@@ -258,15 +245,15 @@ class FightViewModel: ObservableObject {
                 
                 consumeItem(item:item,characterID:character1ID)
                 
-                currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
-                currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
+                currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
+                currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: impactStr, itemName: item.itemName)
                 
             } else { // character 2 is consuming item; character 1 is idling
                 
                 consumeItem(item:item,characterID:character2ID)
 
-                currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
-                currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
+                currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerUsesItem, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
+                currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: impactStr, itemName: item.itemName)
                 
             }
             
@@ -284,11 +271,7 @@ class FightViewModel: ObservableObject {
             
         }
         
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         self.showOutcome = true
@@ -307,21 +290,17 @@ class FightViewModel: ObservableObject {
             
         if (attackingCharacterID == character1ID) {
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerPass, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerPass, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             
         } else {
             
-            currentAttackerRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.attackerPass, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
-            currentDefenderRoundOutcome = storyModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerPass, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
             
         }
         
-        if (attackingCharacterID == character1ID) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
-        }
+        swap()
         
         finishAction()
         self.showOutcome = true
@@ -340,27 +319,34 @@ class FightViewModel: ObservableObject {
         showOutcomeStr = "\(currentAttackerRoundOutcome)\n\(currentDefenderRoundOutcome)"
         //showOutcome = true
                                 
-        storyModel.addOutcomesToFight(storyID: storyModel.currentStory!.storyID, fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
+        fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
         currentAttackerRoundOutcome = ""
         currentDefenderRoundOutcome = ""
         itemToConsume = ""
         
-        storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character1)
-        storyModel.updateCharacter(storyID: storyModel.currentStory!.storyID, character: character2)
+        characterModel.updateCharacter(character: character1)
+        characterModel.updateCharacter(character: character2)
                 
     }
-    // NOTE: rounds are just two outcomes, which is the result of one action. rounds are not stored in database; they will just be displayed as such in the UI.
     
     // END FIGHT:
     // surrender(which character)
     // lose(which character)
     
     
+    func swap() {
+        if (attackingCharacterID == character1ID) {
+            attackingCharacterID = character2ID
+        } else {
+            attackingCharacterID = character1ID
+        }
+    }
+    
     
     
     func consumeItem(item: Item, characterID: String) {
         
-        storyModel.consumeItem(storyID: storyModel.currentStory!.storyID, characterID: characterID, itemID: itemToConsume)
+        characterModel.consumeItem(characterID: characterID, itemID: itemToConsume)
         
         if (item.impactsWhat == "none" || item.impact == 0) { // no impact
             print("item has no impact")
@@ -369,77 +355,15 @@ class FightViewModel: ObservableObject {
         
         else {
             
-            var updateCharacter = storyModel.getCharacter(for: characterID)
-            print("id for update character: \(characterID)")
+            //var updateCharacter = characterModel.getCharacter(for: characterID)
+            //print("id for update character: \(characterID)")
             
-            // make an update stats method.. this is very messy
-            
-            switch item.impactsWhat {
-            case "health":
-                updateCharacter!.stats.health += item.impact
-                if (updateCharacter!.stats.health > 100) {
-                    updateCharacter!.stats.health = 100
-                }
-                else if (updateCharacter!.stats.health < 0) {
-                    updateCharacter!.stats.health = 0
-                }
-                if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
-                    updateCharacter!.stats.hp = updateCharacter!.stats.health
-                }
-                print("item impacts health: \(item.impact)")
-            case "attack":
-                updateCharacter!.stats.attack += item.impact
-                if (updateCharacter!.stats.attack > 100) {
-                    updateCharacter!.stats.attack = 100
-                }
-                else if (updateCharacter!.stats.attack < 0) {
-                    updateCharacter!.stats.attack = 0
-                }
-                print("item impacts attack: \(item.impact)")
-            case "defense":
-                updateCharacter!.stats.defense += item.impact
-                if (updateCharacter!.stats.defense > 100) {
-                    updateCharacter!.stats.defense = 100
-                }
-                else if (updateCharacter!.stats.defense < 0) {
-                    updateCharacter!.stats.defense = 0
-                }
-                print("item impacts defense: \(item.impact)")
-            case "speed":
-                updateCharacter!.stats.speed += item.impact
-                if (updateCharacter!.stats.speed > 100) {
-                    updateCharacter!.stats.speed = 100
-                }
-                else if (updateCharacter!.stats.speed < 0) {
-                    updateCharacter!.stats.speed = 0
-                }
-                print("item impacts speed: \(item.impact)")
-            case "agility":
-                updateCharacter!.stats.agility += item.impact
-                if (updateCharacter!.stats.agility > 100) {
-                    updateCharacter!.stats.agility = 100
-                }
-                else if (updateCharacter!.stats.agility < 0) {
-                    updateCharacter!.stats.agility = 0
-                }
-                print("item impacts agility: \(item.impact)")
-            case "hp":
-                updateCharacter!.stats.hp += item.impact
-                if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
-                    updateCharacter!.stats.hp = updateCharacter!.stats.health
-                }
-                else if (updateCharacter!.stats.hp < 0) {
-                    updateCharacter!.stats.hp = 0
-                }
-                print("item impacts hp: \(item.impact)")
-            default:
-                print("unhandled impact type: \(item.impactsWhat)")
-            }
+            let updateCharacter = applyStatChangesWithTruncation(characterID: characterID, itemID: item.itemID)
                         
             if character1ID == attackingCharacterID {
-                character1 = updateCharacter!
+                character1 = updateCharacter
             } else {
-                character2 = updateCharacter!
+                character2 = updateCharacter
             }
 
         }
@@ -460,6 +384,13 @@ class FightViewModel: ObservableObject {
         }
         let avoidChance = Double(defender.stats.agility) / Double(attacker.stats.agility + defender.stats.agility) * 0.5 * 100
         return Int(avoidChance)
+    }
+    
+    func character1Attacking() -> Bool {
+        return character1ID == attackingCharacterID
+    }
+    func character2Attacking() -> Bool {
+        return character2ID == attackingCharacterID
     }
         
 }

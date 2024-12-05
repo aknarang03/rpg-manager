@@ -11,9 +11,6 @@ struct HomeView: View {
     
     @ObservedObject var viewModel: HomeViewModel = HomeViewModel()
     
-    // should move the logic used with these to view model..
-    let storyModel = StoryModel.shared
-    
     var body: some View {
         
         TabView {
@@ -28,7 +25,7 @@ struct HomeView: View {
         }
         
         .onAppear {
-            storyModel.currentStory = nil
+            viewModel.resetCurrent()
             viewModel.startObserving()
         }
         .onDisappear {

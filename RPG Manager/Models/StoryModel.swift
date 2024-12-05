@@ -13,15 +13,11 @@ import FirebaseStorage
 import PhotosUI
 
 class StoryModel {
-    
-    // probably going to split this into more models but i dont know yet
-    
+        
     static let shared = StoryModel()
     let userModel = UserModel.shared
     
     var storyObserverHandle: UInt?
-    var characterObserverHandle: UInt?
-    var itemObserverHandle: UInt?
     var collaboratorObserverHandle: UInt?
     var collaboratorObserverHandles: [String: UInt] = [:]
     
@@ -30,13 +26,12 @@ class StoryModel {
     @Published var stories:[Story] = []
     
     @Published var currentStory: Story?
-    @Published var currentCharacters: [Character] = []
-    @Published var currentItems: [Item] = []
+    @Published var currentStoryID: String = ""
     @Published var currentCollaborators: [String] = []
-    @Published var currentFights: [Fight] = []
     
     func setCurrentStory(tappedOn: Story) { // async?
         currentStory = tappedOn
+        currentStoryID = currentStory!.storyID
     }
     
     // watch for updates from Story realtime database table
@@ -109,45 +104,6 @@ class StoryModel {
         }
     }
     
-    // observe characters for a specific story
-    func observeCurrentCharacters() {
-        
-        if let story: Story = currentStory {
-            
-            print("observing characters for story: \(story.storyID)")
-            
-            let charactersRef = storyDBRef.child(story.storyID).child("Characters")
-            
-            characterObserverHandle = charactersRef.observe(.value, with: { snapshot in
-                
-                print("character snapshot: \(snapshot.value ?? "No data")")
-                
-                var tempCharacters: [Character] = []
-                for child in snapshot.children {
-                    if let data = child as? DataSnapshot,
-                       let character = Character(snapshot: data) {
-                        tempCharacters.append(character)
-                    } else {
-                        print("could not append")
-                    }
-                }
-                self.currentCharacters.removeAll()
-                self.currentCharacters = tempCharacters
-                print("characters in observeCurrentCharacters: \(self.currentCharacters.count)")
-            })
-        }
-    }
-    
-    func cancelCurrentCharactersObserver() {
-        print("cancel current story character observer")
-        if let story: Story = currentStory {
-            if let observerHandle = characterObserverHandle {
-                let charactersRef = storyDBRef.child(story.storyID).child("Characters")
-                charactersRef.removeObserver(withHandle: observerHandle)
-            }
-        }
-    }
-    
     // observe collaborators for a specific story
     func observeCurrentCollaborators() {
         
@@ -183,84 +139,6 @@ class StoryModel {
         }
     }
     
-    func observeCurrentItems() {
-        
-        if let story: Story = currentStory {
-            
-            print("observing items for story: \(story.storyID)")
-            
-            let itemsRef = storyDBRef.child(story.storyID).child("Items")
-            
-            itemObserverHandle = itemsRef.observe(.value, with: { snapshot in
-                
-                print("items snapshot: \(snapshot.value ?? "No data")")
-                
-                var tempItems: [Item] = []
-                for child in snapshot.children {
-                    if let data = child as? DataSnapshot,
-                       let item = Item(snapshot: data) {
-                        tempItems.append(item)
-                    } else {
-                        print("could not append")
-                    }
-                }
-                self.currentItems.removeAll()
-                self.currentItems = tempItems
-                print("items in observeCurrentItems: \(self.currentItems.count)")
-            })
-        }
-        
-    }
-    
-    func cancelCurrentItemsObserver() {
-        print("cancel current story item observer")
-        if let story: Story = currentStory {
-            if let observerHandle = itemObserverHandle {
-                let itemsRef = storyDBRef.child(story.storyID).child("Items")
-                itemsRef.removeObserver(withHandle: observerHandle)
-            }
-        }
-    }
-    
-    func observeCurrentFights() {
-        
-        if let story: Story = currentStory {
-            
-            print("observing fights for story: \(story.storyID)")
-            
-            let fightsRef = storyDBRef.child(story.storyID).child("Fights")
-            
-            itemObserverHandle = fightsRef.observe(.value, with: { snapshot in
-                
-                print("fights snapshot: \(snapshot.value ?? "No data")")
-                
-                var tempFights: [Fight] = []
-                for child in snapshot.children {
-                    if let data = child as? DataSnapshot,
-                       let fight = Fight(snapshot: data) {
-                        tempFights.append(fight)
-                    } else {
-                        print("could not append fight")
-                    }
-                }
-                self.currentFights.removeAll()
-                self.currentFights = tempFights
-                print("fights in observeCurrentFights: \(self.currentFights.count)")
-            })
-        }
-        
-    }
-    
-    func cancelCurrentFightsObserver() {
-        print("cancel current story fights observer")
-        if let story: Story = currentStory {
-            if let observerHandle = itemObserverHandle {
-                let fightsRef = storyDBRef.child(story.storyID).child("Fights")
-                fightsRef.removeObserver(withHandle: observerHandle)
-            }
-        }
-    }
-    
     // get Story item based on item id using this model's saved data
     func getStory(id: String) -> Story? {
         return stories.first { $0.storyID == id }
@@ -287,306 +165,26 @@ class StoryModel {
         storyRef.removeValue()
     }
     
-    func deleteCharacter(storyID: String, characterID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let characterRef = storyRef.child("Characters").child(characterID)
-        characterRef.removeValue()
-    }
     
-    func deleteItem(storyID: String, itemID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let itemRef = storyRef.child("Items").child(itemID)
-        itemRef.removeValue()
-    }
-        
-    func addCharacterToStory(storyID: String, character: Character) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let characterRef = storyRef.child("Characters").child(character.characterID)
-        characterRef.setValue(character.toAnyObject())
-    }
     
-    func updateCharacter(storyID: String, character: Character) {
-        print("updating character in story model")
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let characterRef = storyRef.child("Characters").child(character.characterID)
-        characterRef.setValue(character.toAnyObject())
-    }
     
-    func addItemToStory(storyID: String, item: Item) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let itemRef = storyRef.child("Items").child(item.itemID)
-        itemRef.setValue(item.toAnyObject())
-    }
     
-    func addCollaboratorToStory(storyID: String, collaboratorID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func addCollaboratorToStory(collaboratorID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(currentStoryID)
         let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
         collaboratorRef.setValue(true) // placeholder
     }
     
-    func removeCollaboratorFromStory(storyID: String, collaboratorID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
+    func removeCollaboratorFromStory(collaboratorID: String) {
+        let storyRef = Database.database().reference().child("Stories").child(currentStoryID)
         let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
         collaboratorRef.removeValue()
     }
     
-    func deleteFight(storyID: String, fightID: String) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let fightRef = storyRef.child("Fights").child(fightID)
-        fightRef.removeValue()
-    }
     
-    func addOutcomesToFight(storyID: String, fightID: String, outcome1: String, outcome2: String) {
-        
-        let fightOutcomesRef = storyDBRef.child(storyID).child("Fights").child(fightID).child("outcomes")
-        
-        fightOutcomesRef.observeSingleEvent(of: .value) { snapshot in
-            
-            var outcomes = snapshot.value as? [String] ?? []
-            
-            outcomes.append("\(outcome1)\n\(outcome2)")
-            fightOutcomesRef.setValue(outcomes)
-            
-            print("updated outcomes: \(outcomes)")
-            
-        }
-        
-    }
-    
-    func addItemToBag(storyID: String, characterID: String, itemID: String, addingAmt: Int) {
-        
-        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
-        
-        characterBagRef.observeSingleEvent(of: .value) { snapshot in
-            
-            var bag = snapshot.value as? [String: Int] ?? [:]
-            
-            if let currentQuantity = bag[itemID] {
-                bag[itemID] = currentQuantity + addingAmt // adding to prev quantity
-            } else {
-                bag[itemID] = addingAmt // new item
-            }
-            
-            characterBagRef.setValue(bag)
-            
-            print("updated bag: \(bag)")
-            
-        }
-        
-    }
-    
-    func removeItemFromBag(storyID: String, characterID: String, itemID: String, removingAmt: Int) {
-        
-        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
-        
-        characterBagRef.observeSingleEvent(of: .value) { snapshot in
-            
-            var bag = snapshot.value as? [String: Int] ?? [:]
-            
-            if let currentQuantity = bag[itemID] {
-                bag[itemID] = currentQuantity - removingAmt // removing from prev quantity
-                if currentQuantity <= 1 {
-                    bag.removeValue(forKey: itemID) // remove item reference from bag
-                }
-            }
-            
-            characterBagRef.setValue(bag)
-            
-            print("updated bag: \(bag)")
-            
-        }
-        
-    }
-    
-    func getCharacter(for characterID: String) -> Character? {
-        return currentCharacters.first(where: { $0.characterID == characterID })
-    }
-    
-    func getItemName(for itemID: String) -> String? {
-        return currentItems.first(where: { $0.itemID == itemID })?.itemName
-    }
-    
-    func getItem(for itemID: String) -> Item? {
-        return currentItems.first(where: { $0.itemID == itemID })
-    }
-    
-    func consumeItem(storyID: String, characterID: String, itemID: String) {
-        
-        let characterBagRef = storyDBRef.child(storyID).child("Characters").child(characterID).child("bag")
-        
-        characterBagRef.observeSingleEvent(of: .value) { snapshot in
-            
-            var bag = snapshot.value as? [String: Int] ?? [:]
-            
-            if let currentQuantity = bag[itemID] {
-                
-                if (currentQuantity == 1) {
-                    bag.removeValue(forKey: itemID)
-                } else {
-                    bag[itemID] = currentQuantity - 1
-                }
-                                
-            }
-            
-            characterBagRef.setValue(bag)
-            print("updated bag: \(bag)")
-            
-        }
-        
-    }
-    
-    func getTruncatedStats(characterID: String) -> Stats {
-        
-        print("get truncated stats for \(characterID)")
-        print("current characters count is \(currentCharacters.count)")
-        
-        if let character = currentCharacters.first(where: { $0.characterID == characterID }) {
-            
-            print("got character")
-            
-            var stats = character.stats
-            
-            if (character.stats.health > 100) {
-                stats.health = 100
-            }
-            else if (character.stats.health < 0) {
-                stats.health = 0
-            }
-        
-            if (character.stats.attack > 100) {
-                stats.attack = 100
-            }
-            else if (character.stats.attack < 0) {
-                stats.attack = 0
-            }
-        
-            if (character.stats.defense > 100) {
-                stats.defense = 100
-            }
-            else if (character.stats.defense < 0) {
-                stats.defense = 0
-            }
-        
-            if (character.stats.speed > 100) {
-                stats.speed = 100
-            }
-            else if (character.stats.speed < 0) {
-                stats.speed = 0
-            }
-            
-            if (character.stats.agility > 100) {
-                stats.agility = 100
-            }
-            else if (character.stats.agility < 0) {
-                stats.agility = 0
-            }
-        
-            if (character.stats.hp > character.stats.health) {
-                stats.hp = stats.health
-            }
-            else if (character.stats.hp < 0) {
-                stats.hp = 0
-            }
-            
-            return stats
-            
-        }
-        
-        print("could not get character")
-        
-        return Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
-        
-    }
-    
-    func getOutcomeString(type: OutcomeType, attackerName: String, defenderName: String, impact: String, itemName: String) -> String {
-        
-        switch type {
-        case .attackerAttack:
-            return "\(attackerName) attacks \(defenderName) for \(impact) damage."
-        case .attackerUsesItem:
-            return "\(attackerName) uses \(itemName) for \(impact)."
-        case .attackerPass:
-            return "\(attackerName) does nothing."
-        case .attackerLose:
-            return "\(attackerName) loses."
-        case .attackerFlee:
-            return "\(attackerName) flees."
-        case .defenderAvoid:
-            return "\(defenderName) avoids the attack."
-        case .defenderGetHit:
-            return "\(defenderName) loses \(impact) HP."
-        case .defenderIdle:
-            return "\(defenderName) idles."
-        case .defenderLose:
-            return "\(defenderName) loses."
-        case .defenderFlee:
-            return "\(defenderName) flees."
-        default:
-            return "Unknown outcome."
-        }
-        
-    }
-    
-    func startFight(storyID: String, fight: Fight) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let fightRef = storyRef.child("Fights").child(fight.fightID)
-        fightRef.setValue(fight.toAnyObject())
-    }
-    
-    func updateFight(storyID: String, fight: Fight) {
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        let fightRef = storyRef.child("Fights").child(fight.fightID)
-        fightRef.setValue(fight.toAnyObject())
-    }
-    
-//    func endFight(storyID: String, fight: Fight) { // would pass in fight with outcomes array this time
-//        let storyRef = Database.database().reference().child("Stories").child(storyID)
-//        let fightRef = storyRef.child("Fights").child(fight.fightID)
-//        fightRef.setValue(fight.toAnyObject())
-//    }
-    
-    func uploadImage(image: UIImage, imageID: String, characterID: String, storyID: String) {
-        
-        let storageRef = Storage.storage().reference()
-        let imageRef = storageRef.child("images/\(imageID).png")
-        
-        guard let imageData = image.pngData() else {
-            print("failed to get image data")
-            return
-        }
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/png"
-        
-        imageRef.putData(imageData, metadata: metadata) { metadata, error in
-            
-            if let error = error {
-                print("cannot upload; \(error.localizedDescription)")
-                return
-            }
 
-            // url for character
-            imageRef.downloadURL { url, error in
-                if let error = error {
-                    print("cannot get download URL; \(error.localizedDescription)")
-                } else if let url = url {
-                    print("got download URL; \(url.absoluteString)")
-                    self.updateCharacterIcon(characterID: characterID, storyID: storyID, imageURL: url.absoluteString)
-                }
-            }
-        }
-        
-    }
     
-    func updateCharacterIcon(characterID: String, storyID: String, imageURL: String) {
-        print("updating character ICON in story model")
-        let storyRef = Database.database().reference().child("Stories").child(storyID)
-        if var character = self.getCharacter(for: characterID) {
-            character.iconURL = imageURL
-            let characterRef = storyRef.child("Characters").child(character.characterID)
-            characterRef.setValue(character.toAnyObject())
-        }
-    }
+    
     
     
 

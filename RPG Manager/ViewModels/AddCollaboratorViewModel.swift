@@ -31,7 +31,7 @@ class AddCollaboratorViewModel: ObservableObject {
             return
         }
                 
-        storyModel.addCollaboratorToStory(storyID: storyModel.currentStory!.storyID, collaboratorID: newCollaborator)
+        storyModel.addCollaboratorToStory(collaboratorID: newCollaborator)
         
     }
 

@@ -13,6 +13,8 @@ class FightListViewModel: ObservableObject {
     
     let storyModel = StoryModel.shared
     let userModel = UserModel.shared
+    let fightModel = FightModel.shared
+    let characterModel = CharacterModel.shared
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -21,13 +23,13 @@ class FightListViewModel: ObservableObject {
     init() {
         // I don't fully understand it, but it lets this.stories synch with storyModel.stories...
         // This way I can keep this stuff out of the view and in the view model.
-        storyModel.$currentFights
+        fightModel.$currentFights
             .sink { [weak self] newFights in self?.fights = newFights }
             .store(in: &cancellables)
     }
     
     func getCharacterName (characterID: String) -> String {
-        if let characterName = storyModel.getCharacter(for: characterID)?.characterName {
+        if let characterName = characterModel.getCharacter(for: characterID)?.characterName {
             return characterName
         } else {
             return "Unknown"
@@ -35,7 +37,7 @@ class FightListViewModel: ObservableObject {
     }
     
     func removeFight(fightID: String) {
-        storyModel.deleteFight(storyID: storyModel.currentStory!.storyID, fightID: fightID)
+        fightModel.deleteFight(fightID: fightID)
     }
     
 //    func startObserving() {

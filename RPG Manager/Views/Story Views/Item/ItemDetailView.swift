@@ -23,10 +23,8 @@ struct ItemDetailView: View {
         self.item = item
     }
     
-    // should move the logic used with these to view model..
     let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
-    
+
     var body: some View {
         
         NavigationView {
@@ -76,7 +74,7 @@ struct ItemDetailView: View {
                 Spacer()
                 
                 if let userid = userModel.currentUser?.uid {
-                    if userid == storyModel.currentStory?.creator || userid == item.creatorID {
+                    if youAreCurrentStoryCreator() || youAreItemCreator(item: item) {
                         Button("Delete Item") {
                             viewModel.deleteItem()
                             dismiss()

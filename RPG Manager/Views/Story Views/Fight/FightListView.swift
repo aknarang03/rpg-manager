@@ -11,12 +11,7 @@ import SwiftUI
 struct FightListView: View {
     
     @ObservedObject var viewModel: FightListViewModel = FightListViewModel()
-    //@EnvironmentObject var appState: AppState
     
-    // should move the logic used with these to view model..
-    let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
-
     var body: some View {
         
         NavigationView {
@@ -36,7 +31,7 @@ struct FightListView: View {
                     
                     .swipeActions {
                         
-                        if userModel.currentUser?.uid == storyModel.currentStory?.creator {
+                        if youAreCurrentStoryCreator() {
                             
                             Button() {
                                 viewModel.removeFight(fightID: fight.fightID)
