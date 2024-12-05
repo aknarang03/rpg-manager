@@ -87,34 +87,9 @@ class CharacterBagViewModel: ObservableObject {
     }
     
     func equipItem(characterID: String) {
-        var updateCharacter = characterModel.getCharacter(for: characterID)
-        updateCharacter?.heldItem = itemID
-        
-        let item = itemModel.getItem(for: itemID)
-        switch item?.impactsWhat {
-        case "health":
-            updateCharacter!.stats.health += item!.impact
-            print("item impacts health: \(item?.impact ?? 0)")
-        case "attack":
-            updateCharacter!.stats.attack += item!.impact
-            print("item impacts attack: \(item?.impact ?? 0)")
-        case "defense":
-            updateCharacter!.stats.defense += item!.impact
-            print("item impacts defense: \(item?.impact ?? 0)")
-        case "speed":
-            updateCharacter!.stats.speed += item!.impact
-            print("item impacts speed: \(item?.impact ?? 0)")
-        case "agility":
-            updateCharacter!.stats.agility += item!.impact
-            print("item impacts agility: \(item?.impact ?? 0)")
-        case "hp":
-            updateCharacter!.stats.hp += item!.impact
-            print("item impacts hp: \(item?.impact ?? 0)")
-        default:
-            print("unhandled impact type: \(item?.impactsWhat ?? "unknown")")
-        }
-        
-        characterModel.updateCharacter(character: updateCharacter!)
+        var updateCharacter = applyStatChanges(characterID: characterID, itemID: itemID)
+        updateCharacter.heldItem = itemID
+        characterModel.updateCharacter(character: updateCharacter)
         self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
     }
     
