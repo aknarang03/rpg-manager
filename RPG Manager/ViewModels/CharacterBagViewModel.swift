@@ -69,51 +69,19 @@ class CharacterBagViewModel: ObservableObject {
         print("delete item \(itemID)")
         
         if let item = itemModel.getItem(for: itemID) {
-            
-            print("item = item")
-            
+                        
             if (item.itemID == bagOwner.heldItem) { // if item is equipped
                 unequipItem(characterID: bagOwner.characterID) // uneuqip item before deleted if it's equipped
             }
             
-            if (item.type == "passive") { // if item is passively impacting stats right now
-                // since passive stat changes were applied directly to character when item was added to bag,
-                // we now have to remove these stat changes
-                
-                var updateCharacter = bagOwner
-
-                switch item.impactsWhat {
-                case "health":
-                    updateCharacter.stats.health -= item.impact
-                    print("item impacts health: \(item.impact)")
-                case "attack":
-                    updateCharacter.stats.attack -= item.impact
-                    print("item impacts attack: \(item.impact)")
-                case "defense":
-                    updateCharacter.stats.defense -= item.impact
-                    print("item impacts defense: \(item.impact)")
-                case "speed":
-                    updateCharacter.stats.speed -= item.impact
-                    print("item impacts speed: \(item.impact)")
-                case "agility":
-                    updateCharacter.stats.agility -= item.impact
-                    print("item impacts agility: \(item.impact)")
-                case "hp":
-                    updateCharacter.stats.hp -= item.impact
-                    print("item impacts hp: \(item.impact)")
-                default:
-                    print("unhandled impact type: \(item.impactsWhat)")
-                }
-                
+            
+            if (item.type == "passive") {
+                let updateCharacter = unapplyStatChanges(characterID: bagOwner.characterID, itemID: itemID)
                 characterModel.updateCharacter(character: updateCharacter)
                 self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
-                
             }
-
+           
         }
-        
-        // otherwise, item was consumable so does not matter; we can just remove it without worrying about
-        // stat changes
         
         characterModel.removeItemFromBag(characterID: bagOwner.characterID, itemID: itemID, removingAmt: 1)
         
