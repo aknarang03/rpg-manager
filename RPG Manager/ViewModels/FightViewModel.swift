@@ -30,7 +30,7 @@ class FightViewModel: ObservableObject {
     @Published var character2ID: String
     @Published var attackingCharacterID: String = ""
     
-    @Published var fight: Fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
+    @Published var fight: Fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "", complete: false)
     
     @Published var currentAttackerRoundOutcome: String = ""
     @Published var currentDefenderRoundOutcome: String = ""
@@ -38,8 +38,8 @@ class FightViewModel: ObservableObject {
     @Published var showOutcomeStr: String = ""
     @Published var showOutcome: Bool = false
     
-    @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "")
-    @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "")
+    @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "", alive: false)
+    @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "", alive: false)
         
     @Published var outcomes: [String] = []
 
@@ -130,17 +130,24 @@ class FightViewModel: ObservableObject {
         
     }
     
-    func stopFight() { // reset vars
-        fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
+    func stopFight() {
+        
+        // set fight to complete
+        fight.complete = true
+        fightModel.updateFight(fight: fight)
+        
+        // reset view model vars
+        fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "", complete: false)
         attackingCharacterID = ""
         character1ID = ""
         character2ID = ""
+        
     }
     
     func startFight() {
         
         updateCharacters()
-        fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "")
+        fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "", complete: false)
         fightModel.startFight(fight: fight)
         
         if (character2.stats.speed > character1.stats.speed) {
