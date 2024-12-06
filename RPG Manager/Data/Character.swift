@@ -21,8 +21,9 @@ struct Character {
     var isPlayer: Bool
     var heldItem: String?
     var iconURL: String?
+    var alive: Bool
     
-    init (characterID: String, creatorID: String, characterName: String, characterDescription: String, stats: Stats, bag: [String: Int]? = nil, isPlayer: Bool, heldItem: String, iconURL: String) {
+    init (characterID: String, creatorID: String, characterName: String, characterDescription: String, stats: Stats, bag: [String: Int]? = nil, isPlayer: Bool, heldItem: String, iconURL: String, alive: Bool) {
         self.ref = nil
         self.characterID = characterID
         self.creatorID = creatorID
@@ -33,6 +34,7 @@ struct Character {
         self.isPlayer = isPlayer
         self.heldItem = heldItem
         self.iconURL = iconURL
+        self.alive = alive
     }
     
     init? (snapshot: DataSnapshot) {
@@ -50,7 +52,8 @@ struct Character {
             let speed = statsDict["speed"],
             let agility = statsDict["agility"],
             let hp = statsDict["hp"],
-            let isPlayer = value["isPlayer"] as? Bool
+            let isPlayer = value["isPlayer"] as? Bool,
+            let alive = value["alive"] as? Bool
         else {
             return nil
         }
@@ -69,6 +72,7 @@ struct Character {
         self.isPlayer = isPlayer
         self.heldItem = heldItem
         self.iconURL = iconURL
+        self.alive = alive
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
@@ -87,7 +91,8 @@ struct Character {
                 "agility": self.stats.agility,
                 "hp": self.stats.hp
             ],
-            "isPlayer": self.isPlayer
+            "isPlayer": self.isPlayer,
+            "alive": self.alive
         ]
                 
         // only add bag if it's not nil
