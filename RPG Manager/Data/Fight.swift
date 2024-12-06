@@ -5,11 +5,11 @@
 //  Created by Anjali Narang  on 11/25/24.
 //
 
-
 import Foundation
 import Firebase
 import FirebaseDatabase
 
+// should this be in model or here
 enum OutcomeType: String, CaseIterable {
     
     // attacker actions
@@ -37,8 +37,9 @@ struct Fight {
     var character2ID: String
     var outcomes: [String]? // each round consists of two outcomes
     var winner: String?
+    var complete: Bool
     
-    init (fightID: String, userID: String, character1ID: String, character2ID: String, outcomes: [String]? = nil, winner: String) {
+    init (fightID: String, userID: String, character1ID: String, character2ID: String, outcomes: [String]? = nil, winner: String, complete: Bool) {
         self.ref = nil
         self.fightID = fightID
         self.userID = userID
@@ -46,6 +47,7 @@ struct Fight {
         self.character2ID = character2ID
         self.outcomes = outcomes
         self.winner = winner
+        self.complete = complete
     }
     
     init? (snapshot: DataSnapshot) {
@@ -55,7 +57,8 @@ struct Fight {
             let fightID = value["fightID"] as? String,
             let userID = value["userID"] as? String,
             let character1ID = value["character1ID"] as? String,
-            let character2ID = value["character2ID"] as? String
+            let character2ID = value["character2ID"] as? String,
+            let complete = value["complete"] as? Bool
         else {
             return nil
         }
@@ -70,6 +73,7 @@ struct Fight {
         self.character2ID = character2ID
         self.outcomes = outcomes
         self.winner = winner
+        self.complete = complete
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
@@ -78,7 +82,8 @@ struct Fight {
             "fightID": self.fightID,
             "userID": self.userID,
             "character1ID": self.character1ID,
-            "character2ID": self.character2ID
+            "character2ID": self.character2ID,
+            "complete": self.complete
         ]
                 
         // only add bag if it's not nil
