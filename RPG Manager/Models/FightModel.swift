@@ -82,10 +82,6 @@ class FightModel {
         
     }
     
-    
-    
-    
-    
     func getOutcomeString(type: OutcomeType, attackerName: String, defenderName: String, impact: String, itemName: String) -> String {
         
         switch type {
@@ -127,10 +123,37 @@ class FightModel {
         fightRef.setValue(fight.toAnyObject())
     }
     
+    func setWinner(fightID: String, winnerID: String) {
+        
+        let fightRef = storyDBRef.child(storyModel.currentStoryID).child("Fights").child(fightID)
+        
+        fightRef.updateChildValues(["winner": winnerID]) { error, _ in
+            if let error = error {
+                print("could not update fight winner: \(error.localizedDescription)")
+            } else {
+                print("updated winner's ID to \(winnerID) for fightID \(fightID).")
+            }
+        }
+        
+    }
+    
+    func endFight(fightID: String) {
+        
+        let fightRef = storyDBRef.child(storyModel.currentStoryID).child("Fights").child(fightID)
+        
+        fightRef.updateChildValues(["complete": true]) { error, _ in
+            if let error = error {
+                print("could not update fight completion status: \(error.localizedDescription)")
+            } else {
+                print("updated fight complete status to true for fightID \(fightID).")
+            }
+        }
+        
+    }
     
     
     
-//    func endFight(storyID: String, fight: Fight) { // would pass in fight with outcomes array this time
+//    func endFight(storyID: String, fight: Fight) {
 //        let storyRef = Database.database().reference().child("Stories").child(storyID)
 //        let fightRef = storyRef.child("Fights").child(fight.fightID)
 //        fightRef.setValue(fight.toAnyObject())

@@ -19,6 +19,8 @@ class FightViewModel: ObservableObject {
         
     var cancellables: Set<AnyCancellable> = []
     
+    // some of these may not need to be Published
+    
     @Published var showCharacterBag: Bool = false
     @Published var itemToConsume: String = ""
     
@@ -30,7 +32,7 @@ class FightViewModel: ObservableObject {
     @Published var character2ID: String
     @Published var attackingCharacterID: String = ""
     
-    @Published var fight: Fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
+    @Published var fight: Fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "", complete: false)
     
     @Published var currentAttackerRoundOutcome: String = ""
     @Published var currentDefenderRoundOutcome: String = ""
@@ -38,11 +40,11 @@ class FightViewModel: ObservableObject {
     @Published var showOutcomeStr: String = ""
     @Published var showOutcome: Bool = false
     
-    @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "")
-    @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "")
+    @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "", alive: false)
+    @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "", alive: false)
         
     @Published var outcomes: [String] = []
-
+    
     init() {
         self.character1ID = ""
         self.character2ID = ""
@@ -130,17 +132,23 @@ class FightViewModel: ObservableObject {
         
     }
     
-    func stopFight() { // reset vars
-        fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "")
+    func stopFight() {
+        
+        // set fight to complete
+        fightModel.endFight(fightID: fight.fightID)
+        
+        // reset view model vars
+        fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "", complete: false)
         attackingCharacterID = ""
         character1ID = ""
         character2ID = ""
+        
     }
     
     func startFight() {
-        
+                
         updateCharacters()
-        fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "")
+        fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "", complete: false)
         fightModel.startFight(fight: fight)
         
         if (character2.stats.speed > character1.stats.speed) {
@@ -152,16 +160,26 @@ class FightViewModel: ObservableObject {
     }
     
     func fleeAction() {
-                
+        
         if (attackingCharacterID == character1ID) { // character 1 is attacking; character 2 is defending
             
             currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             
+            let out1 = "\(character2.characterName) wins."
+            let out2 = "\(character1.characterName) loses." // character 1 loses because they fled
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
+            
         } else { // character 2 is attacking; character 1 is defending
             
             currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
             currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            
+            let out1 = "\(character1.characterName) wins."
+            let out2 = "\(character2.characterName) loses." // character 2 loses because they fled
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
             
         }
         
@@ -175,6 +193,7 @@ class FightViewModel: ObservableObject {
     func attackAction() {
         
         isWorking = true
+        var fightOverFlag = false
         
         // set up temp vars
         var attackingChar: Character = character1
@@ -218,8 +237,41 @@ class FightViewModel: ObservableObject {
         swap()
         
         finishAction()
-        self.showOutcome = true
+        // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
         
+        if character1.stats.hp == 0 {
+            
+            character1.alive = false
+            characterModel.updateCharacter(character: character1)
+            
+            let out1 = "\(character2.characterName) wins."
+            let out2 = "\(character1.characterName) loses."
+            
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
+            fightOverFlag = true
+            stopFight()
+            
+        }
+        
+        else if character2.stats.hp == 0 {
+            
+            character2.alive = false
+            characterModel.updateCharacter(character: character2)
+            
+            let out1 = "\(character1.characterName) wins."
+            let out2 = "\(character2.characterName) loses."
+            
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
+            fightOverFlag = true
+            stopFight()
+            
+        }
+        
+        if fightOverFlag == false {
+            self.showOutcome = true
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.isWorking = false
         }
@@ -311,11 +363,9 @@ class FightViewModel: ObservableObject {
         
     }
     
-    // called at end of each action (attacker outcome, defender outcome)
+    // called at end of each action
     func finishAction() {
-        
-        print("in finish outcome")
-        
+                
         showOutcomeStr = "\(currentAttackerRoundOutcome)\n\(currentDefenderRoundOutcome)"
         //showOutcome = true
                                 
@@ -326,13 +376,13 @@ class FightViewModel: ObservableObject {
         
         characterModel.updateCharacter(character: character1)
         characterModel.updateCharacter(character: character2)
-                
+        
+        
+        // check for alive for both characters
+        
+        
+
     }
-    
-    // END FIGHT:
-    // surrender(which character)
-    // lose(which character)
-    
     
     func swap() {
         if (attackingCharacterID == character1ID) {

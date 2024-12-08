@@ -156,13 +156,17 @@ struct FightView: View {
                         Spacer()
                         
                         VStack {
-                                                        
-                            Button("use item") {
-                                viewModel.showCharacterBag = !viewModel.showCharacterBag
-                            }.disabled(viewModel.showOutcome == true
-                                       || viewModel.isWorking
-                                       || characterModel.getCharacter(for: viewModel.attackingCharacterID)!.bag!.isEmpty
-                            )
+                            
+                            if let char = characterModel.getCharacter(for: viewModel.attackingCharacterID) {
+                                if let bag = char.bag {
+                                    Button("use item") {
+                                        viewModel.showCharacterBag = !viewModel.showCharacterBag
+                                    }.disabled(viewModel.showOutcome == true
+                                               || viewModel.isWorking
+                                               || bag.isEmpty
+                                    )
+                                }
+                            }
                             
                             if (viewModel.showCharacterBag == true) {
                                                                 
