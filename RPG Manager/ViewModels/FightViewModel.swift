@@ -164,10 +164,20 @@ class FightViewModel: ObservableObject {
             currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character1.characterName, defenderName: character2.characterName, impact: "", itemName: "")
             
+            let out1 = "\(character2.characterName) wins."
+            let out2 = "\(character1.characterName) loses." // character 1 loses because they fled
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
+            
         } else { // character 2 is attacking; character 1 is defending
             
             currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
             currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: character2.characterName, defenderName: character1.characterName, impact: "", itemName: "")
+            
+            let out1 = "\(character1.characterName) wins."
+            let out2 = "\(character2.characterName) loses." // character 2 loses because they fled
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
             
         }
         
