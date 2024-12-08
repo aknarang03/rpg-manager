@@ -45,8 +45,6 @@ class FightViewModel: ObservableObject {
         
     @Published var outcomes: [String] = []
     
-    var fightOverFlag: Bool = false
-
     init() {
         self.character1ID = ""
         self.character2ID = ""
@@ -148,9 +146,7 @@ class FightViewModel: ObservableObject {
     }
     
     func startFight() {
-        
-        fightOverFlag = false
-        
+                
         updateCharacters()
         fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "", complete: false)
         fightModel.startFight(fight: fight)
@@ -197,6 +193,7 @@ class FightViewModel: ObservableObject {
     func attackAction() {
         
         isWorking = true
+        var fightOverFlag = false
         
         // set up temp vars
         var attackingChar: Character = character1
@@ -240,13 +237,43 @@ class FightViewModel: ObservableObject {
         swap()
         
         finishAction()
+        // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
+        
+        if character1.stats.hp == 0 {
+            
+            character1.alive = false
+            characterModel.updateCharacter(character: character1)
+            
+            let out1 = "\(character2.characterName) wins."
+            let out2 = "\(character1.characterName) loses."
+            
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
+            fightOverFlag = true
+            stopFight()
+            
+        }
+        
+        else if character2.stats.hp == 0 {
+            
+            character2.alive = false
+            characterModel.updateCharacter(character: character2)
+            
+            let out1 = "\(character1.characterName) wins."
+            let out2 = "\(character2.characterName) loses."
+            
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
+            fightOverFlag = true
+            stopFight()
+            
+        }
         
         if fightOverFlag == false {
             self.showOutcome = true
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.isWorking = false
-            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.isWorking = false
         }
         
     }
@@ -353,37 +380,7 @@ class FightViewModel: ObservableObject {
         
         // check for alive for both characters
         
-        // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
         
-        if character1.stats.hp == 0 {
-            
-            character1.alive = false
-            characterModel.updateCharacter(character: character1)
-            
-            let out1 = "\(character2.characterName) wins."
-            let out2 = "\(character1.characterName) loses."
-            
-            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
-            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
-            fightOverFlag = true
-            stopFight()
-            
-        }
-        
-        else if character2.stats.hp == 0 {
-            
-            character2.alive = false
-            characterModel.updateCharacter(character: character2)
-            
-            let out1 = "\(character1.characterName) wins."
-            let out2 = "\(character2.characterName) loses."
-            
-            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
-            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
-            fightOverFlag = true
-            stopFight()
-            
-        }
 
     }
     
