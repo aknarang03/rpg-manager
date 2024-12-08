@@ -133,8 +133,8 @@ class FightViewModel: ObservableObject {
     func stopFight() {
         
         // set fight to complete
-        fight.complete = true
-        fightModel.updateFight(fight: fight)
+        //fight.complete = true
+        fightModel.endFight(fightID: fight.fightID)
         
         // reset view model vars
         fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "", complete: false)
