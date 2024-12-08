@@ -123,6 +123,20 @@ class FightModel {
         fightRef.setValue(fight.toAnyObject())
     }
     
+    func setWinner(fightID: String, winnerID: String) {
+        
+        let fightRef = storyDBRef.child(storyModel.currentStoryID).child("Fights").child(fightID)
+        
+        fightRef.updateChildValues(["winner": winnerID]) { error, _ in
+            if let error = error {
+                print("could not update fight winner: \(error.localizedDescription)")
+            } else {
+                print("updated winner's ID to \(winnerID) for fightID \(fightID).")
+            }
+        }
+        
+    }
+    
     func endFight(fightID: String) {
         
         let fightRef = storyDBRef.child(storyModel.currentStoryID).child("Fights").child(fightID)

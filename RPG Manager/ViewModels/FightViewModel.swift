@@ -133,7 +133,6 @@ class FightViewModel: ObservableObject {
     func stopFight() {
         
         // set fight to complete
-        //fight.complete = true
         fightModel.endFight(fightID: fight.fightID)
         
         // reset view model vars
@@ -318,11 +317,9 @@ class FightViewModel: ObservableObject {
         
     }
     
-    // called at end of each action (attacker outcome, defender outcome)
+    // called at end of each action
     func finishAction() {
-        
-        print("in finish outcome")
-        
+                
         showOutcomeStr = "\(currentAttackerRoundOutcome)\n\(currentDefenderRoundOutcome)"
         //showOutcome = true
                                 
@@ -333,13 +330,41 @@ class FightViewModel: ObservableObject {
         
         characterModel.updateCharacter(character: character1)
         characterModel.updateCharacter(character: character2)
-                
+        
+        
+        // check for alive for both characters
+        
+        // I should just set temp attacker and defender name vars based on check instead of doing everything in the check. too much duplicate code
+        
+        if character1.stats.hp == 0 {
+            
+            character1.alive = false
+            characterModel.updateCharacter(character: character1)
+            
+            let out1 = "\(character2.characterName) wins."
+            let out2 = "\(character1.characterName) loses."
+            
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
+            stopFight()
+            
+        }
+        
+        else if character2.stats.hp == 0 {
+            
+            character2.alive = false
+            characterModel.updateCharacter(character: character2)
+            
+            let out1 = "\(character1.characterName) wins."
+            let out2 = "\(character2.characterName) loses."
+            
+            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
+            stopFight()
+            
+        }
+
     }
-    
-    // END FIGHT:
-    // surrender(which character)
-    // lose(which character)
-    
     
     func swap() {
         if (attackingCharacterID == character1ID) {
