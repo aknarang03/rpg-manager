@@ -45,6 +45,8 @@ class FightViewModel: ObservableObject {
         
     @Published var outcomes: [String] = []
     
+    @Published var fightOngoing = false
+    
     init() {
         self.character1ID = ""
         self.character2ID = ""
@@ -84,6 +86,8 @@ class FightViewModel: ObservableObject {
     }
     
     func startFight() {
+        
+        fightOngoing = true // for fight view
         
         updateCharacters() // get initial references to the two selected characters
         fight = Fight(fightID: idWithTimeInterval(), userID: userModel.currentUser!.uid, character1ID: character1ID, character2ID: character2ID, winner: "", complete: false)
@@ -301,6 +305,8 @@ class FightViewModel: ObservableObject {
     }
     
     func stopFight() {
+        
+        fightOngoing = false // for fight view
         
         // set fight to complete
         fightModel.endFight(fightID: fight.fightID)
