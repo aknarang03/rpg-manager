@@ -41,7 +41,7 @@ class CharacterBagViewModel: ObservableObject {
         return item.type
     }
     
-    // NOTE TO SELF: maybe I don't need updateCharacter in the methods?? or passing in characterID to the methods? can I just use bagOwner?
+    // NOTE TO SELF: maybe I don't need updateCharacter in the methods?? or passing in characterID to the methods? can I just use bagOwner? it's because of how I structured applyStatChanges tho, so I have to see if i need that anywhere at all 
     
     // stats will be truncated right away since item is consumable; unlike with passive / equippable,
     // since with those, if you remove an item from bag and something's impact was truncated, it should

@@ -48,8 +48,6 @@ class ItemDetailViewModel: ObservableObject {
         characterModel.addItemToBag(characterID: characterID, itemID: item.itemID, addingAmt: 1)
     }
     
-    
-    // problem: what if a stat is truncated but then it's reduced, but passive item impact doesn't then adjust...
     func applyPassiveStatChanges() {
         
         if (item.impactsWhat == "none" || item.impact == 0) { // no impact
@@ -59,34 +57,8 @@ class ItemDetailViewModel: ObservableObject {
         
         else {
             
-            var updateCharacter = characterModel.getCharacter(for: characterID)
-            
-            // make an update stats method.. this is very messy
-            
-            switch item.impactsWhat {
-            case "health":
-                updateCharacter!.stats.health += item.impact
-                print("item impacts health: \(item.impact)")
-            case "attack":
-                updateCharacter!.stats.attack += item.impact
-                print("item impacts attack: \(item.impact)")
-            case "defense":
-                updateCharacter!.stats.defense += item.impact
-                print("item impacts defense: \(item.impact)")
-            case "speed":
-                updateCharacter!.stats.speed += item.impact
-                print("item impacts speed: \(item.impact)")
-            case "agility":
-                updateCharacter!.stats.agility += item.impact
-                print("item impacts agility: \(item.impact)")
-            case "hp":
-                updateCharacter!.stats.hp += item.impact
-                print("item impacts hp: \(item.impact)")
-            default:
-                print("unhandled impact type: \(item.impactsWhat)")
-            }
-            
-            characterModel.updateCharacter(character: updateCharacter!)
+            let updateCharacter = applyStatChanges(characterID: characterID, itemID: item.itemID)
+            characterModel.updateCharacter(character: updateCharacter)
 
         }
     }
