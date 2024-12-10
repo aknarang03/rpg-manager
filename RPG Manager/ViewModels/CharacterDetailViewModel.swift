@@ -52,5 +52,12 @@ class CharacterDetailViewModel: ObservableObject {
     func updateCharacterIcon(image: UIImage) {
         characterModel.uploadCharacterIcon(image: image, imageID: idWithTimeInterval(), characterID: character.characterID) // this also calls function that updates database ref
     }
+    
+    func reviveCharacter() {
+        var updateCharacter = character
+        updateCharacter.stats.hp = updateCharacter.stats.health
+        updateCharacter.alive = true
+        characterModel.updateCharacter(character: updateCharacter)
+    }
 
 }
