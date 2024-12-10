@@ -59,7 +59,7 @@ class CharacterBagViewModel: ObservableObject {
         else {
             
             var updateCharacter = applyStatChangesWithTruncation(characterID: characterID, itemID: itemID)
-            if (updateCharacter.stats.hp == 0) {
+            if (updateCharacter.stats.hp <= 0) {
                 updateCharacter.alive = false
             }
             characterModel.updateCharacter(character: updateCharacter)
@@ -80,7 +80,7 @@ class CharacterBagViewModel: ObservableObject {
             
             if (item.type == "passive") {
                 var updateCharacter = unapplyStatChanges(characterID: bagOwner.characterID, itemID: itemID)
-                if (updateCharacter.stats.hp == 0) {
+                if (updateCharacter.stats.hp <= 0) {
                     updateCharacter.alive = false
                 }
                 characterModel.updateCharacter(character: updateCharacter)
@@ -95,7 +95,7 @@ class CharacterBagViewModel: ObservableObject {
     func equipItem(characterID: String) {
         var updateCharacter = applyStatChanges(characterID: characterID, itemID: itemID)
         updateCharacter.heldItem = itemID
-        if (updateCharacter.stats.hp == 0) {
+        if (updateCharacter.stats.hp <= 0) {
             updateCharacter.alive = false
         }
         characterModel.updateCharacter(character: updateCharacter)
@@ -104,7 +104,7 @@ class CharacterBagViewModel: ObservableObject {
     func unequipItem(characterID: String) {
         var updateCharacter = unapplyStatChanges(characterID: characterID, itemID: itemID)
         updateCharacter.heldItem = nil
-        if (updateCharacter.stats.hp == 0) {
+        if (updateCharacter.stats.hp <= 0) {
             updateCharacter.alive = false
         }
         characterModel.updateCharacter(character: updateCharacter)

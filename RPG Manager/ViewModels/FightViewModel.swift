@@ -288,7 +288,7 @@ class FightViewModel: ObservableObject {
     
     func checkDeath() -> Bool {
         
-        if character1.stats.hp == 0 {
+        if character1.stats.hp <= 0 {
             character1.alive = false
             characterModel.updateCharacter(character: character1)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
@@ -296,7 +296,7 @@ class FightViewModel: ObservableObject {
             return true
         }
         
-        else if character2.stats.hp == 0 {
+        else if character2.stats.hp <= 0 {
             character2.alive = false
             characterModel.updateCharacter(character: character2)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)

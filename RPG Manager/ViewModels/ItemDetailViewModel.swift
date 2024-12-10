@@ -57,7 +57,10 @@ class ItemDetailViewModel: ObservableObject {
         
         else {
             
-            let updateCharacter = applyStatChanges(characterID: characterID, itemID: item.itemID)
+            var updateCharacter = applyStatChanges(characterID: characterID, itemID: item.itemID)
+            if (updateCharacter.stats.hp <= 0) {
+                updateCharacter.alive = false
+            }
             characterModel.updateCharacter(character: updateCharacter)
 
         }
