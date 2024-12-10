@@ -127,7 +127,6 @@ class FightViewModel: ObservableObject {
     func attackAction() {
         
         isWorking = true
-        var fightOverFlag = false
         
         // set up temp vars
         var attackingChar: Character = character1
@@ -172,33 +171,10 @@ class FightViewModel: ObservableObject {
         
         finishAction()
         
-        // check for death
-        
-        if character1.stats.hp == 0 {
-            
-            character1.alive = false
-            characterModel.updateCharacter(character: character1)
-            
-            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
-            fightOverFlag = true
-            stopFight()
-            
-        }
-        
-        else if character2.stats.hp == 0 {
-            
-            character2.alive = false
-            characterModel.updateCharacter(character: character2)
-            
-            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
-            fightOverFlag = true
-            stopFight()
-            
-        }
-        
-        if fightOverFlag == false {
+        if !checkDeath() {
             self.showOutcome = true
         }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.isWorking = false
         }
@@ -242,7 +218,10 @@ class FightViewModel: ObservableObject {
         swap()
         
         finishAction()
-        self.showOutcome = true
+        
+        if !checkDeath() {
+            self.showOutcome = true
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.isWorking = false
@@ -267,6 +246,7 @@ class FightViewModel: ObservableObject {
         swap()
         
         finishAction()
+        
         self.showOutcome = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -306,6 +286,28 @@ class FightViewModel: ObservableObject {
         
     }
     
+    func checkDeath() -> Bool {
+        
+        if character1.stats.hp == 0 {
+            character1.alive = false
+            characterModel.updateCharacter(character: character1)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
+            stopFight()
+            return true
+        }
+        
+        else if character2.stats.hp == 0 {
+            character2.alive = false
+            characterModel.updateCharacter(character: character2)
+            fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
+            stopFight()
+            return true
+        }
+        
+        return false
+        
+    }
+    
     func consumeItem(item: Item, characterID: String) {
         
         characterModel.consumeItem(characterID: characterID, itemID: itemToConsume)
@@ -326,6 +328,7 @@ class FightViewModel: ObservableObject {
             }
 
         }
+        
     }
     
     // TEMP FORMULA
