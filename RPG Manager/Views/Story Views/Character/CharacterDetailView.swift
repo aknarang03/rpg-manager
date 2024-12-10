@@ -121,17 +121,30 @@ struct CharacterDetailView: View {
                     
                     Spacer()
                     
-                    PhotoPicker(viewModel: viewModel)
-                    if let userid = userModel.currentUser?.uid {
-                        if youAreCurrentStoryCreator() || youAreCharacterCreator(character: character) {
+                    HStack {
+                        
+                        PhotoPicker(viewModel: viewModel)
+                        
+                        if character.alive == false {
                             Spacer()
-                            Button("Delete Character") {
-                                viewModel.deleteCharacter()
-                                dismiss()
+                            Button("Revive") {
+                                viewModel.reviveCharacter()
                             }
-                            Spacer()
                         }
+
+                        if let userid = userModel.currentUser?.uid {
+                            if youAreCurrentStoryCreator() || youAreCharacterCreator(character: character) {
+                                Spacer()
+                                Button("Delete") {
+                                    viewModel.deleteCharacter()
+                                    dismiss()
+                                }
+                            }
+                        }
+                        
                     }
+                    
+                    Spacer()
                     
                 } // VStack
                 .padding()
