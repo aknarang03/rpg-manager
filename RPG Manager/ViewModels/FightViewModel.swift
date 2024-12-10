@@ -115,11 +115,6 @@ class FightViewModel: ObservableObject {
         currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerFlee, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: "", itemName: "")
         currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderIdle, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: "", itemName: "")
         
-        // character performing action loses because they fled
-        let out1 = "\(defendingChar.characterName) wins."
-        let out2 = "\(attackingChar.characterName) loses."
-        
-        fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
         fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
         
         swap()
@@ -184,10 +179,6 @@ class FightViewModel: ObservableObject {
             character1.alive = false
             characterModel.updateCharacter(character: character1)
             
-            let out1 = "\(character2.characterName) wins."
-            let out2 = "\(character1.characterName) loses."
-            
-            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
             fightOverFlag = true
             stopFight()
@@ -199,10 +190,6 @@ class FightViewModel: ObservableObject {
             character2.alive = false
             characterModel.updateCharacter(character: character2)
             
-            let out1 = "\(character1.characterName) wins."
-            let out2 = "\(character2.characterName) loses."
-            
-            fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: out1, outcome2: out2)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
             fightOverFlag = true
             stopFight()
