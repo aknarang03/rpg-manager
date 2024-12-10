@@ -69,11 +69,11 @@ struct ItemDetailView: View {
                     }
                 }
                 .padding()
-                .disabled(viewModel.characterID.isEmpty)
+                .disabled(viewModel.characterID.isEmpty || !viewModel.selectedCharIsAlive())
 
                 Spacer()
                 
-                if let userid = userModel.currentUser?.uid {
+                if (userModel.currentUser?.uid) != nil {
                     if youAreCurrentStoryCreator() || youAreItemCreator(item: item) {
                         Button("Delete Item") {
                             viewModel.deleteItem()

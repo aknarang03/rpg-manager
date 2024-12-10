@@ -38,19 +38,32 @@ class ItemDetailViewModel: ObservableObject {
         return username
     }
     
-    func addItemToBag() {
+    func selectedCharIsAlive() -> Bool {
         let character = characterModel.getCharacter(for: characterID)
+        if character!.alive {
+            return true
+        }
+        return false
+    }
+    
+    func addItemToBag() {
+        
+        let character = characterModel.getCharacter(for: characterID)
+        
+        // if character already has this equippable item, do not give it to them
         if character?.bag?.keys.contains(item.itemID) == true {
             if (item.type == "equippable") {
                 return;
             }
         }
+        
         characterModel.addItemToBag(characterID: characterID, itemID: item.itemID, addingAmt: 1)
+        
     }
     
     func applyPassiveStatChanges() {
         
-        if (item.impactsWhat == "none" || item.impact == 0) { // no impact
+        if (item.impactsWhat == "none" || item.impact == 0) {
             print("item has no impact")
             return
         }

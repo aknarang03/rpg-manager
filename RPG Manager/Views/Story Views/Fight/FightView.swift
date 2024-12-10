@@ -271,7 +271,7 @@ struct FightView: View {
                 } else {
                     Button("Start") {
                         viewModel.startFight()
-                    }.disabled(viewModel.character1ID == "" || viewModel.character2ID == "" || viewModel.character1ID == viewModel.character2ID)
+                    }.disabled(!viewModel.shouldStart())
 
                 }
                 

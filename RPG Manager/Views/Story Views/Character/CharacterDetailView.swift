@@ -42,11 +42,7 @@ struct CharacterDetailView: View {
                         .font(.largeTitle)
                         .padding()
                     Text("\(character.characterDescription)")
-                    if (character.isPlayer) {
-                        Text("player")
-                    } else {
-                        Text("NPC")
-                    }
+                    Text("\(character.alive ? "alive" : "dead") \(character.isPlayer ? "player" : "NPC")")
                     
                     Spacer()
                     

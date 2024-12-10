@@ -73,6 +73,7 @@ struct CharacterBagView: View {
                                     }
                                     showPopup=true
                                 }.frame(width: 0, height: 0)
+                                    .disabled(character.alive == false)
                                 
                                 Spacer()
                                 

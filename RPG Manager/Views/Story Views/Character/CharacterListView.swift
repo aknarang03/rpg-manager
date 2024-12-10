@@ -31,18 +31,21 @@ struct CharacterListView: View {
                                         image.resizable()
                                             .scaledToFit()
                                             .frame(width: 30, height: 30)
+                                            .colorMultiply(character.alive ? .primary : .gray)
                                     } placeholder: {
                                         ProgressView()
                                     }
                                 }
                                 Text(character.characterName)
                                 Spacer()
-                                if let yourUid = userModel.currentUser?.uid {
+                                if (userModel.currentUser?.uid) != nil {
                                     if (youAreCharacterCreator(character: character)) {
                                         Image(systemName: "star.fill")
                                             .foregroundColor(.gray)
                                     }
                                 }
+                                Image(systemName: character.alive ? "heart.fill" : "heart.slash.fill")
+                                    .foregroundColor(.gray)
                             }
                             Text(character.characterDescription)
                                 .font(.subheadline)
