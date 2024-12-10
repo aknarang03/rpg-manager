@@ -158,6 +158,15 @@ class FightViewModel: ObservableObject {
             currentAttackerRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.attackerAttack, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
             currentDefenderRoundOutcome = fightModel.getOutcomeString(type: OutcomeType.defenderGetHit, attackerName: attackingChar.characterName, defenderName: defendingChar.characterName, impact: String(damage), itemName: "")
             
+            // apply changes
+            if (attackingCharacterID == character1ID) {
+                character1 = attackingChar
+                character2 = defendingChar
+            } else {
+                character1 = defendingChar
+                character2 = attackingChar
+            }
+            
         }
         
         swap()
