@@ -13,7 +13,6 @@ struct FightView: View {
     @ObservedObject var viewModel: FightViewModel = FightViewModel()
     
     @EnvironmentObject var appState: AppState
-    @State var fightStarted = false
     
     let characterModel = CharacterModel.shared
     
@@ -27,7 +26,7 @@ struct FightView: View {
                 
                 Spacer()
                 
-                if (!fightStarted) { // SETUP SCREEN CONTENT
+                if (!viewModel.fightOngoing) { // SETUP SCREEN CONTENT
                     
                     Text("Select Characters")
                         .font(.largeTitle)
@@ -234,7 +233,6 @@ struct FightView: View {
                         Button("flee") {
                             viewModel.fleeAction()
                             viewModel.showCharacterBag = false
-                            fightStarted = false // this should be in view model..
                         }.disabled(viewModel.showOutcome == true || viewModel.isWorking)
                         
                         Spacer()
@@ -266,14 +264,12 @@ struct FightView: View {
                 
                 Spacer()
                 
-                if (fightStarted) {
+                if (viewModel.fightOngoing) {
                     Button("Stop") {
-                        fightStarted = false
                         viewModel.stopFight()
                     }
                 } else {
                     Button("Start") {
-                        fightStarted = true
                         viewModel.startFight()
                     }.disabled(viewModel.character1ID == "" || viewModel.character2ID == "" || viewModel.character1ID == viewModel.character2ID)
 
