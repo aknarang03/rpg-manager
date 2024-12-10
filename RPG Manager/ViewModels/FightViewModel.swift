@@ -59,6 +59,21 @@ class FightViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func shouldStart() -> Bool {
+        
+        let char1Alive = characterModel.getCharacter(for: character1ID)?.alive
+        let char2Alive = characterModel.getCharacter(for: character2ID)?.alive
+
+        if character1ID == "" || character2ID == "" || character1ID == character2ID {
+            return false
+        } else if char1Alive != nil && char2Alive != nil {
+            if !char1Alive! || !char2Alive! {
+                return false
+            }
+        }
+        return true
+    }
+    
     func itemIdToItemName(itemID: String) -> String {
         guard let itemName = itemModel.getItemName(for: itemID) else {
             print("Item name not found for \(itemID)")
