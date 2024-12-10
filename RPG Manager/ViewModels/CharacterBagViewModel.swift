@@ -20,11 +20,9 @@ class CharacterBagViewModel: ObservableObject {
     @Published var itemAction: () -> Void = {}
     
     @Published var bagOwner: Character
-    @Published var stats: Stats
     
     init(character: Character) {
         self.bagOwner = character
-        self.stats = characterModel.getTruncatedStats(characterID: character.characterID)
     }
     
     func itemIdToItemName(itemID: String) -> String {
@@ -43,6 +41,8 @@ class CharacterBagViewModel: ObservableObject {
         return item.type
     }
     
+    // NOTE TO SELF: maybe I don't need updateCharacter in the methods?? or passing in characterID to the methods? can I just use bagOwner?
+    
     // stats will be truncated right away since item is consumable; unlike with passive / equippable,
     // since with those, if you remove an item from bag and something's impact was truncated, it should
     // kick back in.
@@ -58,10 +58,14 @@ class CharacterBagViewModel: ObservableObject {
         
         else {
             
-            let updateCharacter = applyStatChangesWithTruncation(characterID: characterID, itemID: itemID)
+            var updateCharacter = applyStatChangesWithTruncation(characterID: characterID, itemID: itemID)
+            if (updateCharacter.stats.hp == 0) {
+                updateCharacter.alive = false
+            }
             characterModel.updateCharacter(character: updateCharacter)
 
         }
+                
     }
     
     func deleteItem(characterID: String) {
@@ -75,29 +79,35 @@ class CharacterBagViewModel: ObservableObject {
             }
             
             if (item.type == "passive") {
-                let updateCharacter = unapplyStatChanges(characterID: bagOwner.characterID, itemID: itemID)
+                var updateCharacter = unapplyStatChanges(characterID: bagOwner.characterID, itemID: itemID)
+                if (updateCharacter.stats.hp == 0) {
+                    updateCharacter.alive = false
+                }
                 characterModel.updateCharacter(character: updateCharacter)
-                self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
             }
            
         }
         
         characterModel.removeItemFromBag(characterID: bagOwner.characterID, itemID: itemID, removingAmt: 1)
-        
+                
     }
     
     func equipItem(characterID: String) {
         var updateCharacter = applyStatChanges(characterID: characterID, itemID: itemID)
         updateCharacter.heldItem = itemID
+        if (updateCharacter.stats.hp == 0) {
+            updateCharacter.alive = false
+        }
         characterModel.updateCharacter(character: updateCharacter)
-        self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
     }
     
     func unequipItem(characterID: String) {
         var updateCharacter = unapplyStatChanges(characterID: characterID, itemID: itemID)
         updateCharacter.heldItem = nil
+        if (updateCharacter.stats.hp == 0) {
+            updateCharacter.alive = false
+        }
         characterModel.updateCharacter(character: updateCharacter)
-        self.stats = characterModel.getTruncatedStats(characterID: bagOwner.characterID)
     }
-
+    
 }
