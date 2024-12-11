@@ -29,7 +29,11 @@ class FightViewModel: ObservableObject {
     @Published var characters: [Character] = []
     
     @Published var character1ID: String
+    @Published var character1Stats: Stats
+    
     @Published var character2ID: String
+    @Published var character2Stats: Stats
+    
     @Published var attackingCharacterID: String = ""
     
     @Published var fight: Fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "", complete: false)
@@ -50,8 +54,9 @@ class FightViewModel: ObservableObject {
     init() {
         self.character1ID = ""
         self.character2ID = ""
-        // need to call updateCharacters() when characters are changed, so that the two character refs
-        // are still accurate even if they are changed somewhere else in the app
+        self.character1Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
+        self.character2Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
+        // need to call updateCharacters() when characters are changed, so that the two character refs are still accurate even if they are changed somewhere else in the app
         characterModel.$currentCharacters
             .sink { [weak self] newChars in
                 self?.characters = newChars
@@ -95,8 +100,10 @@ class FightViewModel: ObservableObject {
            let char2 = characters.first(where: { $0.characterID == character2ID }) {
             character1 = char1
             character2 = char2
-            character1.stats = getTruncatedStats(character: char1)
-            character2.stats = getTruncatedStats(character: char2)
+            character1Stats = getTruncatedStats(character: char1)
+            character2Stats = getTruncatedStats(character: char2)
+            //character1.stats = getTruncatedStats(character: char1)
+            //character2.stats = getTruncatedStats(character: char2)
         }
     }
     
