@@ -80,4 +80,46 @@ class ItemModel {
         }
     }
     
+    func uploadItemIcon(image: UIImage, imageID: String, itemID: String) {
+        
+        let storageRef = Storage.storage().reference()
+        let imageRef = storageRef.child("images/\(imageID).png")
+        
+        guard let imageData = image.pngData() else {
+            print("failed to get image data")
+            return
+        }
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/png"
+        
+        imageRef.putData(imageData, metadata: metadata) { metadata, error in
+            
+            if let error = error {
+                print("cannot upload; \(error.localizedDescription)")
+                return
+            }
+
+            // url for character
+            imageRef.downloadURL { url, error in
+                if let error = error {
+                    print("cannot get download URL; \(error.localizedDescription)")
+                } else if let url = url {
+                    print("got download URL; \(url.absoluteString)")
+                    self.updateItemIcon(itemID: itemID, imageURL: url.absoluteString)
+                }
+            }
+        }
+        
+    }
+    
+    func updateItemIcon(itemID: String, imageURL: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
+        if var item = self.getItem(for: itemID) {
+            item.iconURL = imageURL
+            let itemRef = storyRef.child("Items").child(item.itemID)
+            itemRef.setValue(item.toAnyObject())
+        }
+    }
+    
 }

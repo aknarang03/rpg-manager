@@ -187,7 +187,6 @@ class CharacterModel {
     }
     
     func updateCharacterIcon(characterID: String, imageURL: String) {
-        print("updating character ICON in story model")
         let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         if var character = self.getCharacter(for: characterID) {
             character.iconURL = imageURL
