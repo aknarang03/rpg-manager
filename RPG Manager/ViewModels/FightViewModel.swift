@@ -29,7 +29,11 @@ class FightViewModel: ObservableObject {
     @Published var characters: [Character] = []
     
     @Published var character1ID: String
+    @Published var character1Stats: Stats
+    
     @Published var character2ID: String
+    @Published var character2Stats: Stats
+    
     @Published var attackingCharacterID: String = ""
     
     @Published var fight: Fight = Fight(fightID: "", userID: "", character1ID: "", character2ID: "", outcomes: nil, winner: "", complete: false)
@@ -50,8 +54,10 @@ class FightViewModel: ObservableObject {
     init() {
         self.character1ID = ""
         self.character2ID = ""
-        // need to call updateCharacters() when characters are changed, so that the two character refs
-        // are still accurate even if they are changed somewhere else in the app
+        // use real stats when updating stats, but use these when calculating and showing things
+        self.character1Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
+        self.character2Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
+        // need to call updateCharacters() when characters are changed, so that the two character refs are still accurate even if they are changed somewhere else in the app
         characterModel.$currentCharacters
             .sink { [weak self] newChars in
                 self?.characters = newChars
@@ -95,8 +101,12 @@ class FightViewModel: ObservableObject {
            let char2 = characters.first(where: { $0.characterID == character2ID }) {
             character1 = char1
             character2 = char2
-            character1.stats = getTruncatedStats(character: char1)
-            character2.stats = getTruncatedStats(character: char2)
+            character1Stats = getTruncatedStats(character: char1)
+            character2Stats = getTruncatedStats(character: char2)
+            print("TEST: fight stats 1: \(character1Stats.attack), real stats: \(character1.stats.attack)")
+            print("TEST: fight stats 2: \(character2Stats.attack), real stats: \(character2.stats.attack)")
+            //character1.stats = getTruncatedStats(character: char1)
+            //character2.stats = getTruncatedStats(character: char2)
         }
     }
     
@@ -109,7 +119,7 @@ class FightViewModel: ObservableObject {
         fightModel.startFight(fight: fight) // create the fight in firebase
         
         // whoever is faster moves first
-        if (character2.stats.speed > character1.stats.speed) {
+        if (character2Stats.speed > character1Stats.speed) {
             attackingCharacterID = character2ID
         } else {
             attackingCharacterID = character1ID
@@ -134,7 +144,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: false)
         stopFight()
         
     }
@@ -145,15 +155,19 @@ class FightViewModel: ObservableObject {
         
         // set up temp vars
         var attackingChar: Character = character1
+        var attackingCharStats: Stats = character1Stats
         var defendingChar: Character = character2
+        var defendingCharStats: Stats = character2Stats
         if (attackingCharacterID == character2ID) {
             attackingChar = character2
+            attackingCharStats = character2Stats
             defendingChar = character1
+            defendingCharStats = character1Stats
         }
         
-        let damage = calculateDamage(attacker: attackingChar, defender: defendingChar)
+        let damage = calculateDamage(attackerStats: attackingCharStats, defenderStats: defendingCharStats)
         
-        let avoidChance = calcAvoidChance(attacker: attackingChar, defender: defendingChar)
+        let avoidChance = calcAvoidChance(attackerStats: attackingCharStats, defenderStats: defendingCharStats)
         let tryAvoid = Int.random(in: 0...100)
         
         if (tryAvoid < avoidChance) { // defender avoids attack
@@ -184,7 +198,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: true)
         
         if !checkDeath() {
             self.showOutcome = true
@@ -232,7 +246,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: true)
         
         if !checkDeath() {
             self.showOutcome = true
@@ -260,7 +274,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: false)
         
         self.showOutcome = true
         
@@ -271,18 +285,19 @@ class FightViewModel: ObservableObject {
     }
     
     // called at end of each action
-    func finishAction() {
+    func finishAction(updateChar: Bool) {
                 
         showOutcomeStr = "\(currentAttackerRoundOutcome)\n\(currentDefenderRoundOutcome)"
-        //showOutcome = true
                                 
         fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
         currentAttackerRoundOutcome = ""
         currentDefenderRoundOutcome = ""
         itemToConsume = ""
         
-        characterModel.updateCharacter(character: character1)
-        characterModel.updateCharacter(character: character2)
+        if updateChar { // if the action should trigger an update, i.e. stats were changed
+            characterModel.updateCharacter(character: character1)
+            characterModel.updateCharacter(character: character2)
+        }
         
     }
     
@@ -302,6 +317,10 @@ class FightViewModel: ObservableObject {
     }
     
     func checkDeath() -> Bool {
+        
+        print("character 1: fight hp \(character1Stats.hp), real hp: \(character1.stats.hp)")
+        print("character 2: fight hp \(character2Stats.hp), real hp: \(character2.stats.hp)")
+
         
         if character1.stats.hp <= 0 {
             character1.alive = false
@@ -347,19 +366,19 @@ class FightViewModel: ObservableObject {
     }
     
     // TEMP FORMULA
-    func calculateDamage(attacker: Character, defender: Character) -> Int {
-        var damage = max(0, (attacker.stats.attack - defender.stats.defense) / 2)
+    func calculateDamage(attackerStats: Stats, defenderStats: Stats) -> Int {
+        var damage = max(0, (attackerStats.attack - defenderStats.defense) / 2)
         let randomFactor = Double.random(in: 0.8...1.2)
         damage = Int(Double(damage) * randomFactor)
         return max(damage, 1)
     }
     
     // TEMP FORMULA
-    func calcAvoidChance(attacker: Character, defender: Character) -> Int {
-        guard attacker.stats.agility + defender.stats.agility > 0 else {
+    func calcAvoidChance(attackerStats: Stats, defenderStats: Stats) -> Int {
+        guard attackerStats.agility + defenderStats.agility > 0 else {
             return 0
         }
-        let avoidChance = Double(defender.stats.agility) / Double(attacker.stats.agility + defender.stats.agility) * 0.5 * 100
+        let avoidChance = Double(defenderStats.agility) / Double(attackerStats.agility + defenderStats.agility) * 0.5 * 100
         return Int(avoidChance)
     }
     
