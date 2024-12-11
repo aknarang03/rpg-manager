@@ -15,7 +15,7 @@ struct AddItemView: View {
 
     var body: some View {
         
-        NavigationView {
+        //NavigationView {
             
             VStack {
                 
@@ -69,7 +69,7 @@ struct AddItemView: View {
                 
             }
             
-        }
+        //}
         .navigationBarTitle("Add Item")
         
     }

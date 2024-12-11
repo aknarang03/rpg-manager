@@ -14,7 +14,7 @@ struct AddCollaboratorView: View {
 
     var body: some View {
         
-        NavigationView {
+        //NavigationView {
             
             VStack {
                 TextField(
@@ -33,7 +33,7 @@ struct AddCollaboratorView: View {
                 
             }
             
-        }
+        //}
         .navigationBarTitle("Add Collaborator")
         
     }

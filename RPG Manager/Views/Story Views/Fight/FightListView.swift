@@ -14,7 +14,7 @@ struct FightListView: View {
     
     var body: some View {
         
-        NavigationView {
+        //NavigationView {
                 
             List {
                 
@@ -83,7 +83,7 @@ struct FightListView: View {
             
             .navigationBarTitle("Fights")
             
-        }
+        //}
         
     }
     

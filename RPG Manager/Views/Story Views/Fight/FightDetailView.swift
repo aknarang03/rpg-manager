@@ -22,7 +22,7 @@ struct FightDetailView: View {
 
     var body: some View {
         
-        NavigationView {
+        //NavigationView {
             
             VStack {
                 
@@ -89,7 +89,7 @@ struct FightDetailView: View {
             } // vstack
             
             
-        }
+        //}
         .navigationBarTitle("\(viewModel.getCharacterName(characterID: fight.character1ID)) vs \(viewModel.getCharacterName(characterID: fight.character2ID))")
         
     }
