@@ -90,7 +90,7 @@ struct FightDetailView: View {
             
             
         }
-        .navigationBarTitle("character vs character")
+        .navigationBarTitle("\(viewModel.getCharacterName(characterID: fight.character1ID)) vs \(viewModel.getCharacterName(characterID: fight.character2ID))")
         
     }
     

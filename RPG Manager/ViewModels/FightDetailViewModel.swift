@@ -25,5 +25,13 @@ class FightDetailViewModel: ObservableObject {
         let winner = characterModel.getCharacter(for: fight.winner!)!
         return winner
     }
+    
+    func getCharacterName (characterID: String) -> String {
+        if let characterName = characterModel.getCharacter(for: characterID)?.characterName {
+            return characterName
+        } else {
+            return "Unknown"
+        }
+    }
 
 }

@@ -30,8 +30,8 @@ class FightListViewModel: ObservableObject {
     
     // NOTE TO SELF: handle when character has been deleted
     func getCharacter(characterID: String) -> Character {
-        let winner = characterModel.getCharacter(for: characterID)!
-        return winner
+        let character = characterModel.getCharacter(for: characterID)!
+        return character
     }
     
     func getCharacterName (characterID: String) -> String {
@@ -40,6 +40,13 @@ class FightListViewModel: ObservableObject {
         } else {
             return "Unknown"
         }
+    }
+    
+    func characterIsWinner (characterID: String, winnerID: String) -> Bool {
+        if characterID == winnerID {
+            return true
+        }
+        return false
     }
     
     func removeFight(fightID: String) {
