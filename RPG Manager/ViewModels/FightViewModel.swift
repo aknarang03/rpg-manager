@@ -103,6 +103,8 @@ class FightViewModel: ObservableObject {
             character2 = char2
             character1Stats = getTruncatedStats(character: char1)
             character2Stats = getTruncatedStats(character: char2)
+            print("TEST: fight stats 1: \(character1Stats.attack), real stats: \(character1.stats.attack)")
+            print("TEST: fight stats 2: \(character2Stats.attack), real stats: \(character2.stats.attack)")
             //character1.stats = getTruncatedStats(character: char1)
             //character2.stats = getTruncatedStats(character: char2)
         }
@@ -158,9 +160,9 @@ class FightViewModel: ObservableObject {
         var defendingCharStats: Stats = character2Stats
         if (attackingCharacterID == character2ID) {
             attackingChar = character2
-            var attackingCharStats: Stats = character2Stats
+            attackingCharStats = character2Stats
             defendingChar = character1
-            var defendingCharStats: Stats = character1Stats
+            defendingCharStats = character1Stats
         }
         
         let damage = calculateDamage(attackerStats: attackingCharStats, defenderStats: defendingCharStats)
