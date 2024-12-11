@@ -297,6 +297,7 @@ class FightViewModel: ObservableObject {
         if updateChar { // if the action should trigger an update, i.e. stats were changed
             characterModel.updateCharacter(character: character1)
             characterModel.updateCharacter(character: character2)
+            updateCharacters() // so that the updates to my reference variables trigger right away.. it wasn't triggering until too late so death wasn't detected
         }
         
     }
