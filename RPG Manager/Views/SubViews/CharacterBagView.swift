@@ -100,7 +100,7 @@ struct CharacterBagView: View {
                             
                             .swipeActions {
                                 
-                                if youAreCharacterCreator(character: character) || youAreCurrentStoryCreator() {
+                                if (youAreCharacterCreator(character: character) || youAreCurrentStoryCreator()) && character.alive {
                                     
                                     Button() {
                                         viewModel.itemID = itemID
