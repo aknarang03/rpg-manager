@@ -35,8 +35,9 @@ struct Item {
     var impactsWhat: String
     var impact: Int
     var type: String
+    var iconURL: String?
     
-    init (itemID: String, creatorID: String, itemName: String, itemDescription: String, impactsWhat: String, impact: Int, type: String) {
+    init (itemID: String, creatorID: String, itemName: String, itemDescription: String, impactsWhat: String, impact: Int, type: String, iconURL: String) {
         self.ref = nil
         self.itemID = itemID
         self.creatorID = creatorID
@@ -45,6 +46,7 @@ struct Item {
         self.impactsWhat = impactsWhat
         self.impact = impact
         self.type = type
+        self.iconURL = iconURL
     }
     
     init? (snapshot: DataSnapshot) {
@@ -62,6 +64,8 @@ struct Item {
             return nil
         }
         
+        let iconURL = value["iconURL"] as? String
+        
         self.ref = snapshot.ref
         self.itemID = itemID
         self.creatorID = creatorID
@@ -70,10 +74,12 @@ struct Item {
         self.impactsWhat = impactsWhat
         self.impact = impact
         self.type = type
+        self.iconURL = iconURL
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
-        return [
+        
+        var dict: [String: Any] = [
             "itemID": self.itemID,
             "creatorID": self.creatorID,
             "itemName": self.itemName,
@@ -82,6 +88,13 @@ struct Item {
             "impact": self.impact,
             "type": self.type
         ]
+        
+        if let iconURL = self.iconURL {
+            dict["iconURL"] = iconURL
+        }
+        
+        return dict
+        
     }
     
 }
