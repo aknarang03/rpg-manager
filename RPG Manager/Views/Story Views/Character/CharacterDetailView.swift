@@ -141,7 +141,7 @@ struct CharacterDetailView: View {
                             }
                         }
 
-                        if let userid = userModel.currentUser?.uid {
+                        if (userModel.currentUser?.uid) != nil {
                             if youAreCurrentStoryCreator() || youAreCharacterCreator(character: character) {
                                 Spacer()
                                 Button("Delete") {

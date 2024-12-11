@@ -1,5 +1,5 @@
 //
-//  OtherFightView.swift
+//  FightDetailView.swift
 //  RPG Manager
 //
 //  Created by Anjali Narang  on 11/26/24.
@@ -66,6 +66,17 @@ struct FightDetailView: View {
                     Divider()
                     
                 } // complete view condition
+                
+                else {
+                    
+                    Button("Resume Fight") {
+                        NavigationUtil.popToRootView()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            NotificationCenter.default.post(name: Notification.Name("resumeFight"), object: fight)
+                        }
+                    }
+                    
+                } // incomplete view condition
                 
                 Spacer()
                 
