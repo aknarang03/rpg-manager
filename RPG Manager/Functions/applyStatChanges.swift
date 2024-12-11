@@ -132,10 +132,10 @@ func applyStatChangesWithTruncation(characterID: String, itemID: String) -> Char
         if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
             updateCharacter!.stats.hp = updateCharacter!.stats.health
         }
-        else if (updateCharacter!.stats.hp < 0) {
+        if (updateCharacter!.stats.hp < 0) {
             updateCharacter!.stats.hp = 0
         }
-        else if (updateCharacter!.stats.hp > 100) {
+        if (updateCharacter!.stats.hp > 100) {
             updateCharacter!.stats.hp = 100
         }
         print("item impacts hp: \(item?.impact ?? 0)")
