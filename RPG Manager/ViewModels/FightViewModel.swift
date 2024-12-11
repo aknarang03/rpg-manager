@@ -51,6 +51,7 @@ class FightViewModel: ObservableObject {
     
     @Published var fightOngoing = false
     
+    // first starting (setup screen)
     init() {
         self.character1ID = ""
         self.character2ID = ""
@@ -63,6 +64,23 @@ class FightViewModel: ObservableObject {
                 self?.characters = newChars
                 self?.updateCharacters() }
             .store(in: &cancellables)
+    }
+    
+    // resuming
+    init(character1ID: String, character2ID: String) {
+        
+        self.character1ID = character1ID
+        self.character2ID = character2ID
+        
+        self.character1Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
+        self.character2Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
+        
+        characterModel.$currentCharacters
+            .sink { [weak self] newChars in
+                self?.characters = newChars
+                self?.updateCharacters() }
+            .store(in: &cancellables)
+        
     }
     
     func shouldStart() -> Bool {
@@ -116,6 +134,22 @@ class FightViewModel: ObservableObject {
             //character1.stats = getTruncatedStats(character: char1)
             //character2.stats = getTruncatedStats(character: char2)
         }
+    }
+    
+    func startOngoingFight(fightID: String) {
+        
+        fightOngoing = true // for fight view
+        
+        updateCharacters() // get initial references to the two selected characters
+        fight = fightModel.getFight(for: fightID)! // NOTE TO SELF: handle if not exists
+        
+        // whoever is faster moves first
+        if (character2Stats.speed > character1Stats.speed) {
+            attackingCharacterID = character2ID
+        } else {
+            attackingCharacterID = character1ID
+        }
+        
     }
     
     func startFight() {

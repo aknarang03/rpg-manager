@@ -151,6 +151,10 @@ class FightModel {
         
     }
     
+    func getFight(for fightID: String) -> Fight? {
+        return currentFights.first(where: { $0.fightID == fightID })
+    }
+    
     
     
 //    func endFight(storyID: String, fight: Fight) {
