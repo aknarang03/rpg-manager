@@ -141,7 +141,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: false)
         stopFight()
         
     }
@@ -191,7 +191,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: true)
         
         if !checkDeath() {
             self.showOutcome = true
@@ -239,7 +239,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: true)
         
         if !checkDeath() {
             self.showOutcome = true
@@ -267,7 +267,7 @@ class FightViewModel: ObservableObject {
         
         swap()
         
-        finishAction()
+        finishAction(updateChar: false)
         
         self.showOutcome = true
         
@@ -278,18 +278,19 @@ class FightViewModel: ObservableObject {
     }
     
     // called at end of each action
-    func finishAction() {
+    func finishAction(updateChar: Bool) {
                 
         showOutcomeStr = "\(currentAttackerRoundOutcome)\n\(currentDefenderRoundOutcome)"
-        //showOutcome = true
                                 
         fightModel.addOutcomesToFight(fightID: fight.fightID, outcome1: currentAttackerRoundOutcome, outcome2: currentDefenderRoundOutcome)
         currentAttackerRoundOutcome = ""
         currentDefenderRoundOutcome = ""
         itemToConsume = ""
         
-        characterModel.updateCharacter(character: character1)
-        characterModel.updateCharacter(character: character2)
+        if updateChar { // if the action should trigger an update, i.e. stats were changed
+            characterModel.updateCharacter(character: character1)
+            characterModel.updateCharacter(character: character2)
+        }
         
     }
     
