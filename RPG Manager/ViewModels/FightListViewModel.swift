@@ -28,12 +28,25 @@ class FightListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    // NOTE TO SELF: handle when character has been deleted
+    func getCharacter(characterID: String) -> Character {
+        let character = characterModel.getCharacter(for: characterID)!
+        return character
+    }
+    
     func getCharacterName (characterID: String) -> String {
         if let characterName = characterModel.getCharacter(for: characterID)?.characterName {
             return characterName
         } else {
             return "Unknown"
         }
+    }
+    
+    func characterIsWinner (characterID: String, winnerID: String) -> Bool {
+        if characterID == winnerID {
+            return true
+        }
+        return false
     }
     
     func removeFight(fightID: String) {

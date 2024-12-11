@@ -20,14 +20,48 @@ struct FightListView: View {
                 
                 ForEach(viewModel.fights, id: \.fightID) { fight in
                     
-                    NavigationLink(destination: FightDetailView(fight: fight)) {
-                        VStack(alignment: .leading) {
-                            Text("\(viewModel.getCharacterName(characterID: fight.character1ID)) vs \(viewModel.getCharacterName(characterID: fight.character2ID))")
+                    HStack {
+                        
+                        if let iconURLString = viewModel.getCharacter(characterID: fight.character1ID).iconURL, let url = URL(string: iconURLString) {
+                            AsyncImage(url: url) { image in
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        } else {
+                            Image(systemName: "questionmark.app.fill")
+                                .foregroundColor(.gray)
                         }
-                        .padding()
-                    }
-                    
-                    
+                        
+                        Image(systemName: "flame.fill")
+                            .foregroundColor(.gray)
+                        
+                        if let iconURLString = viewModel.getCharacter(characterID: fight.character2ID).iconURL, let url = URL(string: iconURLString) {
+                            AsyncImage(url: url) { image in
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        } else {
+                            Image(systemName: "questionmark.app.fill")
+                                .foregroundColor(.gray)
+                        }
+                        
+                        NavigationLink(destination: FightDetailView(fight: fight)) {
+                            VStack(alignment: .leading) {
+                                Text("\(viewModel.getCharacterName(characterID: fight.character1ID)) vs \(viewModel.getCharacterName(characterID: fight.character2ID))")
+                            }
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: fight.complete ? "checkmark.circle" : "circle")               .foregroundColor(.gray)
+                        
+                    } //hstack
                     
                     .swipeActions {
                         

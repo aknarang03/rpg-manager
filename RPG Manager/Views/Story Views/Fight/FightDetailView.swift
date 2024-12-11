@@ -24,28 +24,73 @@ struct FightDetailView: View {
         
         NavigationView {
             
-            ScrollView {
+            VStack {
                 
-                if let outcomes = viewModel.fight.outcomes {
+                if (fight.complete) {
                     
-                    VStack() {
+                    if !(fight.winner == nil || fight.winner == "") {
                         
+                        VStack {
+                            
+                            Text("Winner")
+                                .font(.largeTitle)
+                                .padding()
+                            
+                            Image(systemName: "crown.fill")
+                                .foregroundColor(.gray)
+                            
+                            if let iconURLString = viewModel.getWinner().iconURL, let url = URL(string: iconURLString) {
+                                AsyncImage(url: url) { image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            }
+                            
+                            Text(viewModel.getWinner().characterName)
+                                .font(.title3)
+                            
+                        } // winner stack
                         
-                        ForEach(Array(outcomes.enumerated()), id: \.offset) { index, outcome in
-                            Text(outcome)
-                                .padding(index % 2 == 0 ? 16 : 0) // doesnt work
-
-                        }
+                    } // show winner condition
+                    
+                    else { // complete but no winner
+                        
+                        Text("ended with no winner")
+                            .font(.title3)
                         
                     }
                     
+                    Divider()
                     
-                }
+                } // complete view condition
                 
-            }
+                Spacer()
+                
+                ScrollView {
+                    
+                    if let outcomes = viewModel.fight.outcomes {
+                        
+                        VStack() {
+                            
+                            ForEach(Array(outcomes.enumerated()), id: \.offset) { index, outcome in
+                                Text(outcome)
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                    
+                } // scroll view
+                
+            } // vstack
             
             
         }
+        .navigationBarTitle("\(viewModel.getCharacterName(characterID: fight.character1ID)) vs \(viewModel.getCharacterName(characterID: fight.character2ID))")
         
     }
     
