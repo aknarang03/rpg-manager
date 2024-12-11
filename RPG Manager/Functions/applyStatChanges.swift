@@ -16,6 +16,9 @@ func applyStatChanges(characterID: String, itemID: String) -> Character {
     switch item?.impactsWhat {
     case "health":
         updateCharacter!.stats.health += item!.impact
+        if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
+            updateCharacter!.stats.hp = updateCharacter!.stats.health
+        }
         print("item impacts health: \(item?.impact ?? 0)")
     case "attack":
         updateCharacter!.stats.attack += item!.impact
@@ -48,6 +51,9 @@ func unapplyStatChanges(characterID: String, itemID: String) -> Character {
     switch item?.impactsWhat {
     case "health":
         updateCharacter!.stats.health -= item!.impact
+        if (updateCharacter!.stats.hp > updateCharacter!.stats.health) {
+            updateCharacter!.stats.hp = updateCharacter!.stats.health
+        }
     case "attack":
         updateCharacter!.stats.attack -= item!.impact
     case "defense":
@@ -128,6 +134,9 @@ func applyStatChangesWithTruncation(characterID: String, itemID: String) -> Char
         }
         else if (updateCharacter!.stats.hp < 0) {
             updateCharacter!.stats.hp = 0
+        }
+        else if (updateCharacter!.stats.hp > 100) {
+            updateCharacter!.stats.hp = 100
         }
         print("item impacts hp: \(item?.impact ?? 0)")
     default:
