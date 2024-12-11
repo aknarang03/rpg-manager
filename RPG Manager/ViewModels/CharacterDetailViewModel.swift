@@ -45,6 +45,14 @@ class CharacterDetailViewModel: ObservableObject {
         
     }
     
+    func getItem(itemID: String) -> Item {
+        guard let item = itemModel.getItem(for: itemID) else {
+            print("Item not found for \(itemID)")
+            return Item(itemID: "", creatorID: "", itemName: "", itemDescription: "", impactsWhat: "", impact: 0, type: "", iconURL: "")
+        }
+        return item
+    }
+    
     func deleteCharacter() {
         characterModel.deleteCharacter(characterID: character.characterID)
     }

@@ -108,6 +108,15 @@ struct CharacterDetailView: View {
                         Text("holding nothing")
                     }
                     else if let holding = character.heldItem {
+                        if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
+                            AsyncImage(url: url) { image in
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        }
                         Text("holding: \(viewModel.itemIdToItemName(itemID: holding))")
                     } else {
                         Text("holding nothing")
