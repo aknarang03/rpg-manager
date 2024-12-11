@@ -63,7 +63,11 @@ class CharacterDetailViewModel: ObservableObject {
     
     func reviveCharacter() {
         var updateCharacter = character
-        updateCharacter.stats.hp = updateCharacter.stats.health
+        if updateCharacter.stats.health > 100 {
+            updateCharacter.stats.hp = 100
+        } else {
+            updateCharacter.stats.hp = updateCharacter.stats.health
+        }
         updateCharacter.alive = true
         characterModel.updateCharacter(character: updateCharacter)
     }
