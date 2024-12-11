@@ -96,6 +96,14 @@ class FightViewModel: ObservableObject {
         return item.type
     }
     
+    func getItem(itemID: String) -> Item {
+        guard let item = itemModel.getItem(for: itemID) else {
+            print("Item not found for \(itemID)")
+            return Item(itemID: "", creatorID: "", itemName: "", itemDescription: "", impactsWhat: "", impact: 0, type: "", iconURL: "")
+        }
+        return item
+    }
+    
     func updateCharacters () { // update references to the two selected characters, including truncated stats
         if let char1 = characters.first(where: { $0.characterID == character1ID }),
            let char2 = characters.first(where: { $0.characterID == character2ID }) {

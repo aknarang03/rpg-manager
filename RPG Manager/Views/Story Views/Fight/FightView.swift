@@ -100,6 +100,25 @@ struct FightView: View {
                                 .frame(height: 8)
                             
                             Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character1.heldItem ?? "nothing"))")
+                            if let holding = viewModel.character1.heldItem {
+                                if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
+                                    AsyncImage(url: url) { image in
+                                        image.resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                } else {
+                                    Rectangle() // to even out spacing
+                                        .frame(width: 30, height: 30)
+                                        .opacity(0)
+                                }
+                            } else {
+                                Rectangle() // to even out spacing
+                                    .frame(width: 30, height: 30)
+                                    .opacity(0)
+                            }
                             
                         } // end character 1 view
                         
@@ -134,6 +153,25 @@ struct FightView: View {
                                 .frame(height: 8)
                             
                             Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character2.heldItem ?? "nothing"))")
+                            if let holding = viewModel.character2.heldItem {
+                                if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
+                                    AsyncImage(url: url) { image in
+                                        image.resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                } else {
+                                    Rectangle() // to even out spacing
+                                        .frame(width: 30, height: 30)
+                                        .opacity(0)
+                                }
+                            } else {
+                                Rectangle() // to even out spacing
+                                    .frame(width: 30, height: 30)
+                                    .opacity(0)
+                            }
                             
                         } // end character 2 view
                         
