@@ -108,6 +108,15 @@ struct CharacterDetailView: View {
                         Text("holding nothing")
                     }
                     else if let holding = character.heldItem {
+                        if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
+                            AsyncImage(url: url) { image in
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        }
                         Text("holding: \(viewModel.itemIdToItemName(itemID: holding))")
                     } else {
                         Text("holding nothing")
@@ -123,7 +132,7 @@ struct CharacterDetailView: View {
                     
                     HStack {
                         
-                        PhotoPicker(viewModel: viewModel)
+                        CharacterPhotoPicker(viewModel: viewModel)
                         
                         if character.alive == false {
                             Spacer()
@@ -160,7 +169,7 @@ struct CharacterDetailView: View {
 }
 
 @available(iOS 16.0, *)
-struct PhotoPicker: View {
+struct CharacterPhotoPicker: View {
     
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil

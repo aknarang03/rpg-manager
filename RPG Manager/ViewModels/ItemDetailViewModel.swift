@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import PhotosUI
 
 class ItemDetailViewModel: ObservableObject {
     
@@ -81,6 +82,10 @@ class ItemDetailViewModel: ObservableObject {
     
     func deleteItem() {
         itemModel.deleteItem(itemID: item.itemID)
+    }
+    
+    func updateItemIcon(image: UIImage) {
+        itemModel.uploadItemIcon(image: image, imageID: idWithTimeInterval(), itemID: item.itemID) // this also calls function that updates database ref
     }
 
 }

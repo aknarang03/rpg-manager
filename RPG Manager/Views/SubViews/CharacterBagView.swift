@@ -44,6 +44,16 @@ struct CharacterBagView: View {
                             
                             HStack {
                                 
+                                if let iconURLString = viewModel.getItem(itemID: itemID).iconURL, let url = URL(string: iconURLString) {
+                                    AsyncImage(url: url) { image in
+                                        image.resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                }
+                                
                                 Text(viewModel.itemIdToItemName(itemID: itemID))
                                 
                                 Button("") {
