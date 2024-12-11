@@ -54,6 +54,7 @@ class FightViewModel: ObservableObject {
     init() {
         self.character1ID = ""
         self.character2ID = ""
+        // use real stats when updating stats, but use these when calculating and showing things
         self.character1Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
         self.character2Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
         // need to call updateCharacters() when characters are changed, so that the two character refs are still accurate even if they are changed somewhere else in the app
@@ -116,7 +117,7 @@ class FightViewModel: ObservableObject {
         fightModel.startFight(fight: fight) // create the fight in firebase
         
         // whoever is faster moves first
-        if (character2.stats.speed > character1.stats.speed) {
+        if (character2Stats.speed > character1Stats.speed) {
             attackingCharacterID = character2ID
         } else {
             attackingCharacterID = character1ID
@@ -152,15 +153,19 @@ class FightViewModel: ObservableObject {
         
         // set up temp vars
         var attackingChar: Character = character1
+        var attackingCharStats: Stats = character1Stats
         var defendingChar: Character = character2
+        var defendingCharStats: Stats = character2Stats
         if (attackingCharacterID == character2ID) {
             attackingChar = character2
+            var attackingCharStats: Stats = character2Stats
             defendingChar = character1
+            var defendingCharStats: Stats = character1Stats
         }
         
-        let damage = calculateDamage(attacker: attackingChar, defender: defendingChar)
+        let damage = calculateDamage(attackerStats: attackingCharStats, defenderStats: defendingCharStats)
         
-        let avoidChance = calcAvoidChance(attacker: attackingChar, defender: defendingChar)
+        let avoidChance = calcAvoidChance(attackerStats: attackingCharStats, defenderStats: defendingCharStats)
         let tryAvoid = Int.random(in: 0...100)
         
         if (tryAvoid < avoidChance) { // defender avoids attack
@@ -311,7 +316,7 @@ class FightViewModel: ObservableObject {
     
     func checkDeath() -> Bool {
         
-        if character1.stats.hp <= 0 {
+        if character1Stats.hp <= 0 {
             character1.alive = false
             characterModel.updateCharacter(character: character1)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
@@ -319,7 +324,7 @@ class FightViewModel: ObservableObject {
             return true
         }
         
-        else if character2.stats.hp <= 0 {
+        else if character2Stats.hp <= 0 {
             character2.alive = false
             characterModel.updateCharacter(character: character2)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
@@ -355,19 +360,19 @@ class FightViewModel: ObservableObject {
     }
     
     // TEMP FORMULA
-    func calculateDamage(attacker: Character, defender: Character) -> Int {
-        var damage = max(0, (attacker.stats.attack - defender.stats.defense) / 2)
+    func calculateDamage(attackerStats: Stats, defenderStats: Stats) -> Int {
+        var damage = max(0, (attackerStats.attack - defenderStats.defense) / 2)
         let randomFactor = Double.random(in: 0.8...1.2)
         damage = Int(Double(damage) * randomFactor)
         return max(damage, 1)
     }
     
     // TEMP FORMULA
-    func calcAvoidChance(attacker: Character, defender: Character) -> Int {
-        guard attacker.stats.agility + defender.stats.agility > 0 else {
+    func calcAvoidChance(attackerStats: Stats, defenderStats: Stats) -> Int {
+        guard attackerStats.agility + defenderStats.agility > 0 else {
             return 0
         }
-        let avoidChance = Double(defender.stats.agility) / Double(attacker.stats.agility + defender.stats.agility) * 0.5 * 100
+        let avoidChance = Double(defenderStats.agility) / Double(attackerStats.agility + defenderStats.agility) * 0.5 * 100
         return Int(avoidChance)
     }
     
