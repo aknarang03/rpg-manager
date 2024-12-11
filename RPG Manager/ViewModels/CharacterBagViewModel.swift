@@ -41,6 +41,14 @@ class CharacterBagViewModel: ObservableObject {
         return item.type
     }
     
+    func getItem(itemID: String) -> Item {
+        guard let item = itemModel.getItem(for: itemID) else {
+            print("Item not found for \(itemID)")
+            return Item(itemID: "", creatorID: "", itemName: "", itemDescription: "", impactsWhat: "", impact: 0, type: "", iconURL: "")
+        }
+        return item
+    }
+    
     // NOTE TO SELF: maybe I don't need updateCharacter in the methods?? or passing in characterID to the methods? can I just use bagOwner? it's because of how I structured applyStatChanges tho, so I have to see if i need that anywhere at all 
     
     // stats will be truncated right away since item is consumable; unlike with passive / equippable,
