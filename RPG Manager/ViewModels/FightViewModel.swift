@@ -297,7 +297,6 @@ class FightViewModel: ObservableObject {
         if updateChar { // if the action should trigger an update, i.e. stats were changed
             characterModel.updateCharacter(character: character1)
             characterModel.updateCharacter(character: character2)
-            updateCharacters() // so that the updates to my reference variables trigger right away.. it wasn't triggering until too late so death wasn't detected
         }
         
     }
@@ -323,7 +322,7 @@ class FightViewModel: ObservableObject {
         print("character 2: fight hp \(character2Stats.hp), real hp: \(character2.stats.hp)")
 
         
-        if character1Stats.hp <= 0 {
+        if character1.stats.hp <= 0 {
             character1.alive = false
             characterModel.updateCharacter(character: character1)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character2.characterID)
@@ -331,7 +330,7 @@ class FightViewModel: ObservableObject {
             return true
         }
         
-        else if character2Stats.hp <= 0 {
+        else if character2.stats.hp <= 0 {
             character2.alive = false
             characterModel.updateCharacter(character: character2)
             fightModel.setWinner(fightID: fight.fightID, winnerID: character1.characterID)
