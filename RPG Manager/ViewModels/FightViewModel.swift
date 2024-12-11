@@ -316,6 +316,10 @@ class FightViewModel: ObservableObject {
     
     func checkDeath() -> Bool {
         
+        print("character 1: fight hp \(character1Stats.hp), real hp: \(character1.stats.hp)")
+        print("character 2: fight hp \(character2Stats.hp), real hp: \(character2.stats.hp)")
+
+        
         if character1Stats.hp <= 0 {
             character1.alive = false
             characterModel.updateCharacter(character: character1)

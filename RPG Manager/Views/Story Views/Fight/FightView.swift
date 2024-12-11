@@ -94,8 +94,8 @@ struct FightView: View {
                                 Text(viewModel.character1.characterName)
                             }
                             
-                            Text("hp: \(viewModel.character1.stats.hp)/\(viewModel.character1.stats.health)")
-                            ProgressView(value: Double(viewModel.character1.stats.hp), total: Double(viewModel.character1.stats.health))
+                            Text("hp: \(viewModel.character1Stats.hp)/\(viewModel.character1Stats.health)")
+                            ProgressView(value: Double(viewModel.character1Stats.hp), total: Double(viewModel.character1Stats.health))
                                 .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                                 .frame(height: 8)
                             
@@ -128,8 +128,8 @@ struct FightView: View {
                                 Text(viewModel.character2.characterName)
                             }
                             
-                            Text("hp: \(viewModel.character2.stats.hp)/\(viewModel.character2.stats.health)")
-                            ProgressView(value: Double(viewModel.character2.stats.hp), total: Double(viewModel.character2.stats.health))
+                            Text("hp: \(viewModel.character2Stats.hp)/\(viewModel.character2Stats.health)")
+                            ProgressView(value: Double(viewModel.character2Stats.hp), total: Double(viewModel.character2Stats.health))
                                 .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                                 .frame(height: 8)
                             
