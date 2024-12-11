@@ -70,8 +70,10 @@ struct FightDetailView: View {
                 else {
                     
                     Button("Resume Fight") {
-                        NotificationCenter.default.post(name: Notification.Name("resumeFight"), object: fight)
                         NavigationUtil.popToRootView()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            NotificationCenter.default.post(name: Notification.Name("resumeFight"), object: fight)
+                        }
                     }
                     
                 } // incomplete view condition
