@@ -14,7 +14,7 @@ struct FightDetailView: View {
     
     var fight: Fight
     
-    // pass character to view model
+    // pass fight to view model
     init(fight: Fight) {
         _viewModel = ObservedObject(wrappedValue: FightDetailViewModel(fight: fight))
         self.fight = fight

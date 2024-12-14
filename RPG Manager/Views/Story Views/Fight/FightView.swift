@@ -14,9 +14,7 @@ struct FightView: View {
     @EnvironmentObject var appState: AppState
     
     let characterModel = CharacterModel.shared
-    
-    // take some views out and insert in because this is too messy
-    
+        
     var body: some View {
         
         NavigationView {

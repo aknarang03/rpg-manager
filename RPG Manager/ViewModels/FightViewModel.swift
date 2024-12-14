@@ -121,10 +121,6 @@ class FightViewModel: ObservableObject {
             character2 = char2
             character1Stats = getTruncatedStats(character: char1)
             character2Stats = getTruncatedStats(character: char2)
-            print("TEST: fight stats 1: \(character1Stats.attack), real stats: \(character1.stats.attack)")
-            print("TEST: fight stats 2: \(character2Stats.attack), real stats: \(character2.stats.attack)")
-            //character1.stats = getTruncatedStats(character: char1)
-            //character2.stats = getTruncatedStats(character: char2)
         }
     }
     
@@ -406,7 +402,6 @@ class FightViewModel: ObservableObject {
         
     }
     
-    // TEMP FORMULA
     func calculateDamage(attackerStats: Stats, defenderStats: Stats) -> Int {
         var damage = max(0, (attackerStats.attack - defenderStats.defense) / 2)
         let randomFactor = Double.random(in: 0.8...1.2)
@@ -414,7 +409,6 @@ class FightViewModel: ObservableObject {
         return max(damage, 1)
     }
     
-    // TEMP FORMULA
     func calcAvoidChance(attackerStats: Stats, defenderStats: Stats) -> Int {
         guard attackerStats.agility + defenderStats.agility > 0 else {
             return 0
