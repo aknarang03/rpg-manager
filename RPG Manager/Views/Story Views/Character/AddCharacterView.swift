@@ -68,7 +68,7 @@ struct AddCharacterView: View {
             
             Button ("Add") {
                 viewModel.addCharacter()
-            }
+            }.disabled(viewModel.health == 0 || viewModel.characterName == "" || viewModel.isPlayer == "")
             
             Spacer()
             
