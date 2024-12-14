@@ -299,8 +299,12 @@ struct SetupFightView: View {
             Spacer()
             
             Picker("Character", selection: $viewModel.character1ID) {
-                ForEach(viewModel.characters, id: \.characterID) { character in
-                    Text(character.characterName).tag(character.characterID)
+                if viewModel.characters.isEmpty {
+                        Text("no characters available").tag(-1)
+                } else {
+                    ForEach(viewModel.characters, id: \.characterID) { character in
+                        Text(character.characterName).tag(character.characterID)
+                    }
                 }
             }
             .pickerStyle(MenuPickerStyle())
@@ -308,8 +312,12 @@ struct SetupFightView: View {
             Spacer()
             
             Picker("Character", selection: $viewModel.character2ID) {
-                ForEach(viewModel.characters, id: \.characterID) { character in
-                    Text(character.characterName).tag(character.characterID)
+                if viewModel.characters.isEmpty {
+                        Text("no characters available").tag(-1)
+                } else {
+                    ForEach(viewModel.characters, id: \.characterID) { character in
+                        Text(character.characterName).tag(character.characterID)
+                    }
                 }
             }
             .pickerStyle(MenuPickerStyle())

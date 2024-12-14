@@ -18,9 +18,7 @@ class FightViewModel: ObservableObject {
     let characterModel = CharacterModel.shared
         
     var cancellables: Set<AnyCancellable> = []
-    
-    // NOTE TO SELF: some of these may not need to be Published
-    
+        
     @Published var showCharacterBag: Bool = false
     @Published var itemToConsume: String = ""
     
@@ -46,9 +44,7 @@ class FightViewModel: ObservableObject {
     
     @Published var character1: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "", alive: false)
     @Published var character2: Character = Character(characterID: "", creatorID: "", characterName: "", characterDescription: "", stats: Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0), isPlayer: false, heldItem: "", iconURL: "", alive: false)
-        
-    //@Published var outcomes: [String] = []
-    
+            
     @Published var fightOngoing = false
     
     init() {
