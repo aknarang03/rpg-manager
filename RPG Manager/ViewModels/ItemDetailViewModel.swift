@@ -40,8 +40,7 @@ class ItemDetailViewModel: ObservableObject {
     }
     
     func selectedCharIsAlive() -> Bool {
-        let character = characterModel.getCharacter(for: characterID)
-        if character!.alive {
+        if let character = characterModel.getCharacter(for: characterID), character.alive {
             return true
         }
         return false

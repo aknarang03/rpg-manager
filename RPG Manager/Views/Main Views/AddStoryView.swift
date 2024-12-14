@@ -13,35 +13,32 @@ struct AddStoryView: View {
     @EnvironmentObject var appState: AppState
 
     var body: some View {
-        
-        //NavigationView {
+                    
+        VStack {
             
-            VStack {
-                
-                Spacer()
-                
-                TextField(
-                    "story name",
-                    text: $viewModel.storyName
-                )
-                .padding(.top)
-                TextField(
-                    "story description",
-                    text: $viewModel.storyDescription
-                )
-                .padding(.top)
-                
-                Spacer()
-                
-                Button ("Add") {
-                    viewModel.addStory()
-                }
-                
-                Spacer()
-                
+            Spacer()
+            
+            TextField(
+                "story name",
+                text: $viewModel.storyName
+            )
+            .padding(.top)
+            TextField(
+                "story description",
+                text: $viewModel.storyDescription
+            )
+            .padding(.top)
+            
+            Spacer()
+            
+            Button ("Add") {
+                viewModel.addStory()
             }
             
-        //}
+            Spacer()
+            
+        }
+            
         .navigationBarTitle("Add Story")
         
     }

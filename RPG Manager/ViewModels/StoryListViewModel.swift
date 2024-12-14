@@ -41,17 +41,5 @@ class StoryListViewModel: ObservableObject {
         }
         return username
     }
-    
-//    func startObserving() {
-//        print("start observing")
-//        userModel.observeUsers()
-//        storyModel.observeStories()
-//    }
-//    
-//    func stopObserving() {
-//        print("stop observing")
-//        storyModel.cancelStoryObserver()
-//        userModel.cancelObserver()
-//    }
 
 }

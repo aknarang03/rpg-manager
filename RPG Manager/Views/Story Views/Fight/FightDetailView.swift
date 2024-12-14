@@ -21,87 +21,84 @@ struct FightDetailView: View {
     }
 
     var body: some View {
-        
-        //NavigationView {
+                    
+        VStack {
             
-            VStack {
+            if (fight.complete) {
                 
-                if (fight.complete) {
+                if !(fight.winner == nil || fight.winner == "") {
                     
-                    if !(fight.winner == nil || fight.winner == "") {
+                    VStack {
                         
-                        VStack {
-                            
-                            Text("Winner")
-                                .font(.largeTitle)
-                                .padding()
-                            
-                            Image(systemName: "crown.fill")
-                                .foregroundColor(.gray)
-                            
-                            if let iconURLString = viewModel.getWinner().iconURL, let url = URL(string: iconURLString) {
-                                AsyncImage(url: url) { image in
-                                    image.resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                } placeholder: {
-                                    ProgressView()
-                                }
+                        Text("Winner")
+                            .font(.largeTitle)
+                            .padding()
+                        
+                        Image(systemName: "crown.fill")
+                            .foregroundColor(.gray)
+                        
+                        if let iconURLString = viewModel.getWinner().iconURL, let url = URL(string: iconURLString) {
+                            AsyncImage(url: url) { image in
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                            } placeholder: {
+                                ProgressView()
                             }
-                            
-                            Text(viewModel.getWinner().characterName)
-                                .font(.title3)
-                            
-                        } // winner stack
+                        }
                         
-                    } // show winner condition
-                    
-                    else { // complete but no winner
-                        
-                        Text("ended with no winner")
+                        Text(viewModel.getWinner().characterName)
                             .font(.title3)
                         
-                    }
+                    } // winner stack
                     
-                    Divider()
-                    Spacer()
-                    
-                } // complete view condition
+                } // show winner condition
                 
-                else {
+                else { // complete but no winner
                     
-                    Button("Resume Fight") {
-                        NavigationUtil.popToRootView()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            NotificationCenter.default.post(name: Notification.Name("resumeFight"), object: fight)
-                        }
-                    }
+                    Text("ended with no winner")
+                        .font(.title3)
                     
-                } // incomplete view condition
+                }
                 
+                Divider()
                 Spacer()
                 
-                ScrollView {
+            } // complete view condition
+            
+            else {
+                
+                Button("Resume Fight") {
+                    NavigationUtil.popToRootView()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        NotificationCenter.default.post(name: Notification.Name("resumeFight"), object: fight)
+                    }
+                }
+                
+            } // incomplete view condition
+            
+            Spacer()
+            
+            ScrollView {
+                
+                if let outcomes = viewModel.fight.outcomes {
                     
-                    if let outcomes = viewModel.fight.outcomes {
+                    VStack() {
                         
-                        VStack() {
-                            
-                            ForEach(Array(outcomes.enumerated()), id: \.offset) { index, outcome in
-                                Text(outcome)
-                            }
-                            
+                        ForEach(Array(outcomes.enumerated()), id: \.offset) { index, outcome in
+                            Text(outcome)
                         }
-                        
                         
                     }
                     
-                } // scroll view
+                    
+                }
                 
-            } // vstack
+            } // scroll view
             
+        } // vstack
+        
             
-        //}
         .navigationBarTitle("\(viewModel.getCharacterName(characterID: fight.character1ID)) vs \(viewModel.getCharacterName(characterID: fight.character2ID))")
         
     }

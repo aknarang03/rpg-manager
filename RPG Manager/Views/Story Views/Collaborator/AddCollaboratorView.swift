@@ -13,27 +13,24 @@ struct AddCollaboratorView: View {
     @EnvironmentObject var appState: AppState
 
     var body: some View {
-        
-        //NavigationView {
+                    
+        VStack {
+            TextField(
+                "username",
+                text: $viewModel.username
+            )
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
+            .padding(.top)
             
-            VStack {
-                TextField(
-                    "username",
-                    text: $viewModel.username
-                )
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .padding(.top)
-                
-                Button ("Add") {
-                    viewModel.addCollaborator()
-                }
-                
-                Spacer()
-                
+            Button ("Add") {
+                viewModel.addCollaborator()
             }
             
-        //}
+            Spacer()
+            
+        }
+            
         .navigationBarTitle("Add Collaborator")
         
     }
