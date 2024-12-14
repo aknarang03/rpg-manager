@@ -134,17 +134,22 @@ class FightViewModel: ObservableObject {
     
     func startOngoingFight(fightID: String) {
         
-        fightOngoing = true // for fight view
-        
-        updateCharacters() // get initial references to the two selected characters
-        fight = fightModel.getFight(for: fightID)! // NOTE TO SELF: handle if not exists
-        
-        // whoever is faster moves first
-        if (character2Stats.speed > character1Stats.speed) {
-            attackingCharacterID = character2ID
-        } else {
-            attackingCharacterID = character1ID
+        if let fight = fightModel.getFight(for: fightID) {
+            
+            fightOngoing = true // for fight view
+            
+            updateCharacters() // get initial references to the two selected characters
+            
+            // whoever is faster moves first
+            if (character2Stats.speed > character1Stats.speed) {
+                attackingCharacterID = character2ID
+            } else {
+                attackingCharacterID = character1ID
+            }
+
         }
+        
+        // if fight DNE, don't do anything, just show default screen. fightOngoing will be false so that's what would happen
         
     }
     
