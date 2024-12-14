@@ -136,6 +136,8 @@ class FightViewModel: ObservableObject {
         
         if let fight = fightModel.getFight(for: fightID) {
             
+            self.fight = fight
+            
             fightOngoing = true // for fight view
             
             updateCharacters() // get initial references to the two selected characters
