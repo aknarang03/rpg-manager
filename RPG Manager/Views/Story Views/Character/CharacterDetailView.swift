@@ -16,7 +16,6 @@ struct CharacterDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    // NOTE TO SELF: I probably should only be referencing the view model character and not this one
     var character: Character
     
     // pass character to view model
@@ -25,7 +24,6 @@ struct CharacterDetailView: View {
         self.character = character
     }
     
-    // should move the logic used with these to view model..
     let userModel = UserModel.shared
     
     @State private var showPopup = false

@@ -9,8 +9,8 @@ import Foundation
 
 class LoginViewModel: ObservableObject {
 
-    @Published var email: String = "userA@email.com"
-    @Published var password: String = "password"
+    @Published var email: String = ""
+    @Published var password: String = ""
         
     let userModel = UserModel.shared
 

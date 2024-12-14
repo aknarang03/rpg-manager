@@ -21,7 +21,9 @@ struct LoginView: View {
             
             VStack {
                 
-                Text("Login")
+                Spacer()
+                
+                Text("RPG Manager")
                     .font(.largeTitle)
                     .padding()
                 

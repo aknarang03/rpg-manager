@@ -10,8 +10,6 @@ import SwiftUI
 struct CharacterBagView: View {
     
     @ObservedObject var viewModel: CharacterBagViewModel
-    //@EnvironmentObject var appState: AppState
-    //@Environment(\.dismiss) private var dismiss
     
     var character: Character
     
