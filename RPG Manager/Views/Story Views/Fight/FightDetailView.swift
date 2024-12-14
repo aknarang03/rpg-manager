@@ -38,13 +38,7 @@ struct FightDetailView: View {
                             .foregroundColor(.gray)
                         
                         if let iconURLString = viewModel.getWinner().iconURL, let url = URL(string: iconURLString) {
-                            AsyncImage(url: url) { image in
-                                image.resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                            } placeholder: {
-                                ProgressView()
-                            }
+                            IconView(url: url)
                         }
                         
                         Text(viewModel.getWinner().characterName)

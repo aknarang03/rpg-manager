@@ -27,14 +27,7 @@ struct CharacterListView: View {
                         VStack(alignment: .leading) {
                             HStack {
                                 if let iconURLString = character.iconURL, let url = URL(string: iconURLString) {
-                                    AsyncImage(url: url) { image in
-                                        image.resizable()
-                                            .scaledToFit()
-                                            .frame(width: 30, height: 30)
-                                            .colorMultiply(character.alive ? .primary : .gray)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
+                                    IconViewWithDeathCheck(url: url, character: character)
                                 }
                                 Text(character.characterName)
                                 Spacer()

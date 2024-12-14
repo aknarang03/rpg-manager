@@ -41,13 +41,7 @@ struct ItemDetailView: View {
                 Spacer()
                 
                 if let iconURLString = item.iconURL, let url = URL(string: iconURLString) {
-                    AsyncImage(url: url) { image in
-                        image.resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                    } placeholder: {
-                        ProgressView()
-                    }
+                    IconView(url: url)
                 }
                 
                 Spacer()

@@ -5,7 +5,6 @@
 //  Created by Anjali Narang  on 11/25/24.
 //
 
-
 import SwiftUI
 
 struct FightView: View {
@@ -74,13 +73,7 @@ struct FightView: View {
                         VStack { // character 1 view
                             
                             if let iconURLString = viewModel.character1.iconURL, let url = URL(string: iconURLString) {
-                                AsyncImage(url: url) { image in
-                                    image.resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                } placeholder: {
-                                    ProgressView()
-                                }
+                                IconView(url: url)
                             } else {
                                 Rectangle() // to even out spacing
                                     .frame(width: 30, height: 30)
@@ -102,13 +95,7 @@ struct FightView: View {
                             Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character1.heldItem ?? "nothing"))")
                             if let holding = viewModel.character1.heldItem {
                                 if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
-                                    AsyncImage(url: url) { image in
-                                        image.resizable()
-                                            .scaledToFit()
-                                            .frame(width: 30, height: 30)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
+                                    IconView(url: url)
                                 } else {
                                     Rectangle() // to even out spacing
                                         .frame(width: 30, height: 30)
@@ -127,13 +114,7 @@ struct FightView: View {
                         VStack { // character 2 view
                             
                             if let iconURLString = viewModel.character2.iconURL, let url = URL(string: iconURLString) {
-                                AsyncImage(url: url) { image in
-                                    image.resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                } placeholder: {
-                                    ProgressView()
-                                }
+                                IconView(url: url)
                             } else {
                                 Rectangle() // to even out spacing
                                     .frame(width: 30, height: 30)
@@ -155,13 +136,7 @@ struct FightView: View {
                             Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character2.heldItem ?? "nothing"))")
                             if let holding = viewModel.character2.heldItem {
                                 if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
-                                    AsyncImage(url: url) { image in
-                                        image.resizable()
-                                            .scaledToFit()
-                                            .frame(width: 30, height: 30)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
+                                    IconView(url: url)
                                 } else {
                                     Rectangle() // to even out spacing
                                         .frame(width: 30, height: 30)

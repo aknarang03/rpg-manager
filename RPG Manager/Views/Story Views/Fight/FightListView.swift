@@ -21,13 +21,7 @@ struct FightListView: View {
                 HStack {
                     
                     if let iconURLString = viewModel.getCharacter(characterID: fight.character1ID)?.iconURL, let url = URL(string: iconURLString) {
-                        AsyncImage(url: url) { image in
-                            image.resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                        } placeholder: {
-                            ProgressView()
-                        }
+                        IconView(url: url)
                     } else {
                         Image(systemName: "questionmark.app.fill")
                             .foregroundColor(.gray)
@@ -37,13 +31,7 @@ struct FightListView: View {
                         .foregroundColor(.gray)
                     
                     if let iconURLString = viewModel.getCharacter(characterID: fight.character2ID)?.iconURL, let url = URL(string: iconURLString) {
-                        AsyncImage(url: url) { image in
-                            image.resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                        } placeholder: {
-                            ProgressView()
-                        }
+                        IconView(url: url)
                     } else {
                         Image(systemName: "questionmark.app.fill")
                             .foregroundColor(.gray)
