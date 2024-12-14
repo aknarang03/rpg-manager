@@ -25,7 +25,7 @@ struct AddCollaboratorView: View {
             
             Button ("Add") {
                 viewModel.addCollaborator()
-            }
+            }.disabled(viewModel.username == "")
             
             Spacer()
             
