@@ -24,11 +24,6 @@ class AddCharacterViewModel: ObservableObject {
     
     func addCharacter() {
         
-//        if (characterName == "" || isPlayer == "") {
-//            print("cannot add empty character name or isplayer")
-//            return
-//        }
-        
         let healthVal = Int(health)
         let attackVal = Int(attack)
         let defenseVal = Int(defense)

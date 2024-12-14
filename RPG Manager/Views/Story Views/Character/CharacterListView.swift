@@ -27,7 +27,7 @@ struct CharacterListView: View {
                         VStack(alignment: .leading) {
                             HStack {
                                 if let iconURLString = character.iconURL, let url = URL(string: iconURLString) {
-                                    IconViewWithDeathCheck(url: url, character: character)
+                                    IconView(url: url)
                                 }
                                 Text(character.characterName)
                                 Spacer()

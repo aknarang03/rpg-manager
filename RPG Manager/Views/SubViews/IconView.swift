@@ -24,22 +24,3 @@ struct IconView: View {
     }
     
 }
-
-struct IconViewWithDeathCheck: View {
-    
-    let url: URL
-    let character: Character
-    
-    var body: some View {
-        
-        AsyncImage(url: url) { image in
-            image.resizable()
-                .scaledToFit()
-                .frame(width: 30, height: 30)
-        } placeholder: {
-            ProgressView()
-        }
-        
-    }
-    
-}

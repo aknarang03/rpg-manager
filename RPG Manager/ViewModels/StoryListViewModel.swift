@@ -18,8 +18,6 @@ class StoryListViewModel: ObservableObject {
     @Published var stories: [Story] = []
 
     init() {
-        // I don't fully understand it, but it lets this.stories synch with storyModel.stories...
-        // This way I can keep this stuff out of the view and in the view model.
         storyModel.$stories
             .sink { [weak self] newStories in self?.stories = newStories }
             .store(in: &cancellables)

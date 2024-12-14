@@ -11,34 +11,15 @@ import Combine
 class StoryDetailViewModel: ObservableObject {
     
     let storyModel = StoryModel.shared
-    let userModel = UserModel.shared
-    let characterModel = CharacterModel.shared
-    let itemModel = ItemModel.shared
-    let fightModel = FightModel.shared
     
     private var cancellables: Set<AnyCancellable> = []
     
     @Published var currentStory: Story = Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown")
-    @Published var currentCharacters: [Character] = []
-    @Published var currentCollaborators: [String] = []
-    @Published var currentItems: [Item] = []
 
     init() {
         
         storyModel.$currentStory
             .sink { [weak self] newCurr in self?.currentStory = newCurr ?? Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown") }
-            .store(in: &cancellables)
-        
-        characterModel.$currentCharacters
-            .sink { [weak self] newCurrChars in self?.currentCharacters = newCurrChars }
-            .store(in: &cancellables)
-        
-        storyModel.$currentCollaborators
-            .sink { [weak self] newCurrCollab in self?.currentCollaborators = newCurrCollab }
-            .store(in: &cancellables)
-        
-        itemModel.$currentItems
-            .sink { [weak self] newCurrItems in self?.currentItems = newCurrItems }
             .store(in: &cancellables)
         
     }
