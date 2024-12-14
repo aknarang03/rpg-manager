@@ -9,7 +9,6 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
-// should this be in model or here
 enum OutcomeType: String, CaseIterable {
     
     // attacker actions
@@ -35,7 +34,7 @@ struct Fight {
     var userID: String
     var character1ID: String
     var character2ID: String
-    var outcomes: [String]? // each round consists of two outcomes
+    var outcomes: [String]?
     var winner: String?
     var complete: Bool
     

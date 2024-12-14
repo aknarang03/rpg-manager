@@ -5,10 +5,10 @@
 //  Created by Anjali Narang  on 11/30/24.
 //
 
+let userModel = UserModel.shared
+let storyModel = StoryModel.shared
+
 func youAreCurrentStoryCreator() -> Bool {
-    
-    let userModel = UserModel.shared
-    let storyModel = StoryModel.shared
     
     if (userModel.currentUser?.uid == storyModel.currentStory?.creator) {
         return true
@@ -20,8 +20,6 @@ func youAreCurrentStoryCreator() -> Bool {
 
 func youAreCharacterCreator(character: Character) -> Bool {
     
-    let userModel = UserModel.shared
-
     if userModel.currentUser?.uid == character.creatorID {
         return true
     } else {
@@ -32,8 +30,6 @@ func youAreCharacterCreator(character: Character) -> Bool {
 
 func youAreItemCreator(item: Item) -> Bool {
     
-    let userModel = UserModel.shared
-
     if userModel.currentUser?.uid == item.creatorID {
         return true
     } else {

@@ -74,12 +74,6 @@ class UserModel {
         userNodeRef.setValue(user.toAnyObject())
     }
     
-//    func deleteAccount() {
-//        let userNodeRef = userDBref.child(authorizedUser!.uid)
-//        userNodeRef.removeValue()
-//        // remove from authentication in firebase
-//    }
-    
     func deleteAccount() async throws {
         
         guard let user = Auth.auth().currentUser else {

@@ -9,7 +9,6 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
-
 import PhotosUI
 
 class StoryModel {
@@ -29,7 +28,7 @@ class StoryModel {
     @Published var currentStoryID: String = ""
     @Published var currentCollaborators: [String] = []
     
-    func setCurrentStory(tappedOn: Story) { // async?
+    func setCurrentStory(tappedOn: Story) {
         currentStory = tappedOn
         currentStoryID = currentStory!.storyID
     }

@@ -245,8 +245,6 @@ class CharacterModel {
         let characterRef = storyRef.child("Characters").child(characterID)
         characterRef.removeValue()
     }
-    
-    
         
     func addCharacterToStory(character: Character) {
         let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)

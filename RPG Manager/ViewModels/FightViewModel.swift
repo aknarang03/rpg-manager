@@ -79,23 +79,6 @@ class FightViewModel: ObservableObject {
         }
     }
     
-//    // resuming
-//    init(character1ID: String, character2ID: String) {
-//        
-//        self.character1ID = character1ID
-//        self.character2ID = character2ID
-//        
-//        self.character1Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
-//        self.character2Stats = Stats(health: 0, attack: 0, defense: 0, speed: 0, agility: 0, hp: 0)
-//        
-//        characterModel.$currentCharacters
-//            .sink { [weak self] newChars in
-//                self?.characters = newChars
-//                self?.updateCharacters() }
-//            .store(in: &cancellables)
-//        
-//    }
-    
     func shouldStart() -> Bool {
         
         let char1Alive = characterModel.getCharacter(for: character1ID)?.alive

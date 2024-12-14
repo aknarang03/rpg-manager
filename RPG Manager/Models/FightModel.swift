@@ -155,12 +155,4 @@ class FightModel {
         return currentFights.first(where: { $0.fightID == fightID })
     }
     
-    
-    
-//    func endFight(storyID: String, fight: Fight) {
-//        let storyRef = Database.database().reference().child("Stories").child(storyID)
-//        let fightRef = storyRef.child("Fights").child(fight.fightID)
-//        fightRef.setValue(fight.toAnyObject())
-//    }
-    
 }

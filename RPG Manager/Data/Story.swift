@@ -10,9 +10,6 @@ import Firebase
 import FirebaseDatabase
 
 struct Story {
-    
-    // Could I have characters and collaborators here, for easy access later, somehow? Even though they are child
-    // nodes?
         
     var ref: DatabaseReference?
     var storyID: String
