@@ -16,17 +16,15 @@ struct Story {
     var storyName: String
     var creator: String
     var storyDescription: String
-    var characters: [Character]?
     var collaborators: [String]?
         
-    init (storyID: String, storyName: String, storyDescription: String, creator: String) {
+    init (storyID: String, storyName: String, storyDescription: String, creator: String, collaborators: [String]? = nil) {
         self.ref = nil
         self.storyID = storyID
         self.storyName = storyName
         self.storyDescription = storyDescription
         self.creator = creator
-        self.characters = nil
-        self.collaborators = nil
+        self.collaborators = collaborators
     }
     
     init? (snapshot: DataSnapshot) {
@@ -41,21 +39,31 @@ struct Story {
             return nil
         }
         
+        let collaborators = value["Collaborators"] as? [String] ?? []
+        
         self.ref = snapshot.ref
         self.storyID = storyID
         self.storyName = storyName
         self.storyDescription = storyDescription
         self.creator = creator
+        self.collaborators = collaborators
         
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
-        return [
+        
+        var dict: [String:Any] = [
             "storyID": self.storyID,
             "storyName": self.storyName,
             "storyDescription": self.storyDescription,
             "creator": self.creator
         ]
+        
+        if let collaborators = self.collaborators {
+            dict["collaborators"] = collaborators
+        }
+        
+        return dict
     }
     
 }

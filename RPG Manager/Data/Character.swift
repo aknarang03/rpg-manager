@@ -95,7 +95,7 @@ struct Character {
             "alive": self.alive
         ]
                 
-        // only add bag if it's not nil
+        // only add these if they are not nil
         if let bag = self.bag {
             dict["bag"] = bag
         }
