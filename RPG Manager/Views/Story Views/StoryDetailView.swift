@@ -27,11 +27,6 @@ struct StoryDetailView: View {
                 Text(viewModel.currentStory.storyDescription)
                 
                 Spacer()
-                
-//                Text("amount of characters is \(viewModel.currentCharacters.count)")
-//                Text("amount of items is \(viewModel.currentItems.count)")
-//                Text("amount of collaborators is \(viewModel.currentCollaborators.count)")
-                
                 Spacer()
                 
                 if (userModel.currentUser?.uid) != nil {

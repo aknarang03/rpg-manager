@@ -25,41 +25,13 @@ struct FightView: View {
                 
                 Spacer()
                 
-                if (!viewModel.fightOngoing) { // SETUP SCREEN CONTENT
-                    
-                    Text("Select Characters")
-                        .font(.largeTitle)
-                        .padding()
-                    Spacer()
-                    
-                    HStack {
-                        
-                        Spacer()
-                        
-                        Picker("Character", selection: $viewModel.character1ID) {
-                            ForEach(viewModel.characters, id: \.characterID) { character in
-                                Text(character.characterName).tag(character.characterID)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        
-                        Spacer()
-                        
-                        Picker("Character", selection: $viewModel.character2ID) {
-                            ForEach(viewModel.characters, id: \.characterID) { character in
-                                Text(character.characterName).tag(character.characterID)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        
-                        Spacer()
-                        
-                    }
-                    
-                } // end setup screen content
+                if (!viewModel.fightOngoing) {
+                    SetupFightView(viewModel: viewModel)
+                }
                 
                 else { // FIGHT SCREEN CONTENT
                     
+                    // who's turn is it
                     Text("\(characterModel.getCharacter(for: viewModel.attackingCharacterID)?.characterName ?? "Unknown")'s Turn")
                         .font(.largeTitle)
                         .padding()
@@ -69,90 +41,12 @@ struct FightView: View {
                     HStack { // characters view
                         
                         Spacer()
-                        
-                        VStack { // character 1 view
-                            
-                            if let iconURLString = viewModel.character1.iconURL, let url = URL(string: iconURLString) {
-                                IconView(url: url)
-                            } else {
-                                Rectangle() // to even out spacing
-                                    .frame(width: 30, height: 30)
-                                    .opacity(0)
-                            }
-                            
-                            if (viewModel.character1Attacking()) {
-                                Text(viewModel.character1.characterName)
-                                    .font(.title)
-                            } else {
-                                Text(viewModel.character1.characterName)
-                            }
-                            
-                            Text("hp: \(viewModel.character1Stats.hp)/\(viewModel.character1Stats.health)")
-                            ProgressView(value: Double(viewModel.character1Stats.hp), total: Double(viewModel.character1Stats.health))
-                                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                                .frame(height: 8)
-                            
-                            Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character1.heldItem ?? "nothing"))")
-                            if let holding = viewModel.character1.heldItem {
-                                if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
-                                    IconView(url: url)
-                                } else {
-                                    Rectangle() // to even out spacing
-                                        .frame(width: 30, height: 30)
-                                        .opacity(0)
-                                }
-                            } else {
-                                Rectangle() // to even out spacing
-                                    .frame(width: 30, height: 30)
-                                    .opacity(0)
-                            }
-                            
-                        } // end character 1 view
-                        
+                        CharacterView(isChar1: true, viewModel: viewModel)
+                        Spacer()
+                        CharacterView(isChar1: false, viewModel: viewModel)
                         Spacer()
                         
-                        VStack { // character 2 view
-                            
-                            if let iconURLString = viewModel.character2.iconURL, let url = URL(string: iconURLString) {
-                                IconView(url: url)
-                            } else {
-                                Rectangle() // to even out spacing
-                                    .frame(width: 30, height: 30)
-                                    .opacity(0)
-                            }
-                            
-                            if (viewModel.character2Attacking()) {
-                                Text(viewModel.character2.characterName)
-                                    .font(.title)
-                            } else {
-                                Text(viewModel.character2.characterName)
-                            }
-                            
-                            Text("hp: \(viewModel.character2Stats.hp)/\(viewModel.character2Stats.health)")
-                            ProgressView(value: Double(viewModel.character2Stats.hp), total: Double(viewModel.character2Stats.health))
-                                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                                .frame(height: 8)
-                            
-                            Text("holding \(viewModel.itemIdToItemName(itemID: viewModel.character2.heldItem ?? "nothing"))")
-                            if let holding = viewModel.character2.heldItem {
-                                if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
-                                    IconView(url: url)
-                                } else {
-                                    Rectangle() // to even out spacing
-                                        .frame(width: 30, height: 30)
-                                        .opacity(0)
-                                }
-                            } else {
-                                Rectangle() // to even out spacing
-                                    .frame(width: 30, height: 30)
-                                    .opacity(0)
-                            }
-                            
-                        } // end character 2 view
-                        
-                        Spacer()
-                        
-                    } // end characters view
+                    }
                     
                     Spacer()
                     
@@ -304,6 +198,117 @@ struct FightView: View {
             
         }
             
+    }
+    
+}
+
+struct CharacterView: View {
+    
+    @ObservedObject var viewModel: FightViewModel
+    
+    let character: Character
+    let stats: Stats
+    let attacking: Bool
+    
+    init(isChar1: Bool, viewModel: FightViewModel) {
+        
+        self.viewModel = viewModel
+        
+        if isChar1 {
+            character = viewModel.character1
+            stats = viewModel.character1Stats
+            attacking = viewModel.character1Attacking()
+        } else {
+            character = viewModel.character2
+            stats = viewModel.character2Stats
+            attacking = viewModel.character2Attacking()
+        }
+        
+    }
+    
+    var body: some View {
+        
+        VStack {
+            
+            if let iconURLString = character.iconURL, let url = URL(string: iconURLString) {
+                IconView(url: url)
+            } else {
+                Rectangle() // to even out spacing
+                    .frame(width: 30, height: 30)
+                    .opacity(0)
+            }
+            
+            if (attacking) {
+                Text(character.characterName)
+                    .font(.title)
+            } else {
+                Text(character.characterName)
+            }
+            
+            Text("hp: \(stats.hp)/\(stats.health)")
+            ProgressView(value: Double(stats.hp), total: Double(stats.health))
+                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                .frame(height: 8)
+            
+            Text("holding \(viewModel.itemIdToItemName(itemID: character.heldItem ?? "nothing"))")
+            if let holding = character.heldItem {
+                if let iconURLString = viewModel.getItem(itemID: holding).iconURL, let url = URL(string: iconURLString) {
+                    IconView(url: url)
+                } else {
+                    Rectangle() // to even out spacing
+                        .frame(width: 30, height: 30)
+                        .opacity(0)
+                }
+            } else {
+                Rectangle() // to even out spacing
+                    .frame(width: 30, height: 30)
+                    .opacity(0)
+            }
+            
+        }
+        
+    }
+    
+}
+
+
+struct SetupFightView: View {
+    
+    @ObservedObject var viewModel: FightViewModel
+    
+    var body: some View {
+        
+        Text("Select Characters")
+            .font(.largeTitle)
+            .padding()
+        
+        Spacer()
+        
+        HStack {
+            
+            Spacer()
+            
+            Picker("Character", selection: $viewModel.character1ID) {
+                ForEach(viewModel.characters, id: \.characterID) { character in
+                    Text(character.characterName).tag(character.characterID)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            
+            Spacer()
+            
+            Picker("Character", selection: $viewModel.character2ID) {
+                ForEach(viewModel.characters, id: \.characterID) { character in
+                    Text(character.characterName).tag(character.characterID)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            
+            Spacer()
+            
+        }
+        
+        
     }
     
 }
