@@ -79,49 +79,23 @@ struct FightView: View {
                                 HStack {
                                     
                                     Picker("Consumables", selection: $viewModel.itemToConsume) {
-                                        
                                         if (viewModel.character1Attacking()) {
-                                            
-                                            if let bag = viewModel.character1.bag {
-                                                
-                                                ForEach(bag.keys.sorted(), id: \.self) { itemID in
-                                                    
-                                                    if (viewModel.getItemType(itemID: itemID) == "consumable") {
-                                                        Text(viewModel.itemIdToItemName(itemID: itemID))
-                                                            .tag(itemID)
-                                                    }
-                                                                                                
-                                                }
-                                                
-                                            }
-                                            
-                                        } // end show character 1 bag
-                                        
+                                            FightBagView(isChar1: true, viewModel: viewModel)
+                                        }
                                         else {
-                                            
-                                            if let bag = viewModel.character2.bag {
-                                                
-                                                ForEach(bag.keys.sorted(), id: \.self) { itemID in
-                                                    
-                                                    if (viewModel.getItemType(itemID: itemID) == "consumable") {
-                                                        Text(viewModel.itemIdToItemName(itemID: itemID))
-                                                            .tag(itemID)
-                                                    }
-                                                                                                
-                                                }
-                                                
-                                            }
-                                            
-                                        } // end show character 2 bag
-                                    
-                                    } // end picker
+                                            FightBagView(isChar1: false, viewModel: viewModel)
+                                        }
+                                    }
                                     .pickerStyle(MenuPickerStyle())
+                                    
                                     Button("use") {
                                         viewModel.consumeItemAction()
                                         viewModel.showCharacterBag = false
+                                        
                                     }.disabled(
                                         viewModel.itemToConsume == ""
                                     )
+                                    
                                 } // end use item hstack
                                 
                             } // end show character bag
@@ -198,6 +172,42 @@ struct FightView: View {
             
         }
             
+    }
+    
+}
+
+struct FightBagView: View {
+    
+    let character: Character
+    @ObservedObject var viewModel: FightViewModel
+    
+    init(isChar1: Bool, viewModel: FightViewModel) {
+        
+        self.viewModel = viewModel
+        
+        if isChar1 {
+            character = viewModel.character1
+        } else {
+            character = viewModel.character2
+        }
+        
+    }
+
+    var body: some View {
+        
+        if let bag = character.bag {
+            
+            ForEach(bag.keys.sorted(), id: \.self) { itemID in
+                
+                if (viewModel.getItemType(itemID: itemID) == "consumable") {
+                    Text(viewModel.itemIdToItemName(itemID: itemID))
+                        .tag(itemID)
+                }
+                
+            }
+            
+        }
+        
     }
     
 }
