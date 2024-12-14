@@ -18,11 +18,6 @@ class AddStoryViewModel: ObservableObject {
     
     func addStory() {
         
-        if (storyName == "") {
-            print("cannot add empty story name")
-            return;
-        }
-        
         let newStory = Story(storyID: idWithTimeInterval(), storyName: storyName, storyDescription: storyDescription, creator: userModel.currentUser!.uid)
         storyModel.postNewStory(story: newStory)
         testID = newStory.storyID

@@ -33,7 +33,7 @@ struct AddStoryView: View {
             
             Button ("Add") {
                 viewModel.addStory()
-            }
+            }.disabled (viewModel.storyName == "")
             
             Spacer()
             

@@ -61,7 +61,7 @@ struct AddItemView: View {
             
             Button ("Add") {
                 viewModel.addItem()
-            }.disabled((viewModel.type.rawValue == "passive" || viewModel.type.rawValue == "equippable") && viewModel.impactsWhat.rawValue == "hp") // do not allow a passive or equippable item that impacts hp
+            }.disabled(((viewModel.type.rawValue == "passive" || viewModel.type.rawValue == "equippable") && viewModel.impactsWhat.rawValue == "hp") || viewModel.itemName == "") // do not allow a passive or equippable item that impacts hp
             
             Spacer()
             

@@ -20,11 +20,6 @@ class AddItemViewModel: ObservableObject {
     
     func addItem() {
         
-        if (itemName == "") {
-            print("cannot add empty item name")
-            return;
-        }
-        
         let impactVal = Int(impact)
         
         let newItem = Item(itemID: idWithTimeInterval(), creatorID: userModel.currentUser!.uid, itemName: itemName, itemDescription: itemDescription, impactsWhat: impactsWhat.rawValue, impact: impactVal, type: type.rawValue, iconURL: "")
