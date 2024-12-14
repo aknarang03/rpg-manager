@@ -10,6 +10,7 @@ import SwiftUI
 struct StoryView: View {
     
     @ObservedObject var viewModel: StoryViewModel = StoryViewModel()
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         
@@ -41,6 +42,11 @@ struct StoryView: View {
         }
         .onDisappear {
             viewModel.stopObserving()
+        }
+        .onChange(of: viewModel.isStoryDeleted) { oldval, newval in
+            if newval {
+                appState.isInStory = false
+            }
         }
         
     }

@@ -19,6 +19,7 @@ class StoryModel {
     var storyObserverHandle: UInt?
     var collaboratorObserverHandle: UInt?
     var collaboratorObserverHandles: [String: UInt] = [:]
+    var deletionObserverHandle: UInt?
     
     let storyDBRef = Database.database().reference(withPath: "Stories")
     
@@ -27,6 +28,8 @@ class StoryModel {
     @Published var currentStory: Story?
     @Published var currentStoryID: String = ""
     @Published var currentCollaborators: [String] = []
+    
+    @Published var deleted: Bool = false
     
     func setCurrentStory(tappedOn: Story) {
         currentStory = tappedOn
@@ -164,9 +167,25 @@ class StoryModel {
         storyRef.removeValue()
     }
     
+    func observeCurrentStoryDeletion() {
+        
+        deletionObserverHandle = storyDBRef.child(currentStoryID).observe(.value, with: { snapshot in
+            if snapshot.exists() == false {
+                // story was deleted
+                self.deleted = true
+                print("STORY DELETED")
+            }
+        })
+        
+    }
     
-    
-    
+    func stopObservingCurrentStoryDeletion() {
+        if let story: Story = currentStory {
+            if let observerHandle = deletionObserverHandle {
+                storyDBRef.removeObserver(withHandle: observerHandle)
+            }
+        }
+    }
     
     func addCollaboratorToStory(collaboratorID: String) {
         let storyRef = Database.database().reference().child("Stories").child(currentStoryID)
@@ -179,9 +198,6 @@ class StoryModel {
         let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
         collaboratorRef.removeValue()
     }
-    
-    
-
     
     
     

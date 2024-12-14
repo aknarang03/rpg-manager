@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUICore
 
 class StoryViewModel: ObservableObject {
     
@@ -16,11 +17,27 @@ class StoryViewModel: ObservableObject {
     let itemModel = ItemModel.shared
     let characterModel = CharacterModel.shared
     
+    @Published var isStoryDeleted: Bool = false
+
+    init() {
+        storyModel.$deleted
+            .sink { [weak self] deleted in
+                self?.isStoryDeleted = deleted
+                if deleted {
+                    print("story has been deleted")
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    var cancellables = Set<AnyCancellable>()
+    
     func startObserving() {
         print("start observing current characters, items, fights, and collaborators")
         characterModel.observeCurrentCharacters()
         itemModel.observeCurrentItems()
         storyModel.observeCurrentCollaborators()
+        storyModel.observeCurrentStoryDeletion()
         fightModel.observeCurrentFights()
     }
     
@@ -30,6 +47,7 @@ class StoryViewModel: ObservableObject {
         itemModel.cancelCurrentItemsObserver()
         storyModel.cancelCurrentCollaboratorsObserver()
         fightModel.cancelCurrentFightsObserver()
+        storyModel.stopObservingCurrentStoryDeletion()
     }
     
 }
