@@ -49,11 +49,7 @@ class CharacterBagViewModel: ObservableObject {
         return item
     }
     
-    // NOTE TO SELF: maybe I don't need updateCharacter in the methods?? or passing in characterID to the methods? can I just use bagOwner? it's because of how I structured applyStatChanges tho, so I have to see if i need that anywhere at all 
-    
-    // stats will be truncated right away since item is consumable; unlike with passive / equippable,
-    // since with those, if you remove an item from bag and something's impact was truncated, it should
-    // kick back in.
+    // stats will be truncated right away since item is consumable; unlike with passive / equippable, since with those, if you remove an item from bag and something's impact was truncated, it should kick back in.
     func consumeItem(characterID: String) {
         
         characterModel.consumeItem(characterID: characterID, itemID: itemID)

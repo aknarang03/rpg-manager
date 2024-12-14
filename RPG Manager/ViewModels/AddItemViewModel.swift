@@ -25,7 +25,6 @@ class AddItemViewModel: ObservableObject {
             return;
         }
         
-        //let impacts : ImpactsWhat = ImpactsWhat(rawValue: impactsWhat) ?? ImpactsWhat.none
         let impactVal = Int(impact)
         
         let newItem = Item(itemID: idWithTimeInterval(), creatorID: userModel.currentUser!.uid, itemName: itemName, itemDescription: itemDescription, impactsWhat: impactsWhat.rawValue, impact: impactVal, type: type.rawValue, iconURL: "")

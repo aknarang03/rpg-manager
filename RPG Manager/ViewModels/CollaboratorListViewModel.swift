@@ -18,20 +18,10 @@ class CollaboratorListViewModel: ObservableObject {
     @Published var collaborators: [String] = []
 
     init() {
-        // I don't fully understand it, but it lets this.stories synch with storyModel.stories...
-        // This way I can keep this stuff out of the view and in the view model.
         storyModel.$currentCollaborators
             .sink { [weak self] newCollabs in self?.collaborators = newCollabs }
             .store(in: &cancellables)
     }
-    
-//    func tappedCollaborator(
-//            collaborator: String,
-//            onSuccess: @escaping () -> Void,
-//            onFailure: @escaping (String) -> Void
-//        ) {
-//            onSuccess()
-//    }
     
     func removeCollaborator(uid: String) {
         storyModel.removeCollaboratorFromStory(collaboratorID: uid)

@@ -22,6 +22,7 @@ class FightDetailViewModel: ObservableObject {
     
     // NOTE TO SELF: handle when character has been deleted
     func getWinner() -> Character {
+        // it is checked in the view that a winner exists
         let winner = characterModel.getCharacter(for: fight.winner!)!
         return winner
     }

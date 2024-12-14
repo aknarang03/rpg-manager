@@ -18,8 +18,6 @@ class CharacterListViewModel: ObservableObject {
     @Published var characters: [Character] = []
 
     init() {
-        // I don't fully understand it, but it lets this.stories synch with storyModel.stories...
-        // This way I can keep this stuff out of the view and in the view model.
         characterModel.$currentCharacters
             .sink { [weak self] newChars in self?.characters = newChars }
             .store(in: &cancellables)

@@ -21,17 +21,17 @@ class FightListViewModel: ObservableObject {
     @Published var fights: [Fight] = []
 
     init() {
-        // I don't fully understand it, but it lets this.stories synch with storyModel.stories...
-        // This way I can keep this stuff out of the view and in the view model.
         fightModel.$currentFights
             .sink { [weak self] newFights in self?.fights = newFights }
             .store(in: &cancellables)
     }
     
-    // NOTE TO SELF: handle when character has been deleted
-    func getCharacter(characterID: String) -> Character {
-        let character = characterModel.getCharacter(for: characterID)!
-        return character
+    func getCharacter(characterID: String) -> Character? {
+        if let character = characterModel.getCharacter(for: characterID) {
+            return character
+        } else {
+            return nil
+        }
     }
     
     func getCharacterName (characterID: String) -> String {
@@ -52,15 +52,5 @@ class FightListViewModel: ObservableObject {
     func removeFight(fightID: String) {
         fightModel.deleteFight(fightID: fightID)
     }
-    
-//    func startObserving() {
-//        print("start observing fights")
-//        storyModel.observeCurrentFights()
-//    }
-//    
-//    func stopObserving() {
-//        print("stop observing fights")
-//        storyModel.cancelCurrentFightsObserver()
-//    }
 
 }
