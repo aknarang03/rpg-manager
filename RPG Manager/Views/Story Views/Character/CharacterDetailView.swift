@@ -132,7 +132,9 @@ struct CharacterDetailView: View {
                     
                     HStack {
                         
-                        CharacterPhotoPicker(viewModel: viewModel)
+                        PhotoPicker { image in
+                            viewModel.updateCharacterIcon(image: image)
+                        }
                         
                         if character.alive == false {
                             Spacer()
@@ -167,44 +169,3 @@ struct CharacterDetailView: View {
     } // View
             
 }
-
-@available(iOS 16.0, *)
-struct CharacterPhotoPicker: View {
-    
-    @State private var selectedItem: PhotosPickerItem? = nil
-    @State private var selectedImageData: Data? = nil
-    
-    @ObservedObject var viewModel: CharacterDetailViewModel
-
-    var body: some View {
-        
-        PhotosPicker(
-            
-            selection: $selectedItem,
-            matching: .images,
-            photoLibrary: .shared()) {
-                Text("Upload icon")
-            }
-        
-            .onChange(of: selectedItem) {
-                
-                if let img = selectedItem {
-                    
-                    Task {
-                        if let data = try? await img.loadTransferable(type: Data.self),
-                           let uiImage = UIImage(data: data) {
-                            selectedImageData = data
-                            viewModel.updateCharacterIcon(image: uiImage)
-                        }
-                    }
-                    
-                    
-                }
-                
-            }
-        
-    }
-    
-}
-    
-

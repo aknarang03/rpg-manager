@@ -91,7 +91,9 @@ struct ItemDetailView: View {
                     
                     Spacer()
                     
-                    ItemPhotoPicker(viewModel: viewModel)
+                    PhotoPicker { image in
+                        viewModel.updateItemIcon(image: image)
+                    }
                     
                     if (userModel.currentUser?.uid) != nil {
                         if youAreCurrentStoryCreator() || youAreItemCreator(item: item) {
@@ -113,46 +115,6 @@ struct ItemDetailView: View {
             
         }
             
-    }
-    
-}
-
-
-@available(iOS 16.0, *)
-struct ItemPhotoPicker: View {
-    
-    @State private var selectedItem: PhotosPickerItem? = nil
-    @State private var selectedImageData: Data? = nil
-    
-    @ObservedObject var viewModel: ItemDetailViewModel
-
-    var body: some View {
-        
-        PhotosPicker(
-            
-            selection: $selectedItem,
-            matching: .images,
-            photoLibrary: .shared()) {
-                Text("Upload icon")
-            }
-        
-            .onChange(of: selectedItem) {
-                
-                if let img = selectedItem {
-                    
-                    Task {
-                        if let data = try? await img.loadTransferable(type: Data.self),
-                           let uiImage = UIImage(data: data) {
-                            selectedImageData = data
-                            viewModel.updateItemIcon(image: uiImage)
-                        }
-                    }
-                    
-                    
-                }
-                
-            }
-        
     }
     
 }

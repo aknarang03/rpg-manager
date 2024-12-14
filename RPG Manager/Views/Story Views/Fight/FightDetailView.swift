@@ -64,6 +64,7 @@ struct FightDetailView: View {
                     }
                     
                     Divider()
+                    Spacer()
                     
                 } // complete view condition
                 
