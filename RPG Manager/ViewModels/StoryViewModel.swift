@@ -20,7 +20,6 @@ class StoryViewModel: ObservableObject {
         print("start observing current characters, items, fights, and collaborators")
         characterModel.observeCurrentCharacters()
         itemModel.observeCurrentItems()
-        storyModel.observeCurrentCollaborators()
         fightModel.observeCurrentFights()
     }
     
@@ -28,7 +27,6 @@ class StoryViewModel: ObservableObject {
         print("stop observing current characters, items, fights, and collaborators")
         characterModel.cancelCurrentCharactersObserver()
         itemModel.cancelCurrentItemsObserver()
-        storyModel.cancelCurrentCollaboratorsObserver()
         fightModel.cancelCurrentFightsObserver()
     }
     

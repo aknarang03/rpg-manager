@@ -33,66 +33,32 @@ class StoryModel {
         currentStoryID = currentStory!.storyID
     }
     
-    // watch for updates from Story realtime database table
+    
     func observeStories() {
+        
         print("observe stories")
-        storyObserverHandle = storyDBRef.observe(.value, with: {snapshot in
-            var tempStories:[Story] = []
-            let dispatchGroup = DispatchGroup()
+        
+        storyObserverHandle = storyDBRef.observe(.value, with: { snapshot in
+            
+            var tempStories: [Story] = []
+            
             for child in snapshot.children {
-                if let data = child as? DataSnapshot {
-                    dispatchGroup.enter()
-                    
-                    if let story = Story(snapshot: data) {
-                        
-                        print("story = story")
-                        
-                        self.observeStoryCollaborators(story: story) { collaborators in
-                            
-                            print("observe story collaborators")
-                            
-                            // add story if current user is creator or is a collaborator
-                            if let uid = self.userModel.currentUser?.uid {
-                                
-                                print("got current uid: \(uid)")
-                                
-                                if story.creator == uid || collaborators.contains(uid) {
-                                    print("creator or collaborator detected")
-                                    tempStories.append(story)
-                                    print ("temp stories: \(tempStories.count)")
-                                }
-                            }
-                            
-                            dispatchGroup.leave()
-                            
+                if let data = child as? DataSnapshot,
+                   let story = Story(snapshot: data) {
+                    if let uid = self.userModel.currentUser?.uid {
+                        if story.creator == uid || ((story.collaborators?.contains(uid)) != nil) {
+                            tempStories.append(story)
                         }
-                        
-                    } else {
-                        print("cannot append")
-                        dispatchGroup.leave()
                     }
                 }
             }
-            dispatchGroup.notify(queue: .main) {
-                self.stories.removeAll()
-                self.stories = tempStories // update the list stored in this model
+            
+            DispatchQueue.main.async {
+                self.stories = tempStories
                 print("stories in observeStories: \(self.stories.count)")
-
             }
         })
-    }
-    
-    func observeStoryCollaborators(story: Story, completion: @escaping ([String]) -> Void) {
-        let collaboratorsRef = storyDBRef.child(story.storyID).child("Collaborators")
-        collaboratorsRef.observeSingleEvent(of: .value, with: { snapshot in
-            var collaborators: [String] = []
-            for child in snapshot.children {
-                if let data = child as? DataSnapshot {
-                    collaborators.append(data.key)
-                }
-            }
-            completion(collaborators)
-        })
+        
     }
     
     // stop listening for updates
@@ -100,41 +66,6 @@ class StoryModel {
         print("cancel observer")
         if let observerHandle = storyObserverHandle {
             storyDBRef.removeObserver(withHandle: observerHandle)
-        }
-    }
-    
-    // observe collaborators for a specific story
-    func observeCurrentCollaborators() {
-        
-        if let story: Story = currentStory {
-            
-            print("observing collaborators for story: \(story.storyID)")
-            
-            let collaboratorsRef = storyDBRef.child(story.storyID).child("Collaborators")
-            
-            collaboratorObserverHandle = collaboratorsRef.observe(.value, with: { snapshot in
-                var tempCollaborators: [String] = []
-                for child in snapshot.children {
-                    if let data = child as? DataSnapshot,
-                       let collaborator = data.key as? String {
-                        tempCollaborators.append(collaborator)
-                    }
-                }
-                self.currentCollaborators.removeAll()
-                self.currentCollaborators = tempCollaborators
-                print("collaborators in observeCurrentCollaborators: \(self.currentCollaborators.count)")
-            })
-        }
-        
-    }
-    
-    func cancelCurrentCollaboratorsObserver() {
-        print("cancel current story collaborators observer")
-        if let story: Story = currentStory {
-            if let observerHandle = collaboratorObserverHandle {
-                let collaboratorsRef = storyDBRef.child(story.storyID).child("Collaborators")
-                collaboratorsRef.removeObserver(withHandle: observerHandle)
-            }
         }
     }
     
@@ -164,10 +95,6 @@ class StoryModel {
         storyRef.removeValue()
     }
     
-    
-    
-    
-    
     func addCollaboratorToStory(collaboratorID: String) {
         let storyRef = Database.database().reference().child("Stories").child(currentStoryID)
         let collaboratorRef = storyRef.child("Collaborators").child(collaboratorID)
@@ -180,11 +107,4 @@ class StoryModel {
         collaboratorRef.removeValue()
     }
     
-    
-
-    
-    
-    
-    
-
 }
