@@ -16,7 +16,6 @@ struct Story {
     var storyName: String
     var creator: String
     var storyDescription: String
-    var characters: [Character]?
     var collaborators: [String]?
         
     init (storyID: String, storyName: String, storyDescription: String, creator: String) {
@@ -25,7 +24,6 @@ struct Story {
         self.storyName = storyName
         self.storyDescription = storyDescription
         self.creator = creator
-        self.characters = nil
         self.collaborators = nil
     }
     
