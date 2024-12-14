@@ -12,7 +12,6 @@ struct ProfileView: View {
     @ObservedObject var viewModel: ProfileViewModel = ProfileViewModel()
     @EnvironmentObject var appState: AppState
         
-    // should move the logic used with these to view model..
     let userModel = UserModel.shared
     
     var body: some View {

@@ -16,6 +16,7 @@ struct CharacterDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    // NOTE TO SELF: I probably should only be referencing the view model character and not this one
     var character: Character
     
     // pass character to view model
@@ -58,43 +59,7 @@ struct CharacterDetailView: View {
                                         
                     Spacer()
                     
-                    HStack {
-                        Text("health: \(viewModel.stats.health)")
-                        ProgressView(value: Double(viewModel.stats.health), total: 100)
-                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                            .frame(height: 8)
-                    }
-                    HStack {
-                        Text("attack: \(viewModel.stats.attack)")
-                        ProgressView(value: Double(viewModel.stats.attack), total: 100)
-                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                        .frame(height: 8)                }
-                    HStack {
-                        Text("defense: \(viewModel.stats.defense)")
-                        ProgressView(value: Double(viewModel.stats.defense), total: 100)
-                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                        .frame(height: 8)                   }
-                    HStack {
-                        Text("speed: \(viewModel.stats.speed)")
-                        ProgressView(value: Double(viewModel.stats.speed), total: 100)
-                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                            .frame(height: 8)
-                    }
-                    HStack {
-                        Text("agility: \(viewModel.stats.agility)")
-                        ProgressView(value: Double(viewModel.stats.agility), total: 100)
-                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                            .frame(height: 8)
-                    }
-                    HStack {
-                        Text("current hp: \(viewModel.stats.hp)/\(viewModel.stats.health)")
-                        ProgressView(value: Double(viewModel.stats.hp), total: Double(viewModel.stats.health))
-                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                            .frame(height: 8)
-                        //                        .onAppear {
-                        //                            let clampedHp = max(0, min(viewModel.stats.hp, viewModel.stats.health))
-                        //                        }
-                    }
+                    StatsView(viewModel: viewModel)
                     
                     Spacer()
                     
@@ -168,4 +133,43 @@ struct CharacterDetailView: View {
         
     } // View
             
+}
+
+
+struct StatsView: View {
+    
+    let viewModel: CharacterDetailViewModel
+    
+    var body: some View {
+        
+        StatRow(label: "health", value: viewModel.stats.health)
+        StatRow(label: "attack", value: viewModel.stats.attack)
+        StatRow(label: "defense", value: viewModel.stats.defense)
+        StatRow(label: "speed", value: viewModel.stats.speed)
+        StatRow(label: "agility", value: viewModel.stats.agility)
+        HStack {
+            Text("current hp: \(viewModel.stats.hp)/\(viewModel.stats.health)")
+            ProgressView(value: Double(viewModel.stats.hp), total: Double(viewModel.stats.health))
+                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                .frame(height: 8)
+        }
+        
+    }
+    
+}
+
+struct StatRow: View {
+    
+    var label: String
+    var value: Int
+    
+    var body: some View {
+        HStack {
+            Text("\(label): \(value)")
+            ProgressView(value: Double(value), total: 100)
+                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                .frame(height: 8)
+        }
+    }
+    
 }
