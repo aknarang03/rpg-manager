@@ -17,7 +17,7 @@ struct FightView: View {
         
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             
             VStack {
                 
@@ -165,9 +165,7 @@ struct FightView: View {
                     }
                 }
                                 )
-                )
-            .navigationViewStyle(.stack)
-            
+                )            
             
         }
             

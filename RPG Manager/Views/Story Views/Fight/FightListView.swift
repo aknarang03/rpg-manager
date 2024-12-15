@@ -14,7 +14,7 @@ struct FightListView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             
             List {
                 
@@ -72,7 +72,6 @@ struct FightListView: View {
         }
         
         .navigationBarTitle("Fights")
-        .navigationViewStyle(.stack)
         
         
     }
