@@ -31,6 +31,10 @@ struct StoryView: View {
                 .tabItem {
                     Label("Items", systemImage: "cross.vial.fill")
                 }
+            MapView()
+                .tabItem {
+                    Label("Map", systemImage: "map.fill")
+                }
             CollaboratorListView()
                 .tabItem {
                     Label("Collaborators", systemImage: "person.3.fill")
