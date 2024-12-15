@@ -166,6 +166,7 @@ struct FightView: View {
                 }
                                 )
                 )
+            .navigationViewStyle(.stack)
             
             
         }
