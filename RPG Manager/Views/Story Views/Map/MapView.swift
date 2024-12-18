@@ -80,7 +80,7 @@ struct MapView: View {
                     showInfo = true
                 }
                                ) {
-                                   Image(systemName: "gearshape")
+                                   Image(systemName: "info.circle")
                                }
             )
             .sheet(isPresented: $isPhotoPickerPresented) {

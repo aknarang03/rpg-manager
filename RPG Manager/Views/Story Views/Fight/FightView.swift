@@ -166,7 +166,7 @@ struct FightView: View {
                     showInfo = true
                 }
                                ) {
-                    Image(systemName: "gearshape")
+                    Image(systemName: "info.circle")
                 },
                 
                 trailing: Button(action: {}, label: {
