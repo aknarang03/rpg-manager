@@ -8,8 +8,15 @@
 
 import Foundation
 import Combine
+import PhotosUI
 
 class MapViewModel: ObservableObject {
+    
+    let storyModel = StoryModel.shared
+    
+    func updateStoryMapImg(image: UIImage) {
+        storyModel.uploadMapImg(image: image, imageID: idWithTimeInterval()) // this also calls function that updates database ref
+    }
     
     //PLAN
     

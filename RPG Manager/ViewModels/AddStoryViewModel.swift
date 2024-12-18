@@ -18,7 +18,7 @@ class AddStoryViewModel: ObservableObject {
     
     func addStory() {
         
-        let newStory = Story(storyID: idWithTimeInterval(), storyName: storyName, storyDescription: storyDescription, creator: userModel.currentUser!.uid)
+        let newStory = Story(storyID: idWithTimeInterval(), storyName: storyName, storyDescription: storyDescription, creator: userModel.currentUser!.uid, mapImageURL: "")
         storyModel.postNewStory(story: newStory)
         testID = newStory.storyID
 

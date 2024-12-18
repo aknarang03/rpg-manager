@@ -203,8 +203,42 @@ class StoryModel {
         collaboratorRef.removeValue()
     }
     
-    
-    
-    
+    func uploadMapImg(image: UIImage, imageID: String) { // for current story
+        
+        let storageRef = Storage.storage().reference()
+        let imageRef = storageRef.child("images/\(imageID).png")
+        
+        guard let imageData = image.pngData() else {
+            print("failed to get image data")
+            return
+        }
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/png"
+        
+        imageRef.putData(imageData, metadata: metadata) { metadata, error in
+            
+            if let error = error {
+                print("cannot upload; \(error.localizedDescription)")
+                return
+            }
 
+            // url for character
+            imageRef.downloadURL { url, error in
+                if let error = error {
+                    print("cannot get download URL; \(error.localizedDescription)")
+                } else if let url = url {
+                    print("got download URL; \(url.absoluteString)")
+                    self.updateMapImg(imageURL: url.absoluteString)
+                }
+            }
+        }
+        
+    }
+    
+    func updateMapImg(imageURL: String) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
+        storyRef.child("mapImageURL").setValue(imageURL)
+    }
+    
 }

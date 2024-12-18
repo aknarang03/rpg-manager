@@ -15,13 +15,13 @@ class InfoViewModel: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     
-    @Published var currentStory: Story = Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown")
+    @Published var currentStory: Story = Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown", mapImageURL: "")
     @Published var collaborators: [String] = []
 
     init() {
         
         storyModel.$currentStory
-            .sink { [weak self] newCurr in self?.currentStory = newCurr ?? Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown") }
+            .sink { [weak self] newCurr in self?.currentStory = newCurr ?? Story(storyID: "0", storyName: "None", storyDescription: "None", creator: "Unknown", mapImageURL: "") }
             .store(in: &cancellables)
         storyModel.$currentCollaborators
             .sink { [weak self] newCollabs in self?.collaborators = newCollabs }

@@ -16,22 +16,25 @@ struct MapView: View {
     // move this stuff into view model
     @State private var mapImage: UIImage? = nil
     @State private var icons: [DraggableIcon] = []
-    
+        
     var body: some View {
         
         NavigationView {
             
             VStack {
                 
-                if let mapImage {
+                if let imgurl = viewModel.storyModel.currentStory!.mapImageURL, let url = URL(string: imgurl) {
                     
                     ZStack {
                         
-                        Image(uiImage: mapImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.gray.opacity(0.2))
+                        MapImageView(url: url)
+                        
+
+//                        Image(uiImage: mapImage)
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                            .background(Color.gray.opacity(0.2))
                         
                         ForEach(icons) { icon in
                             icon.view
@@ -79,7 +82,8 @@ struct MapView: View {
                             }
                         )
                         MapImgPicker { mapImg in
-                           mapImage = mapImg
+                            viewModel.updateStoryMapImg(image: mapImg)
+                            //mapImage = mapImg
                        }
                 }
             )
