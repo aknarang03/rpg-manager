@@ -16,6 +16,7 @@ class MapViewModel: ObservableObject {
         
     private let storyModel = StoryModel.shared
     private let mapItemModel = MapItemModel.shared
+    private let characterModel = CharacterModel.shared
     
     private var cancellables: Set<AnyCancellable> = []
     @Published var mapItems: [MapItem] = []
@@ -30,6 +31,14 @@ class MapViewModel: ObservableObject {
     
     func updateStoryMapImg(image: UIImage) {
         storyModel.uploadMapImg(image: image, imageID: idWithTimeInterval()) // this also calls function that updates database ref
+    }
+    
+    func getIcon(type: String, id: String) -> String {
+        var url = ""
+        if type == "character" {
+            url = characterModel.getIconUrl(for: id) ?? ""
+        }
+        return url
     }
     
     //PLAN

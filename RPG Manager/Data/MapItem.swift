@@ -39,7 +39,9 @@ struct MapItem {
         guard
             let value = snapshot.value as? [String: Any],
             let iconID = value["iconID"] as? String,
-            let coordinates = value["coordinates"] as? Coordinates,
+            let coordinatesDict = value["coordinates"] as? [String: Float],
+            let x = coordinatesDict["x"],
+            let y = coordinatesDict["y"],
             let type = value["type"] as? String
         else {
             return nil
@@ -47,7 +49,7 @@ struct MapItem {
                 
         self.ref = snapshot.ref
         self.iconID = iconID
-        self.coordinates = coordinates
+        self.coordinates = Coordinates(x: x, y: y)
         self.type = type
     }
     
@@ -55,7 +57,10 @@ struct MapItem {
         
         var dict: [String: Any] = [
             "iconID": self.iconID,
-            "coordinates": self.coordinates,
+            "coordinates": [
+                "x": self.coordinates.x,
+                "y": self.coordinates.y
+            ],
             "type": self.type
         ]
         

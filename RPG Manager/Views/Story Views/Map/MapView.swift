@@ -30,33 +30,50 @@ struct MapView: View {
                         
                         MapImageView(url: url)
                         
-
-//                        Image(uiImage: mapImage)
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                            .background(Color.gray.opacity(0.2))
                         
-                        ForEach(icons) { icon in
-                            icon.view
-                                .position(icon.position)
-                                .gesture(
-                                    
-                                    DragGesture()
-                                        .onChanged { value in
-                                            if let index = icons.firstIndex(where: { $0.id == icon.id }) {
-                                                icons[index].position = value.location
-                                                // would update coordinates here.
-                                            }
-                                        } // gesture onchange
-                                    
-                                ) // gesture
+                        //                        Image(uiImage: mapImage)
+                        //                            .resizable()
+                        //                            .scaledToFit()
+                        //                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        //                            .background(Color.gray.opacity(0.2))
+                        
+                        ForEach(viewModel.mapItems, id: \.iconID) { icon in
+                            if let iconUrl = URL(string: viewModel.getIcon(type: icon.type, id: icon.iconID)) {
+                                
+                                AsyncImage(url: iconUrl) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(width: 40, height: 40)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 40, height: 40)
+                                    case .failure:
+                                        Color.gray.frame(width: 40, height: 40)
+                                    @unknown default:
+                                        EmptyView()
+                                    }
+                                }
+                                .position(CGPoint(x: CGFloat(icon.coordinates.x), y: CGFloat(icon.coordinates.y)))
+                                // .gesture(
+                                //                                    DragGesture()
+                                //                                        .onChanged { value in
+                                //                                            if let index = viewModel.mapItems.firstIndex(where: { $0.id == icon.id }) {
+                                //                                                viewModel.mapItems[index].position = value.location
+                                //                                            }
+                                //                                        }
+                                //                                )
+                                
+                                
+                            } // if
                             
                         } // foreach
                         
-                    } // zstack
+                    } //zstack
                     
-                } // map img already there condition
+                } // map there condition
                 
                 else {
                     
@@ -75,13 +92,13 @@ struct MapView: View {
                                },
                 trailing:
                     HStack {
-                        Button(action: {
-                            let newIcon = DraggableIcon(view: AnyView(Circle().fill(Color.red).frame(width: 40, height: 40)), position: CGPoint(x: 100, y: 100))
-                            icons.append(newIcon)
-                            }, label: {
-                            Image(systemName: "plus")
-                            }
-                        )
+//                        Button(action: {
+//                            let newIcon = DraggableIcon(view: AnyView(Circle().fill(Color.red).frame(width: 40, height: 40)), position: CGPoint(x: 100, y: 100))
+//                            icons.append(newIcon)
+//                            }, label: {
+//                            Image(systemName: "plus")
+//                            }
+//                        )
                         MapImgPicker { mapImg in
                             viewModel.updateStoryMapImg(image: mapImg)
                             //mapImage = mapImg
@@ -102,6 +119,7 @@ struct MapView: View {
 
 struct DraggableIcon: Identifiable {
     let id = UUID()
-    var view: AnyView
+    //var view: AnyView
+    var imageURL: String
     var position: CGPoint
 }
