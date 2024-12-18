@@ -27,6 +27,10 @@ struct StoryView: View {
                 .tabItem {
                     Label("Fight", systemImage: "flame.fill")
                 }
+            PlaceListView()
+                .tabItem {
+                    Label("Places", systemImage: "mappin.and.ellipse")
+                }
             MapView()
                 .tabItem {
                     Label("Map", systemImage: "map.fill")
