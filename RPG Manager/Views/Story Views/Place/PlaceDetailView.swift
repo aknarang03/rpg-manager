@@ -56,7 +56,7 @@ struct PlaceDetailView: View {
                     
                     Spacer()
                     
-                    PhotoPicker { image in
+                    IconPicker { image in
                         viewModel.updatePlaceIcon(image: image)
                     }
                     

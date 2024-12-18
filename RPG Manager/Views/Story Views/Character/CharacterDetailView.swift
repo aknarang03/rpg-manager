@@ -83,7 +83,7 @@ struct CharacterDetailView: View {
                     
                     HStack {
                         
-                        PhotoPicker { image in
+                        IconPicker { image in
                             viewModel.updateCharacterIcon(image: image)
                         }
                         

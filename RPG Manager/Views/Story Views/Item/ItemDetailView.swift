@@ -85,7 +85,7 @@ struct ItemDetailView: View {
                     
                     Spacer()
                     
-                    PhotoPicker { image in
+                    IconPicker { image in
                         viewModel.updateItemIcon(image: image)
                     }
                     

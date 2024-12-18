@@ -16,7 +16,6 @@ struct MapView: View {
     // move this stuff into view model
     @State private var mapImage: UIImage? = nil
     @State private var icons: [DraggableIcon] = []
-    @State private var isPhotoPickerPresented = false
     
     var body: some View {
         
@@ -52,24 +51,11 @@ struct MapView: View {
                         
                     } // zstack
                     
-                    .overlay(
-                        
-                        Button("Add Icon") {
-                            let newIcon = DraggableIcon(view: AnyView(Circle().fill(Color.red).frame(width: 40, height: 40)), position: CGPoint(x: 100, y: 100))
-                            icons.append(newIcon)
-                        }
-                            .padding(), alignment: .topTrailing
-                        
-                    ) // overlay
-                    
                 } // map img already there condition
                 
                 else {
                     
-                    Button("Upload Map") {
-                        isPhotoPickerPresented = true
-                    }
-                    .padding()
+                    Text("Please upload a map image")
                     
                 }
                 
@@ -81,13 +67,21 @@ struct MapView: View {
                 }
                                ) {
                                    Image(systemName: "info.circle")
-                               }
-            )
-            .sheet(isPresented: $isPhotoPickerPresented) {
-                PhotoPicker { mapimg in
-                    mapImage = mapimg
+                               },
+                trailing:
+                    HStack {
+                        Button(action: {
+                            let newIcon = DraggableIcon(view: AnyView(Circle().fill(Color.red).frame(width: 40, height: 40)), position: CGPoint(x: 100, y: 100))
+                            icons.append(newIcon)
+                            }, label: {
+                            Image(systemName: "plus")
+                            }
+                        )
+                        MapImgPicker { mapImg in
+                           mapImage = mapImg
+                       }
                 }
-            }
+            )
             .sheet(isPresented: $showInfo) {
                 InfoView()
             }
