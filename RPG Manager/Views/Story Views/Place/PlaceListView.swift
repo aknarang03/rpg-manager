@@ -10,6 +10,8 @@ import SwiftUI
 
 struct PlaceListView: View {
     
+    @State private var showInfo: Bool = false
+    
     @ObservedObject var viewModel: PlaceListViewModel = PlaceListViewModel()
     @EnvironmentObject var appState: AppState
         
@@ -47,13 +49,24 @@ struct PlaceListView: View {
             }
             .navigationBarTitle("Places")
             .navigationBarItems(
+                
+                leading: Button(action: {
+                    showInfo = true
+                }
+                               ) {
+                    Image(systemName: "gearshape")
+                },
+                
                 trailing: Button(action: {}, label: {
                     NavigationLink(destination: AddPlaceView()) {
-                         Text("Add")
+                         Text("Add Place")
                     }
                 }
                                 )
                 )
+            .sheet(isPresented: $showInfo) {
+                InfoView()
+            }
                 
         }
             

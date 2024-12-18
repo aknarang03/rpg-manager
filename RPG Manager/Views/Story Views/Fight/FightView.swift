@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FightView: View {
     
+    @State private var showInfo: Bool = false
+    
     @ObservedObject var viewModel: FightViewModel = FightViewModel()
     
     @EnvironmentObject var appState: AppState
@@ -159,13 +161,24 @@ struct FightView: View {
             }
             .navigationBarTitle("Fight")
             .navigationBarItems(
+                
+                leading: Button(action: {
+                    showInfo = true
+                }
+                               ) {
+                    Image(systemName: "gearshape")
+                },
+                
                 trailing: Button(action: {}, label: {
                     NavigationLink(destination: FightListView()) {
                          Text("Fights")
                     }
                 }
                                 )
-                )            
+            )
+            .sheet(isPresented: $showInfo) {
+                InfoView()
+            }
             
         }
             

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ItemListView: View {
     
+    @State private var showInfo: Bool = false
+    
     @ObservedObject var viewModel: ItemListViewModel = ItemListViewModel()
     @EnvironmentObject var appState: AppState
         
@@ -46,13 +48,24 @@ struct ItemListView: View {
             }
             .navigationBarTitle("Items")
             .navigationBarItems(
+                
+                leading: Button(action: {
+                    showInfo = true
+                }
+                               ) {
+                    Image(systemName: "gearshape")
+                },
+                
                 trailing: Button(action: {}, label: {
                     NavigationLink(destination: AddItemView()) {
-                         Text("Add")
+                         Text("Add Item")
                     }
                 }
                                 )
                 )
+            .sheet(isPresented: $showInfo) {
+                InfoView()
+            }
                 
         }
             

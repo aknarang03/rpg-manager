@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CharacterListView: View {
     
+    @State private var showInfo: Bool = false
+    
     @ObservedObject var viewModel: CharacterListViewModel = CharacterListViewModel()
     @EnvironmentObject var appState: AppState
         
@@ -55,19 +57,31 @@ struct CharacterListView: View {
             }
             .navigationBarTitle("Characters")
             .navigationBarItems(
+                
+                leading: Button(action: {
+                    showInfo = true
+                }
+                               ) {
+                    Image(systemName: "gearshape")
+                },
+                
                 trailing: Button(action: {}, label: {
                     NavigationLink(destination: AddCharacterView()) {
-                         Text("Add")
+                         Text("Add Character")
                     }
                 }
                                 )
+                
                 )
+            .sheet(isPresented: $showInfo) {
+                InfoView()
+            }
                 
         }
             
             
-        }
-        
     }
+        
+}
     
 
