@@ -87,6 +87,10 @@ struct CharacterDetailView: View {
                             viewModel.updateCharacterIcon(image: image)
                         }
                         
+                        Button("Add to map") {
+                            viewModel.addCharacterToMap()
+                        }
+                        
                         if character.alive == false {
                             Spacer()
                             Button("Revive") {

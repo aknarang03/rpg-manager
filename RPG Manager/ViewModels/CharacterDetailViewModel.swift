@@ -14,6 +14,7 @@ class CharacterDetailViewModel: ObservableObject {
     let userModel = UserModel.shared
     let itemModel = ItemModel.shared
     let characterModel = CharacterModel.shared
+    let mapItemModel = MapItemModel.shared
     
     @Published var itemID: String = ""
     @Published var itemType: String = ""
@@ -33,6 +34,10 @@ class CharacterDetailViewModel: ObservableObject {
             return "Unknown" // default username
         }
         return username
+    }
+    
+    func addCharacterToMap() {
+        mapItemModel.addMapItemToStory(mapItem: MapItem(iconID: character.characterID, coordinates: Coordinates(x: 100, y: 100), type: MapItemType.character.rawValue))
     }
     
     func itemIdToItemName(itemID: String) -> String {
