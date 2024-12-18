@@ -16,6 +16,7 @@ class StoryViewModel: ObservableObject {
     let fightModel = FightModel.shared
     let itemModel = ItemModel.shared
     let characterModel = CharacterModel.shared
+    let placeModel = PlaceModel.shared
     
     @Published var isStoryDeleted: Bool = false
 
@@ -33,21 +34,23 @@ class StoryViewModel: ObservableObject {
     var cancellables = Set<AnyCancellable>()
     
     func startObserving() {
-        print("start observing current characters, items, fights, and collaborators")
+        print("start observing current characters, items, fights, places, and collaborators")
         characterModel.observeCurrentCharacters()
         itemModel.observeCurrentItems()
         storyModel.observeCurrentCollaborators()
-        storyModel.observeCurrentStoryDeletion()
+        //storyModel.observeCurrentStoryDeletion()
         fightModel.observeCurrentFights()
+        placeModel.observeCurrentPlaces()
     }
     
     func stopObserving() {
-        print("stop observing current characters, items, fights, and collaborators")
+        print("stop observing current characters, items, fights, places, and collaborators")
         characterModel.cancelCurrentCharactersObserver()
         itemModel.cancelCurrentItemsObserver()
         storyModel.cancelCurrentCollaboratorsObserver()
         fightModel.cancelCurrentFightsObserver()
-        storyModel.stopObservingCurrentStoryDeletion()
+        //storyModel.stopObservingCurrentStoryDeletion()
+        placeModel.cancelCurrentPlacesObserver()
     }
     
 }
