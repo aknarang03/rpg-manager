@@ -12,7 +12,21 @@ import PhotosUI
 
 class MapViewModel: ObservableObject {
     
-    let storyModel = StoryModel.shared
+    @Published var currentStory: Story?
+        
+    private let storyModel = StoryModel.shared
+    private let mapItemModel = MapItemModel.shared
+    
+    private var cancellables: Set<AnyCancellable> = []
+    @Published var mapItems: [MapItem] = []
+    
+    init() {
+        storyModel.$currentStory
+            .assign(to: &$currentStory)
+        mapItemModel.$currentMapItems
+            .sink { [weak self] newItems in self?.mapItems = newItems }
+            .store(in: &cancellables)
+    }
     
     func updateStoryMapImg(image: UIImage) {
         storyModel.uploadMapImg(image: image, imageID: idWithTimeInterval()) // this also calls function that updates database ref
@@ -37,14 +51,6 @@ class MapViewModel: ObservableObject {
 //    let userModel = UserModel.shared
 //    
 //    private var cancellables: Set<AnyCancellable> = []
-//    
-
-    init() {
-        
-//        storyModel.$currentCollaborators
-//            .sink { [weak self] newCollabs in self?.collaborators = newCollabs }
-//            .store(in: &cancellables)
-        
-    }
+//
 
 }

@@ -239,6 +239,10 @@ class StoryModel {
     func updateMapImg(imageURL: String) {
         let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         storyRef.child("mapImageURL").setValue(imageURL)
+        if var story = currentStory {
+            story.mapImageURL = imageURL
+            currentStory = story
+        }
     }
     
 }

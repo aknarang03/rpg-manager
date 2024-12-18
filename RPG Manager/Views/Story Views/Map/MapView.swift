@@ -10,6 +10,7 @@ import SwiftUI
 struct MapView: View {
     
     @ObservedObject var viewModel: MapViewModel = MapViewModel()
+    // I need to change it so that story is referenced in view model I think... so that updates happen right away
     
     @State private var showInfo: Bool = false
     
@@ -23,7 +24,7 @@ struct MapView: View {
             
             VStack {
                 
-                if let imgurl = viewModel.storyModel.currentStory!.mapImageURL, let url = URL(string: imgurl) {
+                if let imgurl = viewModel.currentStory!.mapImageURL, let url = URL(string: imgurl) {
                     
                     ZStack {
                         
