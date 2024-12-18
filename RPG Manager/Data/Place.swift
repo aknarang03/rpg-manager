@@ -16,13 +16,15 @@ struct Place {
     var placeName: String
     var placeDescription: String
     var creator: String
+    var iconURL: String?
         
-    init (placeID: String, placeName: String, placeDescription: String, creator: String) {
+    init (placeID: String, placeName: String, placeDescription: String, creator: String, iconURL: String) {
         self.ref = nil
         self.placeID = placeID
         self.placeName = placeName
         self.placeDescription = placeDescription
         self.creator = creator
+        self.iconURL = iconURL
     }
     
     init? (snapshot: DataSnapshot) {
@@ -36,22 +38,32 @@ struct Place {
         else {
             return nil
         }
+        let iconURL = value["iconURL"] as? String
         
         self.ref = snapshot.ref
         self.placeID = placeID
         self.placeName = placeName
         self.placeDescription = placeDescription
         self.creator = creator
+        self.iconURL = iconURL
         
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
-        return [
+        
+        var dict: [String:Any] = [
             "placeID": self.placeID,
             "placeName": self.placeName,
             "placeDescription": self.placeDescription,
             "creator": self.creator
         ]
+        
+        if let iconURL = self.iconURL {
+            dict["iconURL"] = iconURL
+        }
+        
+        return dict
+        
     }
     
 }
