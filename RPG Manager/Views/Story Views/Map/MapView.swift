@@ -9,7 +9,9 @@ import SwiftUI
 
 struct MapView: View {
     
-    // make a view model later
+    @ObservedObject var viewModel: MapViewModel = MapViewModel()
+    
+    // move this stuff into view model
     @State private var mapImage: UIImage? = nil
     @State private var icons: [DraggableIcon] = []
     @State private var isPhotoPickerPresented = false
