@@ -15,29 +15,25 @@ struct StoryView: View {
     var body: some View {
         
         TabView {
-            StoryDetailView()
-                .tabItem {
-                    Label("Details", systemImage: "info.circle.fill")
-                }
             CharacterListView()
                 .tabItem {
                     Label("Characters", systemImage: "figure.2")
-                }
-            FightView()
-                .tabItem {
-                    Label("Fight", systemImage: "flame.fill")
                 }
             ItemListView()
                 .tabItem {
                     Label("Items", systemImage: "cross.vial.fill")
                 }
+            FightView()
+                .tabItem {
+                    Label("Fight", systemImage: "flame.fill")
+                }
             MapView()
                 .tabItem {
                     Label("Map", systemImage: "map.fill")
                 }
-            CollaboratorListView()
+            InfoView()
                 .tabItem {
-                    Label("Collaborators", systemImage: "person.3.fill")
+                    Label("Info", systemImage: "info.circle.fill")
                 }
             
         }
