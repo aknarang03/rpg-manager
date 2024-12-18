@@ -38,3 +38,12 @@ func youAreItemCreator(item: Item) -> Bool {
     
 }
 
+func youArePlaceCreator(place: Place) -> Bool {
+    
+    if userModel.currentUser?.uid == place.creator {
+        return true
+    } else {
+        return false
+    }
+    
+}
