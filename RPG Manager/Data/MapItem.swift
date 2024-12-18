@@ -14,7 +14,7 @@ struct Coordinates{
     var y: Float
 }
 
-struct Map {
+struct MapItem {
     
     var ref: DatabaseReference?
     var iconID: String
