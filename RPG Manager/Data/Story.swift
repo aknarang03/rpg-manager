@@ -17,8 +17,9 @@ struct Story {
     var creator: String
     var storyDescription: String
     var collaborators: [String]?
+    var mapImageURL: String?
         
-    init (storyID: String, storyName: String, storyDescription: String, creator: String) {
+    init (storyID: String, storyName: String, storyDescription: String, creator: String, mapImageURL: String) {
         self.ref = nil
         self.storyID = storyID
         self.storyName = storyName
@@ -38,22 +39,30 @@ struct Story {
         else {
             return nil
         }
+        let mapImageURL = value["mapImageURL"] as? String
         
         self.ref = snapshot.ref
         self.storyID = storyID
         self.storyName = storyName
         self.storyDescription = storyDescription
         self.creator = creator
+        self.mapImageURL = mapImageURL
         
     }
     
     func toAnyObject () -> Dictionary<String, Any> {
-        return [
+        var dict : [String:Any] = [
             "storyID": self.storyID,
             "storyName": self.storyName,
             "storyDescription": self.storyDescription,
             "creator": self.creator
         ]
+        
+        if let mapImageURL = self.mapImageURL {
+            dict["mapImageURL"] = mapImageURL
+        }
+        
+        return dict
     }
     
 }

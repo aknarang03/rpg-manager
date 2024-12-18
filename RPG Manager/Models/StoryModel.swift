@@ -31,6 +31,10 @@ class StoryModel {
     
     @Published var deleted: Bool = false
     
+    func getImageUrl() -> String? { // for current story
+        return currentStory?.mapImageURL
+    }
+    
     func setCurrentStory(tappedOn: Story) {
         currentStory = tappedOn
         currentStoryID = currentStory!.storyID
