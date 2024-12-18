@@ -26,6 +26,10 @@ class CharacterModel {
         return currentCharacters.first(where: { $0.characterID == characterID })
     }
     
+    func getIconUrl(for characterID: String) -> String? {
+        return currentCharacters.first(where: { $0.characterID == characterID })?.iconURL
+    }
+    
     // observe characters for a specific story
     func observeCurrentCharacters() {
         

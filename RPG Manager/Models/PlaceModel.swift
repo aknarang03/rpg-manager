@@ -21,6 +21,10 @@ class PlaceModel {
     let storyModel = StoryModel.shared
     let storyDBRef = Database.database().reference(withPath: "Stories")
     
+    func getIconUrl(for placeID: String) -> String? {
+        return currentPlaces.first(where: { $0.placeID == placeID })?.iconURL
+    }
+    
     func getPlaceName(for placeID: String) -> String? {
         return currentPlaces.first(where: { $0.placeID == placeID })?.placeName
     }

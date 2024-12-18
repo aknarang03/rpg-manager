@@ -25,6 +25,10 @@ class ItemModel {
         return currentItems.first(where: { $0.itemID == itemID })?.itemName
     }
     
+    func getIconUrl(for itemID: String) -> String? {
+        return currentItems.first(where: { $0.itemID == itemID })?.iconURL
+    }
+    
     func getItem(for itemID: String) -> Item? {
         return currentItems.first(where: { $0.itemID == itemID })
     }
