@@ -42,6 +42,7 @@ struct MapView: View {
                                         .onChanged { value in
                                             if let index = icons.firstIndex(where: { $0.id == icon.id }) {
                                                 icons[index].position = value.location
+                                                // would update coordinates here.
                                             }
                                         } // gesture onchange
                                     
