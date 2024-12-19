@@ -41,6 +41,10 @@ class MapViewModel: ObservableObject {
         return url
     }
     
+    func updatePosition(item: MapItem) {
+        
+    }
+    
     //PLAN
     
     // map view shows the uploaded image.

@@ -29,20 +29,24 @@ struct MapView: View {
                         
                         MapImageView(url: url)
                         
-                        ForEach(icons) { icon in
-                            icon.view
-                                .position(icon.position)
-                                .gesture(
-                                    
-                                    DragGesture()
-                                        .onChanged { value in
-                                            if let index = icons.firstIndex(where: { $0.id == icon.id }) {
-                                                icons[index].position = value.location
-                                                // would update coordinates here.
-                                            }
-                                        } // gesture onchange
-                                    
-                                ) // gesture
+                        ForEach(viewModel.mapItems, id: \.iconID) { item in
+                            
+                            if let iconUrl = URL(string: viewModel.getIcon(type: item.type, id: item.iconID)) {
+                                
+                                IconView(url: iconUrl) // Use IconView for each icon
+                                    .position(CGPoint(x: CGFloat(item.coordinates.x), y: CGFloat(item.coordinates.y)))
+                                    .gesture(
+                                        DragGesture()
+                                            .onChanged { value in
+                                                if let index = viewModel.mapItems.firstIndex(where: { $0.iconID == item.iconID }) {
+                                                    //viewModel.mapItems[index].coordinates = value.location
+                                                    viewModel.updatePosition(item: viewModel.mapItems[index])
+                                                }
+                                            } // gesture onchange
+                                        
+                                    ) // gesture
+                                
+                            }
                             
                         } // foreach
                         
