@@ -87,9 +87,13 @@ struct CharacterDetailView: View {
                             viewModel.updateCharacterIcon(image: image)
                         }
                         
-                        Button("+Map") {
-                            viewModel.addCharacterToMap()
-                        }.disabled(viewModel.characterAlreadyInMap())
+                        Button(viewModel.characterAlreadyInMap() ? "-Map" : "+Map") {
+                            if viewModel.characterAlreadyInMap() {
+                                viewModel.removeCharacterFromMap()
+                            } else {
+                                viewModel.addCharacterToMap()
+                            }
+                        }
                         
                         if character.alive == false {
                             Spacer()

@@ -40,6 +40,10 @@ class CharacterDetailViewModel: ObservableObject {
         mapItemModel.addMapItemToStory(mapItem: MapItem(iconID: character.characterID, coordinates: Coordinates(x: 100, y: 100), type: MapItemType.character.rawValue))
     }
     
+    func removeCharacterFromMap() {
+        mapItemModel.deleteMapItem(iconID: character.characterID)
+    }
+    
     func characterAlreadyInMap() -> Bool {
         return mapItemModel.currentMapItems.contains(where: { $0.iconID == character.characterID })
     }
