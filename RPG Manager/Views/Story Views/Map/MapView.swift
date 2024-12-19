@@ -23,15 +23,11 @@ struct MapView: View {
             
             VStack {
                 
-                if let mapImage {
+                if let imgurl = viewModel.currentStory!.mapImageURL, let url = URL(string: imgurl) {
                     
                     ZStack {
                         
-                        Image(uiImage: mapImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.gray.opacity(0.2))
+                        MapImageView(url: url)
                         
                         ForEach(icons) { icon in
                             icon.view
