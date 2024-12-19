@@ -13,6 +13,8 @@ import PhotosUI
 class MapViewModel: ObservableObject {
     
     @Published var currentStory: Story?
+    
+    @Published var forceUpdateFlag: Bool = false
         
     private let storyModel = StoryModel.shared
     private let mapItemModel = MapItemModel.shared
@@ -21,11 +23,15 @@ class MapViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     @Published var mapItems: [MapItem] = []
     
+    @Published var mapImage: UIImage? = nil
+
+    
     init() {
         storyModel.$currentStory
             .assign(to: &$currentStory)
         mapItemModel.$currentMapItems
-            .sink { [weak self] newItems in self?.mapItems = newItems }
+            .sink { [weak self] newItems in self?.mapItems = newItems
+            print("map items update")}
             .store(in: &cancellables)
     }
     
@@ -43,6 +49,14 @@ class MapViewModel: ObservableObject {
     
     func updatePosition(item: MapItem) {
         mapItemModel.updateMapItem(mapItem: item)
+    }
+    
+    func observe() {
+        mapItemModel.observeCurrentMapItems()
+    }
+    
+    func stopObserve() {
+        mapItemModel.cancelCurrentMapItemsObserver()
     }
     
     //PLAN

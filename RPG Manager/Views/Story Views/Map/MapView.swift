@@ -14,9 +14,7 @@ struct MapView: View {
     @State private var showInfo: Bool = false
     
     // move this stuff into view model
-    @State private var mapImage: UIImage? = nil
-    @State private var icons: [DraggableIcon] = []
-    
+
     var body: some View {
         
         NavigationView {
@@ -34,10 +32,12 @@ struct MapView: View {
                             if let iconUrl = URL(string: viewModel.getIcon(type: item.type, id: item.iconID)) {
                                 
                                 IconView(url: iconUrl) // Use IconView for each icon
+                                    .id(item.iconID)
                                     .position(CGPoint(x: item.coordinates.x, y: item.coordinates.y))
                                     .gesture(
                                         DragGesture()
                                             .onChanged { value in
+                                                print(iconUrl)
                                                 if let index = viewModel.mapItems.firstIndex(where: { $0.iconID == item.iconID }) {
                                                     viewModel.mapItems[index].coordinates = Coordinates(x: value.location.x, y: value.location.y)
                                                     viewModel.updatePosition(item: viewModel.mapItems[index])
@@ -70,21 +70,18 @@ struct MapView: View {
                                    Image(systemName: "info.circle")
                                },
                 trailing:
-                    HStack {
-                        Button(action: {
-                            let newIcon = DraggableIcon(view: AnyView(Circle().fill(Color.red).frame(width: 40, height: 40)), position: CGPoint(x: 100, y: 100))
-                            icons.append(newIcon)
-                            }, label: {
-                            Image(systemName: "plus")
-                            }
-                        )
-                        MapImgPicker { mapImg in
-                           mapImage = mapImg
-                       }
+                    MapImgPicker { mapImg in
+                        viewModel.updateStoryMapImg(image: mapImg)
                 }
             )
             .sheet(isPresented: $showInfo) {
                 InfoView()
+            }
+            .onAppear {
+                viewModel.observe()
+            }
+            .onDisappear {
+                viewModel.stopObserve()
             }
             //.onAppear {
             //}
