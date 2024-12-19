@@ -10,8 +10,8 @@ import Firebase
 import FirebaseDatabase
 
 struct Coordinates{
-    var x: Float
-    var y: Float
+    var x: CGFloat
+    var y: CGFloat
 }
 
 enum MapItemType: String, CaseIterable {
@@ -39,7 +39,7 @@ struct MapItem {
         guard
             let value = snapshot.value as? [String: Any],
             let iconID = value["iconID"] as? String,
-            let coordinatesDict = value["coordinates"] as? [String: Float],
+            let coordinatesDict = value["coordinates"] as? [String: CGFloat],
             let x = coordinatesDict["x"],
             let y = coordinatesDict["y"],
             let type = value["type"] as? String

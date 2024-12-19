@@ -42,7 +42,7 @@ class MapViewModel: ObservableObject {
     }
     
     func updatePosition(item: MapItem) {
-        
+        mapItemModel.updateMapItem(mapItem: item)
     }
     
     //PLAN

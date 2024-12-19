@@ -30,6 +30,12 @@ class MapItemModel {
         mapItemRef.setValue(mapItem.toAnyObject())
     }
     
+    func updateMapItem(mapItem: MapItem) {
+        let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
+        let mapItemRef = storyRef.child("MapItems").child(mapItem.iconID)
+        mapItemRef.setValue(mapItem.toAnyObject())
+    }
+    
     func deleteMapItem(iconID: String) {
         let storyRef = Database.database().reference().child("Stories").child(storyModel.currentStoryID)
         let mapItemRef = storyRef.child("MapItems").child(iconID)
@@ -74,5 +80,5 @@ class MapItemModel {
             }
         }
     }
-    
+   
 }
