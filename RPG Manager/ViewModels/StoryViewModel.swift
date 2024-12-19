@@ -17,6 +17,7 @@ class StoryViewModel: ObservableObject {
     let itemModel = ItemModel.shared
     let characterModel = CharacterModel.shared
     let placeModel = PlaceModel.shared
+    let mapItemModel = MapItemModel.shared
     
     @Published var isStoryDeleted: Bool = false
 
@@ -41,6 +42,7 @@ class StoryViewModel: ObservableObject {
         //storyModel.observeCurrentStoryDeletion()
         fightModel.observeCurrentFights()
         placeModel.observeCurrentPlaces()
+        mapItemModel.observeCurrentMapItems()
     }
     
     func stopObserving() {
@@ -51,6 +53,7 @@ class StoryViewModel: ObservableObject {
         fightModel.cancelCurrentFightsObserver()
         //storyModel.stopObservingCurrentStoryDeletion()
         placeModel.cancelCurrentPlacesObserver()
+        mapItemModel.cancelCurrentMapItemsObserver()
     }
     
 }
