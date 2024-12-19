@@ -78,10 +78,11 @@ struct MapView: View {
                 InfoView()
             }
             .onAppear {
-                viewModel.observe()
+                //viewModel.observe()
+                viewModel.refreshMapItems()
             }
             .onDisappear {
-                viewModel.stopObserve()
+                //viewModel.stopObserve()
             }
             //.onAppear {
             //}

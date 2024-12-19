@@ -13,9 +13,7 @@ import PhotosUI
 class MapViewModel: ObservableObject {
     
     @Published var currentStory: Story?
-    
-    @Published var forceUpdateFlag: Bool = false
-        
+            
     private let storyModel = StoryModel.shared
     private let mapItemModel = MapItemModel.shared
     private let characterModel = CharacterModel.shared
@@ -57,6 +55,10 @@ class MapViewModel: ObservableObject {
     
     func stopObserve() {
         mapItemModel.cancelCurrentMapItemsObserver()
+    }
+    
+    func refreshMapItems() {
+        mapItems = mapItemModel.currentMapItems
     }
     
     //PLAN

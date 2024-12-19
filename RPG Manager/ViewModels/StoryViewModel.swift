@@ -42,7 +42,7 @@ class StoryViewModel: ObservableObject {
         //storyModel.observeCurrentStoryDeletion()
         fightModel.observeCurrentFights()
         placeModel.observeCurrentPlaces()
-        //mapItemModel.observeCurrentMapItems()
+        mapItemModel.observeCurrentMapItems()
     }
     
     func stopObserving() {
@@ -53,7 +53,7 @@ class StoryViewModel: ObservableObject {
         fightModel.cancelCurrentFightsObserver()
         //storyModel.stopObservingCurrentStoryDeletion()
         placeModel.cancelCurrentPlacesObserver()
-        //mapItemModel.cancelCurrentMapItemsObserver()
+        mapItemModel.cancelCurrentMapItemsObserver()
     }
     
 }
